@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "line-demo-a1a08": {
+      "hosting": {
+        "angular-line": [
+          "line-demo-a1a08"
+        ]
+      }
+    }
+  }
+}
