@@ -9,4 +9,8 @@ export const environment = {
     appId: '1:354305416509:web:1f418efc02d6ecc3d7b954',
     measurementId: 'G-Y93GCGXVTR',
   },
+  line: {
+    clientId: '1655542434',
+    redirectURI: 'https://line-demo-a1a08.web.app/welcome/line-auth-handler',
+  },
 };
