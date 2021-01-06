@@ -12,4 +12,9 @@
       >を遵守して運営しています。
     </p>
   </div>
+
+  <div class="user" *ngIf="authService.user$ | async as user">
+    <img [src]="user.photoURL" alt="" class="user_avatar" />
+    <p>{{ user.name }}</p>
+  </div>
 </div>

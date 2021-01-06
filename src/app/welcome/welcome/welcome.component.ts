@@ -16,7 +16,7 @@ export class WelcomeComponent implements OnInit {
     private fns: AngularFireFunctions,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    public authService: AuthService
   ) {
     this.route.queryParamMap.subscribe((param: Params) => {
       const key = 'error';
