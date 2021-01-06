@@ -1,6 +1,8 @@
 <div class="container container--welcome">
   <div class="login">
-    <a (click)="loginWithLine()" class="login__btn"> ログイン </a>
+    <a [href]="lineAuthURL" class="login__btn">
+      <img src="assets/images/btn_login_base.png" alt="" />
+    </a>
   </div>
 
   <div class="check">
@@ -9,5 +11,10 @@
         >プライバシーポリシー</a
       >を遵守して運営しています。
     </p>
+  </div>
+
+  <div class="user" *ngIf="authService.user$ | async as user">
+    <img [src]="user.photoURL" alt="" class="user_avatar" />
+    <p>{{ user.name }}</p>
   </div>
 </div>

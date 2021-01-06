@@ -1,7 +1,12 @@
 import * as functions from 'firebase-functions';
+import fetch from 'node-fetch';
 import * as admin from 'firebase-admin';
 
 export const db = admin.firestore();
+
+db.settings({
+  ignoreUndefinedProperties: true,
+});
 
 export const createState = functions
   .region('asia-northeast1')
@@ -21,12 +26,14 @@ export const getLineCodeWebhook = functions
     const isValidState = (await admin.firestore().doc(`states/${state}`).get())
       .exists;
 
+    functions.logger.info(isValidState);
+
     if (!isValidState) {
       return;
     }
 
     if (code) {
-      res.redirect(`http://localhost:4200/login?code=${code}`);
+      res.redirect(`http://localhost:4200/welcome?code=${code}`);
     } else {
       res.redirect(`http://localhost:4200`);
     }
@@ -45,7 +52,8 @@ const getAccessToken = async (code: string) => {
       grant_type: 'authorization_code',
       client_id: functions.config().line.client_id,
       client_secret: functions.config().line.secret,
-      redirect_uri: window.location.href.replace(/\?.*$/, ''),
+      redirect_uri:
+        'https://asia-northeast1-line-demo-a1a08.cloudfunctions.net/getLineCodeWebhook',
     }),
   }).then((r) => r.json());
 };
@@ -82,7 +90,12 @@ export const getCustomToken = functions
         .get()
     ).docs[0];
 
-    if (uid && !connectedUser.exists) {
+    functions.logger.info(connectedUser);
+    functions.logger.info(lineUser);
+    functions.logger.info(lineUser.sub);
+
+    if (uid && !connectedUser) {
+      functions.logger.info('first');
       // ログイン中のユーザーにLINEを連携
       await admin.firestore().doc(`users/${uid}`).set(
         {
@@ -90,12 +103,16 @@ export const getCustomToken = functions
         },
         { merge: true }
       );
-    } else if (!uid && connectedUser.exists) {
+    } else if (!uid && connectedUser) {
+      functions.logger.info('second');
+
       // LINE連携済み既存ユーザーID
       uid = connectedUser.id;
-    } else if (!uid && !connectedUser.exists) {
+    } else if (!uid && !connectedUser) {
+      functions.logger.info('third');
       // 未ログインかつ連携済みユーザーがいなければユーザー新規作成
       uid = lineUser.sub;
+
       await admin.firestore().doc(`users/${uid}`).set(
         {
           lineId: lineUser.sub,
