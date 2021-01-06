@@ -45,7 +45,8 @@ const getAccessToken = async (code: string) => {
       grant_type: 'authorization_code',
       client_id: functions.config().line.client_id,
       client_secret: functions.config().line.secret,
-      redirect_uri: window.location.href.replace(/\?.*$/, ''),
+      redirect_uri:
+        'https://asia-northeast1-line-demo-a1a08.cloudfunctions.net/getLineCodeWebhook',
     }),
   }).then((r) => r.json());
 };

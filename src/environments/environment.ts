@@ -11,6 +11,7 @@ export const environment = {
   },
   line: {
     clientId: '1655542434',
-    redirectURI: 'https://line-demo-a1a08.web.app/welcome/line-auth-handler',
+    redirectURI:
+      'https://asia-northeast1-line-demo-a1a08.cloudfunctions.net/getLineCodeWebhook',
   },
 };
