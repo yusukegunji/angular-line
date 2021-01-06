@@ -1,0 +1,26 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #c6c6c6;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  place-items: center;
+  img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
