@@ -1,6 +1,8 @@
 <div class="container container--welcome">
   <div class="login">
-    <a (click)="loginWithLine()" class="login__btn"> ログイン </a>
+    <a [href]="lineAuthURL" class="login__btn">
+      <img src="assets/images/btn_login_base.png" alt="" />
+    </a>
   </div>
 
   <div class="check">
