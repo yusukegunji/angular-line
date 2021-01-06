@@ -39,10 +39,14 @@ export class AuthService {
       .toPromise()
       .catch((error) => {
         console.log(error);
+        console.log(code);
+
         this.router.navigate(['/']);
       });
 
     if (customToken) {
+      console.log(customToken);
+
       this.afAuth
         .signInWithCustomToken(customToken)
         .then(() => {
