@@ -1,2 +1,24 @@
-<p>home works!</p>
-<a routerLink="/intl/privacy">プライバシーポリシー</a>
+<div class="container container--home">
+  <p>home works!</p>
+
+  <button
+    mat-button
+    *ngIf="authService.user$ | async; else login"
+    (click)="authService.logout()"
+    class="btn"
+  >
+    ログアウト
+  </button>
+
+  <ng-template #login>
+    <a
+      *ngIf="!(authService.user$ | async)"
+      routerLink="/welcome"
+      mat-raised-button
+      class="btn"
+      >ログイン</a
+    >
+  </ng-template>
+
+  <a routerLink="/intl/privacy" class="privacy">プライバシーポリシー</a>
+</div>
