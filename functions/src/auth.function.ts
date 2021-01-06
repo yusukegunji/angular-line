@@ -26,7 +26,7 @@ export const getLineCodeWebhook = functions
     }
 
     if (code) {
-      res.redirect(`http://localhost:4200/login?code=${code}`);
+      res.redirect(`http://localhost:4200/welcome?code=${code}`);
     } else {
       res.redirect(`http://localhost:4200`);
     }
