@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,7 +14,30 @@ import { environment } from 'src/environments/environment';
 export class WelcomeComponent implements OnInit {
   lineAuthURL: string;
 
-  constructor(private fns: AngularFireFunctions) {}
+  constructor(
+    private fns: AngularFireFunctions,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.route.queryParamMap.subscribe((param: Params) => {
+      const key = 'error';
+      const description = 'error_description';
+      const error = param[key];
+      const errorDescription = param[description];
+
+      if (error) {
+        console.error(errorDescription);
+        this.router.navigate(['/']);
+        return;
+      }
+
+      const code = param.get('code');
+      if (code) {
+        this.authService.loginWithLine(code);
+      }
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -29,9 +56,5 @@ export class WelcomeComponent implements OnInit {
     }).toString();
 
     return (this.lineAuthURL = url.href);
-  }
-
-  loginWithLine(): void {
-    this.getLineLoginURL();
   }
 }
