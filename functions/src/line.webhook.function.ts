@@ -11,7 +11,7 @@ export const lineWebhook = functions.https.onRequest(
     const event = request.body.events[0];
 
     if (event.type === 'message') {
-      client.reply(event.replyToken, [
+      await client.reply(event.replyToken, [
         {
           type: 'text',
           text: 'test',
