@@ -6,8 +6,9 @@ const client = new LineClient({
   channelSecret: functions.config().line.message_secret,
 });
 
-export const lineWebhook = functions.https.onRequest(
-  async (request, response) => {
+export const lineWebhook = functions
+  .region('asia-northeast1')
+  .https.onRequest(async (request, response) => {
     const event = request.body.events[0];
 
     if (event.type === 'message') {
@@ -18,5 +19,4 @@ export const lineWebhook = functions.https.onRequest(
         },
       ]);
     }
-  }
-);
+  });
