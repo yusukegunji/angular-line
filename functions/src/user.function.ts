@@ -8,7 +8,6 @@ export const createUser = functions
   .region('asia-northeast1')
   .auth.user()
   .onCreate((user) => {
-    functions.logger.info(user);
     return admin
       .firestore()
       .doc(`users/${user.uid}`)
