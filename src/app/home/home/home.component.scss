@@ -1,6 +1,15 @@
+.welcome-wrap {
+  height: calc(100vh - 126px);
+  display: grid;
+  place-items: center;
+}
+
+.main {
+  margin-bottom: 48px;
+}
+
 .btn {
-  width: 120px;
-  display: block;
+  width: 160px;
   margin: 0 auto 48px;
   background: #424242;
   color: #fff;
