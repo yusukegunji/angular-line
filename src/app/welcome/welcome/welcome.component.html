@@ -1,15 +1,23 @@
-<div class="container container--welcome">
-  <div class="login">
-    <a [href]="lineAuthURL" class="login__btn">
-      <img src="assets/images/btn_login_base.png" alt="" />
-    </a>
-  </div>
+<div class="login-wrap">
+  <div class="container container--welcome">
+    <div class="login">
+      <a [href]="lineAuthURL" class="login__btn">
+        <img src="assets/images/btn_login_base.png" alt="" />
+      </a>
+    </div>
 
-  <div class="check">
-    <p>
-      <a routerLink="/intl/privacy" class="check__privacy"
-        >プライバシーポリシー</a
-      >を遵守して運営しています。
-    </p>
+    <div class="check">
+      <p>
+        ※
+        <a routerLink="/intl/privacy" class="check__link"
+          >プライバシーポリシー</a
+        >を遵守して運営しています。
+      </p>
+      <p>
+        ※ログインすると
+        <a routerLink="/intl/rule" class="check__link">利用規約</a>
+        に同意したものとみなされます。
+      </p>
+    </div>
   </div>
 </div>
