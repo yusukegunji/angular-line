@@ -1,3 +1,9 @@
+.login-wrap {
+  height: calc(100vh - 126px);
+  display: grid;
+  place-items: center;
+}
+
 .login {
   margin-bottom: 16px;
   &__btn {
@@ -10,7 +16,7 @@
 .check {
   font-size: 14px;
   color: #c6c6c6;
-  &__privacy {
+  &__link {
     color: #00c300;
   }
 }

@@ -1,24 +1,10 @@
-<div class="container container--home">
-  <p>home works!</p>
+<div class="welcome-wrap">
+  <div class="container container--home">
+    <div class="main">
+      <p class="main__description">LINEでらくらく勤怠管理</p>
+      <p class="main__title">Dacook</p>
+    </div>
 
-  <button
-    mat-button
-    *ngIf="authService.user$ | async; else login"
-    (click)="authService.logout()"
-    class="btn"
-  >
-    ログアウト
-  </button>
-
-  <ng-template #login>
-    <a
-      *ngIf="!(authService.user$ | async)"
-      routerLink="/welcome"
-      mat-raised-button
-      class="btn"
-      >ログイン</a
-    >
-  </ng-template>
-
-  <a routerLink="/intl/privacy" class="privacy">プライバシーポリシー</a>
+    <a routerLink="/welcome" mat-raised-button class="btn">無料ではじめる</a>
+  </div>
 </div>
