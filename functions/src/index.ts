@@ -5,4 +5,5 @@ admin.initializeApp(functions.config().firebase);
 
 export * from './auth.function';
 export * from './user.function';
-export * from './line.webhook.function';
+export { lineWebhook } from './line.webhook.function';
+export { lineMsgAPI } from './line.msg.function';
