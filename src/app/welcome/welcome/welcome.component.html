@@ -1,23 +1,12 @@
-<div class="login-wrap">
-  <div class="container container--welcome">
-    <div class="login">
-      <a [href]="lineAuthURL" class="login__btn">
-        <img src="assets/images/btn_login_base.png" alt="" />
-      </a>
-    </div>
-
-    <div class="check">
-      <p>
-        ※
-        <a routerLink="/intl/privacy" class="check__link"
-          >プライバシーポリシー</a
-        >を遵守して運営しています。
-      </p>
-      <p>
-        ※ログインすると
-        <a routerLink="/intl/rule" class="check__link">利用規約</a>
-        に同意したものとみなされます。
-      </p>
+<div class="welcome-wrap">
+  <div class="container container--home">
+    <div class="main">
+      <p class="main__sub-head">簡単打刻！手入力とサヨナラ！</p>
+      <p class="main__description">LINEでらくらく勤怠管理</p>
+      <p class="main__title">Dacook</p>
+      <a routerLink="/welcome/login" mat-raised-button class="btn"
+        >無料ではじめる</a
+      >
     </div>
   </div>
 </div>

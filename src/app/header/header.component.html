@@ -1,8 +1,39 @@
 <div class="header">
   <a routerLink="/" class="logo">Dacook</a>
   <span class="spacer"></span>
-  <div class="user" *ngIf="authService.user$ | async as user">
-    <p>{{ user.name }}</p>
-    <img [src]="user.photoURL" alt="" class="user_avatar" />
-  </div>
+
+  <ng-container *ngIf="authService.user$ | async as user">
+    <div class="user">
+      <p>{{ user.name }}</p>
+      <img
+        [src]="user.photoURL"
+        [matMenuTriggerFor]="menu"
+        alt=""
+        class="user_avatar"
+      />
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="/user/{{ user.uid }}">
+        <mat-icon>account_circle</mat-icon>
+        <span>マイページ</span>
+      </a>
+      <a mat-menu-item routerLink="/user/{{ user.uid }}/settings">
+        <mat-icon>settings</mat-icon>
+        <span>設定</span>
+      </a>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>ログアウト</span>
+      </button>
+
+      <ng-container *ngIf="user.isAdmin">
+        <mat-divider class="divider"></mat-divider>
+        <a mat-menu-item routerLink="/editor/editor-article-list">
+          <mat-icon>edit</mat-icon>
+          <span>管理者メニュー</span>
+        </a>
+      </ng-container>
+    </mat-menu>
+  </ng-container>
 </div>

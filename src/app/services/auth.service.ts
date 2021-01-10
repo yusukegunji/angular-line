@@ -62,7 +62,7 @@ export class AuthService {
 
   logout(): void {
     this.afAuth.signOut();
-    this.router.navigate(['/'], {
+    this.router.navigate(['/welcome/login'], {
       queryParams: null,
     });
   }

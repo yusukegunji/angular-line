@@ -1,0 +1,78 @@
+.member {
+  padding: 24px 40px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  border-radius: 12px;
+  transition: ease-in-out 0.3s;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  }
+  &__head {
+    text-align: center;
+  }
+  &__photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 8px;
+  }
+  &__name {
+    font-weight: 600;
+    padding: 0 8px;
+  }
+  &__post {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+  &__body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  &__result,
+  &__plan {
+    color: #fff;
+    text-align: center;
+  }
+  &__num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #c6c6c6;
+    margin: 0 auto 8px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    transition: ease-in-out 0.3s;
+    &:hover {
+      transform: scale(1.4);
+    }
+    &--result {
+      background: #00e000;
+    }
+    &--plan {
+      background: #00b300;
+    }
+  }
+  &__text {
+    color: #303030;
+    font-size: 13px;
+  }
+  &__btn {
+    max-width: 100%;
+    background: transparent;
+    border: 2px solid #00c300;
+    color: #00c300;
+    padding: 8px 16px;
+    text-align: center;
+    border-radius: 32px;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+    &:hover {
+      background: #00c300;
+      color: #fff;
+    }
+  }
+}

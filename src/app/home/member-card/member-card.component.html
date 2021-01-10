@@ -1,0 +1,26 @@
+<div class="member">
+  <ng-container *ngIf="authService.user$ | async as user">
+    <div class="member__head">
+      <div class="member__photo">
+        <img [src]="user.photoURL" alt="" />
+      </div>
+      <p class="member__name">{{ user.name }}</p>
+      <p class="member__post">{{ user.post }}</p>
+    </div>
+
+    <div class="member__body">
+      <div class="member__result">
+        <p class="member__num member__num--result">40h</p>
+        <p class="member__text">Result</p>
+      </div>
+      <div class="member__plan">
+        <p class="member__num member__num--plan">160h</p>
+        <p class="member__text">Plan</p>
+      </div>
+    </div>
+
+    <div class="member__btn">
+      <a href="">Details</a>
+    </div>
+  </ng-container>
+</div>

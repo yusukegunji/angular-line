@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import { LineClient } from 'messaging-api-line';
 import * as admin from 'firebase-admin';
 import request = require('request');
+import Line = require('messaging-api-line');
 
 export const db = admin.firestore();
 
@@ -35,13 +36,18 @@ export const lineMsgAPI = functions
       .collection('users')
       .doc(userId)
       .get()
-      .then((returnData: any) => {
+      .then(async (returnData: any) => {
         if (returnData.exists) {
           const name = returnData.data().name;
           const photoURL = returnData.data().photoURL;
           functions.logger.info(returnData);
           reply_message(replyToken, `${name}が好き❤️`);
-          reply_message(replyToken, `${photoURL}`);
+
+          await client.reply(event.replyToken, [
+            Line.Line.createImage({
+              originalContentUrl: photoURL,
+            }),
+          ]);
         } else {
           reply_message(replyToken, 'You are not the customer, Register?');
         }
