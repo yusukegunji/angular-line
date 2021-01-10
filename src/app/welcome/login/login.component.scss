@@ -1,5 +1,5 @@
 .login-wrap {
-  height: calc(100vh - 126px);
+  height: 100vh;
   display: grid;
   place-items: center;
 }
@@ -16,7 +16,17 @@
 .check {
   font-size: 14px;
   color: #c6c6c6;
+  margin-bottom: 40px;
   &__link {
     color: #00c300;
+  }
+}
+
+.btns-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  &__qr {
+    margin: 0 auto;
   }
 }
