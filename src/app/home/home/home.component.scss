@@ -1,20 +1,6 @@
-.welcome-wrap {
-  height: calc(100vh - 126px);
+.member-list {
   display: grid;
-  place-items: center;
-}
-
-.main {
-  margin-bottom: 48px;
-}
-
-.btn {
-  width: 160px;
-  margin: 0 auto 48px;
-  background: #424242;
-  color: #fff;
-}
-
-.privacy {
-  opacity: 0.6;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin: 48px;
 }
