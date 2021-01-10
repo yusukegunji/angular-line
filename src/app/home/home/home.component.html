@@ -1,3 +1,9 @@
+<div class="grid" *ngIf="authService.user$ | async as user">
+  <a routerLink="/editor">チームをつくる</a>
+
+  <a routerLink="/team-list">参加チーム一覧</a>
+</div>
+
 <div class="member-list">
   <app-member-card></app-member-card>
 </div>
