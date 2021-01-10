@@ -10,7 +10,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: #fafafa;
+  background: #f0f3f7;
 }
 
 a {
@@ -58,6 +58,10 @@ button {
     text-align: center;
   }
   &--home {
-    text-align: center;
+    min-height: 100vh;
   }
+}
+
+.custom-snackbar {
+  background: rgba(#00c300, 0.8);
 }
