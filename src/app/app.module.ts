@@ -17,9 +17,13 @@ import {
 } from '@angular/material/snack-bar';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { ShellComponent } from './shell/shell.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent],
+  declarations: [AppComponent, HeaderComponent, FooterComponent, ShellComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,6 +35,9 @@ import { FooterComponent } from './footer/footer.component';
     AngularFireStorageModule,
     AngularFireFunctionsModule,
     MatSnackBarModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDividerModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },
