@@ -1,5 +1,6 @@
 <div class="header">
-  <a routerLink="/" class="logo">Dacook</a>
+  <a routerLink="/" class="header__logo">Dacook</a>
+  <a routerLink="/editor" class="header__create">チームをつくる</a>
   <span class="spacer"></span>
 
   <ng-container *ngIf="authService.user$ | async as user">
