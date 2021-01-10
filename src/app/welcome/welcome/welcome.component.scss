@@ -1,22 +1,20 @@
-.login-wrap {
+.welcome-wrap {
   height: calc(100vh - 126px);
   display: grid;
   place-items: center;
 }
 
-.login {
-  margin-bottom: 16px;
-  &__btn {
-    img {
-      width: 160px;
-    }
-  }
+.main {
+  margin-bottom: 48px;
 }
 
-.check {
-  font-size: 14px;
-  color: #c6c6c6;
-  &__link {
-    color: #00c300;
-  }
+.btn {
+  width: 160px;
+  margin: 0 auto 48px;
+  background: #424242;
+  color: #fff;
+}
+
+.privacy {
+  opacity: 0.6;
 }
