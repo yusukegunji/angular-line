@@ -84,7 +84,7 @@ export const getCustomToken = functions
       await admin
         .firestore()
         .collection('users')
-        .where('lineId', '==', lineUser.sub)
+        .where('uid', '==', lineUser.sub)
         .get()
     ).docs[0];
 
@@ -92,7 +92,7 @@ export const getCustomToken = functions
       // ログイン中のユーザーにLINEを連携
       await admin.firestore().doc(`users/${uid}`).set(
         {
-          lineId: lineUser.sub,
+          uid: lineUser.sub,
         },
         { merge: true }
       );
@@ -105,7 +105,7 @@ export const getCustomToken = functions
 
       await admin.firestore().doc(`users/${uid}`).set(
         {
-          lineId: lineUser.sub,
+          uid: lineUser.sub,
           name: lineUser.name,
           photoURL: lineUser.picture,
           email: lineUser.email,
