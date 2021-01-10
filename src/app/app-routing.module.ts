@@ -29,6 +29,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./editor/editor.module').then((m) => m.EditorModule),
       },
+      {
+        path: 'team',
+        loadChildren: () =>
+          import('./team/team.module').then((m) => m.TeamModule),
+      },
     ],
   },
 ];
