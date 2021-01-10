@@ -5,4 +5,5 @@ export interface User {
   photoURL: string;
   creanCount?: number;
   isAdmin?: boolean;
+  post?: string;
 }
