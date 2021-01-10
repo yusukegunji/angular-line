@@ -1,5 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { take } from 'rxjs/operators';
+import { Team } from 'src/app/interfaces/team';
+import { AuthService } from 'src/app/services/auth.service';
+import { TeamService } from 'src/app/services/team.service';
+import * as firebase from 'firebase';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editor',
@@ -12,6 +19,7 @@ export class EditorComponent implements OnInit {
   oldImageUrl = '';
   imageFile: string;
   isProcessing: boolean;
+  uid: string;
 
   form = this.fb.group({
     name: [
@@ -24,15 +32,44 @@ export class EditorComponent implements OnInit {
     ],
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private teamService: TeamService,
+    private authService: AuthService,
+    private snackbar: MatSnackBar,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.user$.pipe(take(1)).subscribe((user) => {
+      this.uid = user.uid;
+      console.log(this.uid);
+    });
+  }
 
   onCroppedImage(image: string): void {
     this.imageFile = image;
   }
 
-  submit(): void {}
+  async submit(): Promise<void> {
+    this.isProcessing = true;
+    let teamData = this.form.value;
+
+    if (this.imageFile !== undefined) {
+      teamData = {
+        ...teamData,
+        createdAt: firebase.default.firestore.Timestamp.now(),
+        ownerId: this.uid,
+      };
+      await this.teamService
+        .createTeam(teamData, this.imageFile)
+        .then(() => {
+          this.snackbar.open('チームを作成しました！');
+          this.router.navigateByUrl('/');
+        })
+        .finally(() => (this.isProcessing = false));
+    }
+  }
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
