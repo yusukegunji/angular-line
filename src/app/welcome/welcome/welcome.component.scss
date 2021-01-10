@@ -1,11 +1,24 @@
 .welcome-wrap {
-  height: calc(100vh - 126px);
+  height: 100vh;
   display: grid;
   place-items: center;
 }
 
 .main {
   margin-bottom: 48px;
+  &__title {
+    margin-bottom: 48px;
+    font-size: 72px;
+  }
+  &__desctiption {
+    margin-bottom: 16px;
+  }
+}
+
+.btns-wrap {
+  img {
+    display: block;
+  }
 }
 
 .btn {
