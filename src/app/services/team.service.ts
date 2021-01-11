@@ -88,4 +88,8 @@ export class TeamService {
         })
       );
   }
+
+  async deleteTeam(teamId: string): Promise<void> {
+    return await this.db.doc(`articles/${teamId}`).delete();
+  }
 }
