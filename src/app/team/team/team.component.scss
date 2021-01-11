@@ -1,3 +1,14 @@
+.team {
+  padding-top: 48px;
+  &__heading {
+    display: flex;
+    align-items: center;
+  }
+  &__name {
+    margin-right: 24px;
+  }
+}
+
 .member-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
