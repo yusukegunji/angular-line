@@ -7,11 +7,13 @@
     <span data-text="o">o</span>
     <span data-text="K">K</span>
   </a>
-  <a routerLink="/editor" class="header__create">チームをつくる</a>
-  <a routerLink="/join" class="header__join">チームに参加する</a>
-  <span class="spacer"></span>
-
   <ng-container *ngIf="authService.user$ | async as user">
+    <a routerLink="/editor" class="header__create">チームをつくる</a>
+    <a (click)="openJoinTeamDialog(user.uid)" class="header__join"
+      >チームに参加する</a
+    >
+    <span class="spacer"></span>
+
     <div class="user">
       <p>{{ user.name }}</p>
       <img
