@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   uid: string;
 
   myTeams$: Observable<Team[]>;
+  joinedTeams$: Observable<Team[]>;
 
   constructor(
     private afAuth: AngularFireAuth,

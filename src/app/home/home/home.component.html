@@ -7,30 +7,84 @@
   </div>
   <mat-divider></mat-divider>
 
-  <ng-container *ngFor="let team of myTeams$ | async">
-    <a class="team" [routerLink]="'/team/' + team.teamId">
+  <ng-container *ngIf="myTeams$ | async as myTeams; else defaultMyTeams">
+    <ng-container *ngFor="let team of myTeams">
+      <a class="team" [routerLink]="'/team/' + team.teamId">
+        <div class="team__thumbnail">
+          <img [src]="team.thumbnailURL" alt="thumbnail" />
+        </div>
+
+        <div class="team__body">
+          <p class="team__name">
+            {{ team.name }}
+          </p>
+          <p class="team__description">
+            {{ team.description }}
+          </p>
+          <p class="team__member">{{ team.memberIds?.length }}メンバー</p>
+        </div>
+
+        <p class="team__date">
+          最終更新{{ team.updatedAt.toDate() | date: "yyyy/MM/dd HH:mm" }}
+        </p>
+      </a>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #defaultMyTeams>
+    <a class="team" routerLink="/editor">
       <div class="team__thumbnail">
-        <img [src]="team.thumbnailURL" alt="thumbnail" />
+        <mat-icon>add</mat-icon>
       </div>
 
       <div class="team__body">
-        <p class="team__name">
-          {{ team.name }}
-        </p>
-        <p class="team__description">
-          {{ team.description }}
-        </p>
-        <p class="team__member">{{ team.memberIds.length }}メンバー</p>
+        <p class="team__name">まだありません</p>
+        <p class="team__description">チームを作成しましょう。</p>
       </div>
-
-      <p class="team__date">
-        最終更新{{ team.updatedAt.toDate() | date: "yyyy/MM/dd HH:mm" }}
-      </p>
     </a>
-  </ng-container>
+  </ng-template>
 
   <div class="heading">
     <h2 class="heading__text">参加チームリスト</h2>
   </div>
   <mat-divider></mat-divider>
+
+  <ng-container
+    *ngIf="joinedTeams$ | async as joinedTeams; else defaultJoinedTeams"
+  >
+    <ng-container *ngFor="let team of joinedTeams">
+      <a class="team" [routerLink]="'/team/' + team.teamId">
+        <div class="team__head">
+          <img [src]="team.thumbnailURL" alt="thumbnail" />
+        </div>
+
+        <div class="team__body">
+          <p class="team__name">
+            {{ team.name }}
+          </p>
+          <p class="team__description">
+            {{ team.description }}
+          </p>
+          <p class="team__member">{{ team.memberIds.length }}メンバー</p>
+        </div>
+
+        <p class="team__date">
+          最終更新{{ team.updatedAt.toDate() | date: "yyyy/MM/dd HH:mm" }}
+        </p>
+      </a>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #defaultJoinedTeams>
+    <a class="team" routerLink="/join">
+      <div class="team__head">
+        <mat-icon>add</mat-icon>
+      </div>
+
+      <div class="team__body">
+        <p class="team__name">まだありません</p>
+        <p class="team__description">チームに参加しましょう。</p>
+      </div>
+    </a>
+  </ng-template>
 </div>
