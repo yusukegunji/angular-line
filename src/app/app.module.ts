@@ -21,6 +21,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { ShellComponent } from './shell/shell.component';
+import { JoinTeamDialogComponent } from './join-team-dialog/join-team-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -28,6 +33,7 @@ import { ShellComponent } from './shell/shell.component';
     HeaderComponent,
     FooterComponent,
     ShellComponent,
+    JoinTeamDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +49,11 @@ import { ShellComponent } from './shell/shell.component';
     MatMenuModule,
     MatIconModule,
     MatDividerModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },
