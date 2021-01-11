@@ -6,18 +6,84 @@
   padding: 8px 16px;
   background: #fff;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  &__logo {
-    font-size: 24px;
-    margin-right: 24px;
+  &__title {
+    color: #fff;
+    font-family: "Oswald", sans-serif;
+    font-weight: 700;
+    margin-right: 16px;
   }
-  &__create {
+  &__title span {
+    display: inline-block;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 500px;
+    -webkit-font-smoothing: antialiased;
+  }
+  &__title span::before,
+  &__title span::after {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: -1px;
+    transform-origin: left top;
+    transition: all ease-out 0.3s;
+    content: attr(data-text);
+  }
+  &__title span::before {
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1, 1) skew(0deg, 20deg);
+  }
+  &__title span::after {
+    z-index: 2;
+    color: #00c300;
+    text-shadow: -1px 0 1px #00c300, 1px 0 1px #fff;
+    transform: rotateY(-40deg);
+  }
+  &__title span:hover::before {
+    transform: scale(1.1, 1) skew(0deg, 5deg);
+  }
+  &__title span:hover::after {
+    transform: rotateY(-10deg);
+  }
+  &__title span + span {
+    margin-left: 0.3em;
+  }
+  @media (min-width: 20em) {
+    &__title {
+      font-size: 13px;
+    }
+    &__title span::before,
+    &__title span::after {
+      display: block;
+    }
+  }
+  @media (min-width: 30em) {
+    &__title {
+      font-size: 16px;
+    }
+  }
+  @media (min-width: 40em) {
+    &__title {
+      font-size: 20px;
+    }
+  }
+  @media (min-width: 60em) {
+    &__title {
+      font-size: 24px;
+    }
+  }
+
+  &__create,
+  &__join {
     padding: 8px 16px;
     transition: ease-out 0.3s;
-    border-radius: 8px;
     &:hover {
-      color: #fff;
-      background: #00c300;
+      color: #00c300;
     }
+  }
+  &__create {
+    margin-right: 8px;
   }
 }
 
