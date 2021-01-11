@@ -60,6 +60,10 @@ button {
   &--home {
     min-height: 100vh;
   }
+  &--team {
+    max-width: 1600px;
+    min-height: 100vh;
+  }
 }
 
 .custom-snackbar {
