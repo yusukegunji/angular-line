@@ -1,0 +1,16 @@
+<ng-container *ngIf="data">
+  <h1 matDialogTitle class="dialog-header">
+    {{ data.team.name }}
+  </h1>
+</ng-container>
+
+<mat-dialog-content align="center">
+  <div class="dialog-content">
+    <p>一度削除すると元に戻せません。</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button matDialogClose>キャンセル</button>
+  <button color="warn" mat-raised-button [mat-dialog-close]="true">削除</button>
+</mat-dialog-actions>
