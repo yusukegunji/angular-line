@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireStorage } from '@angular/fire/storage';
 import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Password } from '../interfaces/password';
 import { Team } from '../interfaces/team';
 
 @Injectable({
@@ -12,20 +14,26 @@ import { Team } from '../interfaces/team';
 export class TeamService {
   constructor(
     private db: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private fns: AngularFireFunctions
   ) {}
 
   async createTeam(
     team: Omit<Team, 'teamId' | 'thumbnailURL' | 'updatedAt' | 'memberIds'>,
-    thumbnailURL: string
+    thumbnailURL: string,
+    password: string
   ): Promise<void> {
     const id = this.db.createId();
     const image = await this.setThumbnailToStorage(id, thumbnailURL);
-    return this.db.doc<Team>(`teams/${id}`).set({
+    await this.db.doc<Team>(`teams/${id}`).set({
       ...team,
       teamId: id,
       updatedAt: firebase.default.firestore.Timestamp.now(),
       thumbnailURL: image,
+    });
+    await this.db.doc<Password>(`private/${id}`).set({
+      teamId: id,
+      password,
     });
   }
 
@@ -34,6 +42,11 @@ export class TeamService {
       .ref(`teams/${teamId}`)
       .putString(file, firebase.default.storage.StringFormat.DATA_URL);
     return result.ref.getDownloadURL();
+  }
+
+  judgePassword(password: string, teamId: string): Promise<boolean> {
+    const callable = this.fns.httpsCallable('judgementPassword');
+    return callable({ password, teamId }).toPromise();
   }
 
   getAllTeams(): Observable<Team[]> {
@@ -74,5 +87,9 @@ export class TeamService {
           }
         })
       );
+  }
+
+  async deleteTeam(teamId: string): Promise<void> {
+    return await this.db.doc(`articles/${teamId}`).delete();
   }
 }

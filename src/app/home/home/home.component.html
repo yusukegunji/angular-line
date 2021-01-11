@@ -21,7 +21,12 @@
           <p class="team__description">
             {{ team.description }}
           </p>
-          <p class="team__member">{{ team.memberIds?.length }}メンバー</p>
+          <ng-container *ngIf="team.memberIds; else defaultMember">
+            <p class="team__member">{{ team.memberIds.length }}メンバー</p>
+          </ng-container>
+          <ng-template #defaultMember>
+            <p class="team__member">メンバーはまだいません。</p>
+          </ng-template>
         </div>
 
         <p class="team__date">

@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
-import { Team } from 'src/app/interfaces/team';
 import { AuthService } from 'src/app/services/auth.service';
 import { TeamService } from 'src/app/services/team.service';
 import * as firebase from 'firebase';
@@ -16,6 +15,7 @@ import { Router } from '@angular/router';
 export class EditorComponent implements OnInit {
   readonly NAME_MAX_LENGTH = 20;
   readonly DESCRIPTION_MAX_LENGTH = 200;
+  readonly PASS_MIN_LENGTH = 6;
   oldImageUrl = '';
   imageFile: string;
   isProcessing: boolean;
@@ -29,6 +29,10 @@ export class EditorComponent implements OnInit {
     description: [
       '',
       [Validators.required, Validators.maxLength(this.DESCRIPTION_MAX_LENGTH)],
+    ],
+    password: [
+      '',
+      [Validators.required, Validators.minLength(this.PASS_MIN_LENGTH)],
     ],
   });
 
@@ -53,16 +57,17 @@ export class EditorComponent implements OnInit {
 
   async submit(): Promise<void> {
     this.isProcessing = true;
-    let teamData = this.form.value;
+    const formData = this.form.value;
 
     if (this.imageFile !== undefined) {
-      teamData = {
-        ...teamData,
+      const teamValues = {
+        name: formData.name,
+        description: formData.description,
         createdAt: firebase.default.firestore.Timestamp.now(),
         ownerId: this.uid,
       };
       await this.teamService
-        .createTeam(teamData, this.imageFile)
+        .createTeam(teamValues, this.imageFile, formData.password)
         .then(() => {
           this.snackbar.open('チームを作成しました！');
           this.router.navigateByUrl('/');

@@ -7,3 +7,4 @@ export * from './auth.function';
 export * from './user.function';
 export { lineWebhook } from './line.webhook.function';
 export { lineMsgAPI } from './line.msg.function';
+export { judgementPassword } from './team.function';
