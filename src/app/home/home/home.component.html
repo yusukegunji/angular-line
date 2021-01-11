@@ -1,3 +1,36 @@
-<div class="member-list">
-  <app-member-card></app-member-card>
+<div
+  class="container container--home"
+  *ngIf="authService.user$ | async as user"
+>
+  <div class="heading">
+    <h2 class="heading__text">自分がオーナーのチーム</h2>
+  </div>
+  <mat-divider></mat-divider>
+
+  <ng-container *ngFor="let team of myTeams$ | async">
+    <a class="team" [routerLink]="'/team/' + team.teamId">
+      <div class="team__thumbnail">
+        <img [src]="team.thumbnailURL" alt="thumbnail" />
+      </div>
+
+      <div class="team__body">
+        <p class="team__name">
+          {{ team.name }}
+        </p>
+        <p class="team__description">
+          {{ team.description }}
+        </p>
+        <p class="team__member">{{ team.memberIds.length }}メンバー</p>
+      </div>
+
+      <p class="team__date">
+        最終更新{{ team.updatedAt.toDate() | date: "yyyy/MM/dd HH:mm" }}
+      </p>
+    </a>
+  </ng-container>
+
+  <div class="heading">
+    <h2 class="heading__text">参加チームリスト</h2>
+  </div>
+  <mat-divider></mat-divider>
 </div>

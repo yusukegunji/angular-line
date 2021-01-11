@@ -22,6 +22,8 @@
     "@angular/platform-browser": "~11.0.3",
     "@angular/platform-browser-dynamic": "~11.0.3",
     "@angular/router": "~11.0.3",
+    "@deer-inc/ngx-croppie": "0.0.17",
+    "croppie": "^2.6.5",
     "firebase": "^7.0 || ^8.0",
     "messaging-api-line": "^1.0.1",
     "node-fetch": "^2.6.1",

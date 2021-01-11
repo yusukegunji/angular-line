@@ -1,6 +1,43 @@
-.member-list {
+.heading {
+  margin: 24px 0;
+  &__text {
+    font-weight: 500;
+  }
+}
+
+mat-divider {
+  margin-bottom: 32px;
+}
+
+.team {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
-  margin: 48px;
+  grid-template-columns: 120px 1fr 120px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: ease-in-out 0.3s;
+  &:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  &__body {
+    padding: 16px;
+  }
+  &__name {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  &__description,
+  &__member,
+  &__date {
+    opacity: 0.6;
+  }
+  &__member {
+    color: #00c300;
+  }
+  &__date {
+    padding: 16px;
+  }
 }

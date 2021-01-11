@@ -23,7 +23,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ShellComponent } from './shell/shell.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, ShellComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    ShellComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,6 +50,7 @@ import { ShellComponent } from './shell/shell.component';
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {
         duration: 2500,
+        panelClass: 'custom-snackbar',
       },
     },
   ],

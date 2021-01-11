@@ -4,8 +4,21 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background: #c6c6c6;
+  background: #fff;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  &__logo {
+    font-size: 24px;
+    margin-right: 24px;
+  }
+  &__create {
+    padding: 8px 16px;
+    transition: ease-out 0.3s;
+    border-radius: 8px;
+    &:hover {
+      color: #fff;
+      background: #00c300;
+    }
+  }
 }
 
 .spacer {

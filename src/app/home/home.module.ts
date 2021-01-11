@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MemberCardComponent } from './member-card/member-card.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
-  declarations: [HomeComponent, MemberCardComponent],
-  imports: [CommonModule, HomeRoutingModule, MatButtonModule],
+  declarations: [HomeComponent],
+  imports: [CommonModule, HomeRoutingModule, MatButtonModule, MatDividerModule],
 })
 export class HomeModule {}
