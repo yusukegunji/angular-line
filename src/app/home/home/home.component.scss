@@ -24,6 +24,7 @@ mat-divider {
   &__head {
     display: grid;
     place-items: center;
+    cursor: pointer;
   }
   &__body {
     padding: 16px;
