@@ -1,6 +1,6 @@
 <div class="container container--team">
   <ng-container *ngIf="user$ | async as user">
-    <div class="team" *ngIf="team$ | async as team">
+    <div class="team" *ngIf="team$ | async as team; else default">
       <div class="team__heading">
         <h2 class="team__name">{{ team.name }}</h2>
         <button
@@ -16,10 +16,15 @@
           <button mat-menu-item routerLink="/editor">
             <mat-icon>edit</mat-icon>編集
           </button>
-          <button mat-menu-item (click)="openDeleteDialog()">
+          <button mat-menu-item (click)="openDeleteDialog(team)">
             <mat-icon>delete</mat-icon>削除
           </button>
         </mat-menu>
+      </div>
+
+      <div class="unsubscribe__message" *ngIf="teamService.isProcessing">
+        <p>削除処理中です...</p>
+        <img src="assets/images/loading.svg" alt="" />
       </div>
 
       <div class="member-list">
@@ -27,4 +32,9 @@
       </div>
     </div>
   </ng-container>
+  <ng-template #default>
+    <p class="loading">
+      <img src="assets/images/loading.svg" alt="" />
+    </p>
+  </ng-template>
 </div>

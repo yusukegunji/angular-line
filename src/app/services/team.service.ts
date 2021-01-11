@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -12,10 +14,14 @@ import { Team } from '../interfaces/team';
   providedIn: 'root',
 })
 export class TeamService {
+  isProcessing: boolean;
+
   constructor(
     private db: AngularFirestore,
     private storage: AngularFireStorage,
-    private fns: AngularFireFunctions
+    private fns: AngularFireFunctions,
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {}
 
   async createTeam(
@@ -44,9 +50,9 @@ export class TeamService {
     return result.ref.getDownloadURL();
   }
 
-  judgePassword(password: string, teamId: string): Promise<boolean> {
+  async judgePassword(password: string, teamId: string): Promise<boolean> {
     const callable = this.fns.httpsCallable('judgementPassword');
-    return callable({ password, teamId }).toPromise();
+    return await callable({ password, teamId }).toPromise();
   }
 
   getAllTeams(): Observable<Team[]> {
@@ -90,6 +96,16 @@ export class TeamService {
   }
 
   async deleteTeam(teamId: string): Promise<void> {
-    return await this.db.doc(`articles/${teamId}`).delete();
+    this.isProcessing = true;
+    return await this.db
+      .doc(`teams/${teamId}`)
+      .delete()
+      .then(() => {
+        this.snackbar.open('チームのデータを削除しました');
+        this.router.navigateByUrl('/');
+      })
+      .finally(() => {
+        this.isProcessing = false;
+      });
   }
 }

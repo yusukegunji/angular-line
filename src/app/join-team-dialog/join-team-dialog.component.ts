@@ -44,13 +44,18 @@ export class JoinTeamDialogComponent implements OnInit {
   async submit(): Promise<void> {
     this.isProcessing = true;
     const formData = this.form.value;
+
     this.isPossible = await this.teamService.judgePassword(
       formData.password,
       formData.id
     );
+
     if (this.isPossible) {
       this.userService.joinTeam(formData.id, this.data.uid);
-      this.router.navigateByUrl(`team/${formData.id}`);
+
+      this.router.navigateByUrl(`team/${formData.id}`).then(() => {
+        this.snackbar.open('チームに参加しました');
+      });
     } else {
       console.log(this.isPossible);
       this.snackbar.open('パスワードとIDが一致しません。');

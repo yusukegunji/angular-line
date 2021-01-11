@@ -13,8 +13,8 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 24px;
+  grid-template-columns: 80px 1fr;
+  gap: 16px;
   &__label {
     line-height: 64px;
   }
@@ -38,7 +38,6 @@
 }
 
 .actions {
-  margin-bottom: 48px;
   &__back {
     margin-right: 16px;
   }

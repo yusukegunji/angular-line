@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from 'src/app/interfaces/team';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -27,12 +29,28 @@ export class TeamComponent implements OnInit {
   );
 
   constructor(
+    public teamService: TeamService,
     private route: ActivatedRoute,
-    private teamService: TeamService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {}
 
-  openDeleteDialog(): void {}
+  openDeleteDialog(team: Team): void {
+    this.dialog
+      .open(DeleteDialogComponent, {
+        width: '400px',
+        autoFocus: false,
+        data: { team },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.teamService.deleteTeam(team.teamId);
+        } else {
+          return;
+        }
+      });
+  }
 }

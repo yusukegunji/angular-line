@@ -6,5 +6,5 @@ export interface Team {
   createdAt: firebase.default.firestore.Timestamp;
   updatedAt: firebase.default.firestore.Timestamp;
   ownerId: string;
-  memberIds?: string[];
+  memberCount?: number;
 }
