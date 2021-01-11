@@ -1,38 +1,46 @@
 <div class="login-wrap">
   <div class="container container--welcome">
-    <div class="login">
-      <a [href]="lineAuthURL" class="login__btn">
-        <img src="assets/images/btn_login_base.png" alt="" />
-      </a>
-    </div>
-
-    <div class="check">
+    <ng-container *ngIf="authService.isProcessing; else default">
       <p>
-        ※
-        <a routerLink="/intl/privacy" class="check__link"
-          >プライバシーポリシー</a
-        >を遵守して運営しています。
+        <img src="assets/images/loading.svg" alt="" />
       </p>
-      <p>
-        ※ログインすると
-        <a routerLink="/intl/rule" class="check__link">利用規約</a>
-        に同意したものとみなされます。
-      </p>
-    </div>
+    </ng-container>
 
-    <div class="btns-wrap">
-      <img
-        src="https://qr-official.line.me/sid/M/730cgfst.png"
-        alt="qr-code"
-        class="btns-wrap__qr"
-      />
-      <a href="https://lin.ee/ZFWgB2Y"
-        ><img
-          src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png"
-          alt="友だち追加"
-          height="36"
-          border="0"
-      /></a>
-    </div>
+    <ng-template #default>
+      <div class="login">
+        <a [href]="lineAuthURL" class="login__btn">
+          <img src="assets/images/btn_login_base.png" alt="" />
+        </a>
+      </div>
+
+      <div class="check">
+        <p>
+          ※
+          <a routerLink="/intl/privacy" class="check__link"
+            >プライバシーポリシー</a
+          >を遵守して運営しています。
+        </p>
+        <p>
+          ※ログインすると
+          <a routerLink="/intl/rule" class="check__link">利用規約</a>
+          に同意したものとみなされます。
+        </p>
+      </div>
+
+      <div class="btns-wrap">
+        <img
+          src="https://qr-official.line.me/sid/M/730cgfst.png"
+          alt="qr-code"
+          class="btns-wrap__qr"
+        />
+        <a href="https://lin.ee/ZFWgB2Y"
+          ><img
+            src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png"
+            alt="友だち追加"
+            height="36"
+            border="0"
+        /></a>
+      </div>
+    </ng-template>
   </div>
 </div>

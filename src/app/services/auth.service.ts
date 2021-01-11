@@ -12,6 +12,7 @@ import { User } from '../interfaces/user';
   providedIn: 'root',
 })
 export class AuthService {
+  isProcessing: boolean;
   user: any;
   user$: Observable<User> = this.afAuth.user.pipe(
     switchMap((user) => {
@@ -34,19 +35,16 @@ export class AuthService {
   ) {}
 
   async loginWithLine(code: string): Promise<void> {
+    this.isProcessing = true;
     const callable = this.fns.httpsCallable('getCustomToken');
     const customToken = await callable({ code })
       .toPromise()
       .catch((error) => {
         console.log(error);
-        console.log(code);
-
         this.router.navigate(['/']);
       });
 
     if (customToken) {
-      console.log(customToken);
-
       this.afAuth
         .signInWithCustomToken(customToken)
         .then(() => {
@@ -56,14 +54,17 @@ export class AuthService {
         .catch((error) => {
           console.log('failed to sign in');
           console.error(error);
-        });
+        })
+        .finally(() => (this.isProcessing = false));
     }
   }
 
   logout(): void {
     this.afAuth.signOut();
-    this.router.navigate(['/welcome/login'], {
-      queryParams: null,
-    });
+    this.router
+      .navigate(['/welcome/login'], {
+        queryParams: null,
+      })
+      .then(() => this.snackbar.open('ログアウトしました'));
   }
 }
