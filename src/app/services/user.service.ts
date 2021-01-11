@@ -12,6 +12,6 @@ export class UserService {
       teamId,
       uid,
     });
-    this.db.doc(`users/${uid}/joinedEvents/${teamId}`).set({ teamId });
+    this.db.doc(`users/${uid}/joinedTeams/${teamId}`).set({ teamId });
   }
 }
