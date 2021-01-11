@@ -3,6 +3,8 @@
     <h2 class="heading__text">チームに参加</h2>
   </div>
 
+  <mat-divider></mat-divider>
+
   <form class="form" (ngSubmit)="submit()" [formGroup]="form">
     <div class="form-grid">
       <p class="form-grid__label">チームID</p>
@@ -41,18 +43,19 @@
       </mat-form-field>
     </div>
 
-    <mat-dialog-actions>
+    <mat-dialog-actions class="actions" align="end">
+      <button class="actions__back" mat-button matDialogClose type="button">
+        キャンセル
+      </button>
       <button
-        mat-button
+        mat-raised-button
         class="form__submit"
+        color="primary"
         type="submit"
         [mat-dialog-close]="true"
         [disabled]="form.invalid || form.pristine || isProcessing"
       >
         参加
-      </button>
-      <button class="form__cancel" mat-button matDialogClose type="button">
-        キャンセル
       </button>
     </mat-dialog-actions>
   </form>
