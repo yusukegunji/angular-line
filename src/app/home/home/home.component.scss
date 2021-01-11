@@ -1,5 +1,5 @@
 .heading {
-  margin: 24px 0;
+  margin: 48px 0 24px;
   &__text {
     font-weight: 500;
   }
@@ -20,6 +20,10 @@ mat-divider {
   transition: ease-in-out 0.3s;
   &:hover {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  &__head {
+    display: grid;
+    place-items: center;
   }
   &__body {
     padding: 16px;
