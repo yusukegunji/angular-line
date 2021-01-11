@@ -7,10 +7,79 @@
 .main {
   margin-bottom: 48px;
   &__title {
+    color: #fff;
+    font-family: "Oswald", sans-serif;
+    font-size: 1em;
+    font-weight: 700;
     margin-bottom: 48px;
-    font-size: 72px;
   }
-  &__desctiption {
+  &__title span {
+    display: inline-block;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 500px;
+    -webkit-font-smoothing: antialiased;
+  }
+  &__title span::before,
+  &__title span::after {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: -1px;
+    transform-origin: left top;
+    transition: all ease-out 0.3s;
+    content: attr(data-text);
+  }
+  &__title span::before {
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1, 1) skew(0deg, 20deg);
+  }
+  &__title span::after {
+    z-index: 2;
+    color: #00c300;
+    text-shadow: -1px 0 1px #00c300, 1px 0 1px #fff;
+    transform: rotateY(-40deg);
+  }
+  &__title span:hover::before {
+    transform: scale(1.1, 1) skew(0deg, 5deg);
+  }
+  &__title span:hover::after {
+    transform: rotateY(-10deg);
+  }
+  &__title span + span {
+    margin-left: 0.3em;
+  }
+  @media (min-width: 20em) {
+    &__title {
+      font-size: 2em;
+    }
+    &__title span::before,
+    &__title span::after {
+      display: block;
+    }
+  }
+  @media (min-width: 30em) {
+    &__title {
+      font-size: 3em;
+    }
+  }
+  @media (min-width: 40em) {
+    &__title {
+      font-size: 5em;
+    }
+  }
+  @media (min-width: 60em) {
+    &__title {
+      font-size: 8em;
+    }
+  }
+  &__copy,
+  &__sub-copy {
+    font-weight: 100;
+    font-size: 24px;
+  }
+  &__copy {
     margin-bottom: 16px;
   }
 }
@@ -24,8 +93,13 @@
 .btn {
   width: 160px;
   margin: 0 auto 48px;
-  background: #424242;
-  color: #fff;
+  font-size: 24px;
+  font-weight: 100;
+  padding: 8px 16px 8px 0;
+  transition: ease-out 0.3s;
+  &:hover {
+    color: #00c300;
+  }
 }
 
 .privacy {
