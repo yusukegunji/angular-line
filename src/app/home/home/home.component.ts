@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
     this.authService.user$.pipe(take(1)).subscribe((user) => {
       this.uid = user.uid;
       this.myTeams$ = this.teamService.getSelfOwningTeams(this.uid);
+      this.joinedTeams$ = this.teamService.getJoinedTeams(this.uid);
     });
   }
 
