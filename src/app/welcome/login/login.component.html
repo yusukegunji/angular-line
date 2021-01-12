@@ -1,9 +1,18 @@
 <div class="login-wrap">
   <div class="container container--welcome">
     <ng-container *ngIf="authService.isProcessing; else default">
-      <p>
-        <img src="assets/images/loading.svg" alt="" />
-      </p>
+      <div class="loading">
+        <p class="loading__svg">
+          <img src="assets/images/loading.svg" alt="" />
+        </p>
+        <P class="loading__text">
+          <span>ロ</span>
+          <span>グ</span>
+          <span>イ</span>
+          <span>ン</span>
+          <span>中</span>
+        </P>
+      </div>
     </ng-container>
 
     <ng-template #default>
