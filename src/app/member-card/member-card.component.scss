@@ -28,8 +28,9 @@
   }
   &__body {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    grid-template-columns: 40px 2px 40px;
+    gap: 16px;
+    place-content: center;
     margin-bottom: 16px;
   }
   &__result,
@@ -60,6 +61,11 @@
   &__text {
     color: #303030;
     font-size: 13px;
+  }
+  &__pipe {
+    width: 2px;
+    height: 40px;
+    background: rgba(#000, 0.16);
   }
   &__btn {
     max-width: 100%;
