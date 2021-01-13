@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { _MatOptionBase } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Password } from '../interfaces/password';
-import { Team } from '../interfaces/team';
+import { Team, TeamWithUser } from '../interfaces/team';
 
 @Injectable({
   providedIn: 'root',
@@ -83,10 +84,10 @@ export class TeamService {
       }>('joinedUids', (ref) => ref.where('uid', '==', uid))
       .valueChanges()
       .pipe(
-        switchMap((joinedTeams) => {
-          if (joinedTeams.length) {
+        switchMap((teamIdandUid) => {
+          if (teamIdandUid.length) {
             return combineLatest(
-              joinedTeams.map((team) => this.getTeam(team.teamId))
+              teamIdandUid.map((team) => this.getTeam(team.teamId))
             );
           } else {
             return of(null);
