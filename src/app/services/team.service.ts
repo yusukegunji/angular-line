@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { _MatOptionBase } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Password } from '../interfaces/password';
-import { Team, TeamWithUser } from '../interfaces/team';
+import { Team } from '../interfaces/team';
 
 @Injectable({
   providedIn: 'root',
