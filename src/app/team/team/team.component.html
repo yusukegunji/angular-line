@@ -3,6 +3,7 @@
     <div class="team" *ngIf="team$ | async as team; else default">
       <div class="team__heading">
         <h2 class="team__name">{{ team.name }}</h2>
+        <p class="tema__month">{{ date.toDate() | date: "yyyy年/ MM月" }}</p>
         <button
           mat-icon-button
           [matMenuTriggerFor]="menu"
@@ -27,12 +28,10 @@
         <img src="assets/images/loading.svg" alt="" />
       </div>
 
-      <div class="member-list">
-        <app-member-card></app-member-card>
-      </div>
-
       <div class="member" *ngFor="let user of joinedUsers$ | async">
-        <p>{{ user.uid }}</p>
+        <div class="member-list">
+          <app-member-card *ngIf="user" [user]="user"></app-member-card>
+        </div>
       </div>
     </div>
   </ng-container>
