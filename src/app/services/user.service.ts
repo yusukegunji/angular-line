@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Firestore } from '@google-cloud/firestore';
 import { JoinedUid } from 'functions/interfaces/joined-uid';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { User } from '../interfaces/user';
 
 @Injectable({
