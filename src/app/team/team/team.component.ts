@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { JoinedUid } from 'functions/interfaces/joined-uid';
+import * as firebase from 'functions/node_modules/firebase';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
@@ -19,6 +19,7 @@ import { UserService } from 'src/app/services/user.service';
 export class TeamComponent implements OnInit {
   // uids: string[];
   isLoading: boolean;
+  date = firebase.default.firestore.Timestamp.now();
 
   user$: Observable<User> = this.authService.user$;
 
