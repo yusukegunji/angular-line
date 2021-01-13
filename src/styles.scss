@@ -52,7 +52,7 @@ button {
 
 .container {
   max-width: 1200px;
-  padding: 0 24px;
+  padding: 0 48px;
   margin: 0 auto;
   &--welcome {
     text-align: center;
@@ -69,3 +69,50 @@ button {
 .custom-snackbar {
   background: rgba(#00c300, 0.8);
 }
+
+// ↓mat-select custom↓
+.my-select mat-select {
+  background-color: #fff;
+  padding: 8px 16px 8px 16px;
+  border-radius: 32px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 15px -5px,
+    rgba(0, 0, 0, 0.04) 0px 8px 8px -5px;
+}
+
+.my-select .mat-select-value {
+  font-family: Roboto-Regular;
+  font-size: 16px;
+  color: rgba(58, 40, 8, 0.87);
+}
+
+.my-select .mat-form-field-underline {
+  display: none;
+}
+
+.my-select mat-select-trigger div > i {
+  margin-right: 8px;
+}
+
+.mat-form-field-infix {
+  padding: 0.5em 0;
+  border-top: none;
+  width: 120px !important;
+}
+
+.my-selecter-wrap {
+  display: flex;
+  margin-left: 16px;
+  .my-select__label {
+    font-size: 12px;
+    margin: 16px;
+  }
+}
+.my-select {
+  display: flex;
+  align-items: center;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+// ↑mat-select custom↑

@@ -4,23 +4,30 @@
       <div class="team__heading">
         <h2 class="team__name">{{ team.name }}</h2>
         <p class="tema__month">{{ date.toDate() | date: "yyyy年/ MM月" }}</p>
-        <button
-          mat-icon-button
-          [matMenuTriggerFor]="menu"
-          *ngIf="user.uid == team.ownerId"
-          class="comment__btn"
-        >
-          <mat-icon>more_vert</mat-icon>
-        </button>
 
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item routerLink="/editor">
-            <mat-icon>edit</mat-icon>編集
-          </button>
-          <button mat-menu-item (click)="openDeleteDialog(team)">
-            <mat-icon>delete</mat-icon>削除
-          </button>
-        </mat-menu>
+        <span class="spacer"></span>
+
+        <div class="my-selecter-wrap">
+          <p class="my-select__label">年</p>
+          <mat-form-field class="my-select">
+            <mat-select [(ngModel)]="selectedValue" name="food">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="my-selecter-wrap">
+          <p class="my-select__label">月</p>
+          <mat-form-field class="my-select">
+            <mat-select [(ngModel)]="selectedValue" name="food">
+              <mat-option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 
       <div class="unsubscribe__message" *ngIf="teamService.isProcessing">
@@ -33,8 +40,26 @@
           <app-member-card *ngIf="user" [user]="user"></app-member-card>
         </div>
       </div>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        *ngIf="user.uid == team.ownerId"
+        class="edit-btn"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/editor">
+          <mat-icon>edit</mat-icon>編集
+        </button>
+        <button mat-menu-item (click)="openDeleteDialog(team)">
+          <mat-icon>delete</mat-icon>削除
+        </button>
+      </mat-menu>
     </div>
   </ng-container>
+
   <ng-template #default>
     <p class="loading">
       <img src="assets/images/loading.svg" alt="" />

@@ -1,5 +1,6 @@
 .team {
   padding-top: 48px;
+  position: relative;
   &__heading {
     display: flex;
     align-items: center;
@@ -9,11 +10,27 @@
   }
 }
 
+.spacer {
+  flex: 1;
+}
+
+.edit-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+}
+
 .member-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  margin: 48px;
+  gap: 24px;
+  margin: 24px 0 48px;
 }
 
 .loading {

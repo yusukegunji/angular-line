@@ -20,6 +20,9 @@ export class TeamComponent implements OnInit {
   // uids: string[];
   isLoading: boolean;
   date = firebase.default.firestore.Timestamp.now();
+  years = [2020, 2021];
+  months = [...new Array(12)].map((_, i) => i + 1);
+  selectedValue: number;
 
   user$: Observable<User> = this.authService.user$;
 
@@ -65,6 +68,7 @@ export class TeamComponent implements OnInit {
     //     return this.userService.getUserData(param.uid);
     //   });
     // });
+    console.log(this.months);
   }
 
   ngOnInit(): void {
