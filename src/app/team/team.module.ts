@@ -7,6 +7,9 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogsModule } from '../dialogs/dialogs.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [TeamComponent, MemberCardComponent],
@@ -16,6 +19,10 @@ import { DialogsModule } from '../dialogs/dialogs.module';
     MatMenuModule,
     MatIconModule,
     DialogsModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
   ],
 })
 export class TeamModule {}

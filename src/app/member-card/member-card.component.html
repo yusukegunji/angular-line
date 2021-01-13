@@ -1,26 +1,31 @@
 <div class="member">
-  <ng-container *ngIf="authService.user$ | async as user">
-    <div class="member__head">
-      <div class="member__photo">
-        <img [src]="user.photoURL" alt="" />
-      </div>
-      <p class="member__name">{{ user.name }}</p>
-      <p class="member__post">{{ user.post }}</p>
+  <div class="member__head">
+    <div class="member__photo">
+      <img [src]="user.photoURL" alt="" />
+    </div>
+    <p class="member__name">{{ user.name }}</p>
+    <p class="member__post">{{ user.post }}</p>
+  </div>
+
+  <div class="member__body">
+    <div class="member__result">
+      <p class="member__num member__num--result">
+        {{ user.result ? user.result : 0 }} h
+      </p>
+      <p class="member__text">実績</p>
     </div>
 
-    <div class="member__body">
-      <div class="member__result">
-        <p class="member__num member__num--result">40h</p>
-        <p class="member__text">Result</p>
-      </div>
-      <div class="member__plan">
-        <p class="member__num member__num--plan">160h</p>
-        <p class="member__text">Plan</p>
-      </div>
-    </div>
+    <span class="member__pipe"></span>
 
-    <div class="member__btn">
-      <a href="">Details</a>
+    <div class="member__plan">
+      <p class="member__num member__num--plan">
+        {{ user.plan ? user.plan : 0 }} h
+      </p>
+      <p class="member__text">計画</p>
     </div>
-  </ng-container>
+  </div>
+
+  <div class="member__btn">
+    <a href="">もっと見る</a>
+  </div>
 </div>

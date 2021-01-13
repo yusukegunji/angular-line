@@ -6,4 +6,7 @@ export interface User {
   creanCount?: number;
   isAdmin?: boolean;
   post?: string;
+  result?: number;
+  plan?: number;
+  createdAt: firebase.default.firestore.Timestamp;
 }

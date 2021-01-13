@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { JoinedUid } from 'functions/interfaces/joined-uid';
+import * as firebase from 'functions/node_modules/firebase';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
@@ -19,6 +19,10 @@ import { UserService } from 'src/app/services/user.service';
 export class TeamComponent implements OnInit {
   // uids: string[];
   isLoading: boolean;
+  date = firebase.default.firestore.Timestamp.now();
+  years = [2020, 2021];
+  months = [...new Array(12)].map((_, i) => i + 1);
+  selectedValue: number;
 
   user$: Observable<User> = this.authService.user$;
 
@@ -64,6 +68,7 @@ export class TeamComponent implements OnInit {
     //     return this.userService.getUserData(param.uid);
     //   });
     // });
+    console.log(this.months);
   }
 
   ngOnInit(): void {

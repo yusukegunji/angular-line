@@ -1,11 +1,12 @@
 .footer {
   max-width: 100%;
-  background: #c6c6c6;
-  padding: 8px 16px;
+  background: #767676;
+  padding: 16px 24px;
   &__copy {
-    opacity: 0.6;
+    opacity: 0.8;
     text-align: right;
     font-size: 14px;
+    color: #fff;
   }
 }
 
@@ -14,8 +15,12 @@
   align-items: center;
   place-content: center;
   &__item {
-    opacity: 0.6;
+    opacity: 0.8;
     margin-right: 16px;
     font-size: 14px;
+    color: #fff;
+    &:hover {
+      color: #00e000;
+    }
   }
 }
