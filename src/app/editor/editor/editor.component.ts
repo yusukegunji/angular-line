@@ -65,6 +65,7 @@ export class EditorComponent implements OnInit {
         description: formData.description,
         createdAt: firebase.default.firestore.Timestamp.now(),
         ownerId: this.uid,
+        memberCount: 0,
       };
       await this.teamService
         .createTeam(teamValues, this.imageFile, formData.password)

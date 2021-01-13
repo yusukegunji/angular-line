@@ -30,6 +30,10 @@
       <div class="member-list">
         <app-member-card></app-member-card>
       </div>
+
+      <div class="member" *ngFor="let user of joinedUsers$ | async">
+        <p>{{ user.uid }}</p>
+      </div>
     </div>
   </ng-container>
   <ng-template #default>

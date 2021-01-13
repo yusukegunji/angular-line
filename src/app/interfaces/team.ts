@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Team {
   teamId: string;
   name: string;
@@ -7,4 +9,8 @@ export interface Team {
   updatedAt: firebase.default.firestore.Timestamp;
   ownerId: string;
   memberCount?: number;
+}
+
+export interface TeamWithUser extends Team {
+  user: User;
 }

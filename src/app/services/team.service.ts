@@ -83,10 +83,10 @@ export class TeamService {
       }>('joinedUids', (ref) => ref.where('uid', '==', uid))
       .valueChanges()
       .pipe(
-        switchMap((joinedTeams) => {
-          if (joinedTeams.length) {
+        switchMap((teamIdandUid) => {
+          if (teamIdandUid.length) {
             return combineLatest(
-              joinedTeams.map((team) => this.getTeam(team.teamId))
+              teamIdandUid.map((team) => this.getTeam(team.teamId))
             );
           } else {
             return of(null);
