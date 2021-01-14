@@ -64,6 +64,11 @@ button {
     max-width: 1600px;
     min-height: 100vh;
   }
+  &--log-table {
+    max-width: 1600px;
+    padding: 0;
+    transition: ease-in-out 0.3s;
+  }
 }
 
 .custom-snackbar {
@@ -107,6 +112,7 @@ button {
     margin: 16px;
   }
 }
+
 .my-select {
   display: flex;
   align-items: center;
@@ -116,3 +122,38 @@ button {
   padding-bottom: 0;
 }
 // ↑mat-select custom↑
+
+.mat-table {
+  background-color: #fff !important;
+}
+.mat-table {
+  border-radius: 8px;
+  overflow: hidden !important;
+}
+table {
+  width: 100%;
+  border-collapse: separate !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.mat-paginator {
+  border-radius: 0 0 12px 12px !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.mat-paginator-container {
+  border-radius: 0 0 12px 12px !important;
+  background: transparent !important;
+}
+.mat-cell,
+.mat-footer-cell {
+  height: 60px;
+  img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border-style: none;
+    overflow: hidden;
+  }
+}
