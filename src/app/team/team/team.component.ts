@@ -68,7 +68,6 @@ export class TeamComponent implements OnInit {
     //     return this.userService.getUserData(param.uid);
     //   });
     // });
-    console.log(this.months);
   }
 
   ngOnInit(): void {
