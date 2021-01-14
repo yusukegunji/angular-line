@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface Log {
   status: string;
   name: string;
@@ -6,6 +8,12 @@ export interface Log {
   tookBreakAt: firebase.default.firestore.Timestamp;
   backedBreakAt: firebase.default.firestore.Timestamp;
   logedOutAt: firebase.default.firestore.Timestamp;
-  location: string;
+  location: firebase.default.firestore.GeoPoint;
   commutingFee: number;
+  uid: string;
+  teamId: string;
+}
+
+export interface LogWithUser extends Log {
+  user: User;
 }
