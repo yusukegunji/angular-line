@@ -23,12 +23,6 @@ export class UserService {
     return this.db.doc<User>(`users/${uid}`).valueChanges();
   }
 
-  // getJoinedUids(teamId: string): Observable<JoinedUid[]> {
-  //   return this.db
-  //     .collection<JoinedUid>(`teams/${teamId}/joinedUids`)
-  //     .valueChanges();
-  // }
-
   getjoinedUsers(teamId: string): Observable<User[]> {
     return this.db
       .collectionGroup<JoinedUid>('joinedUids', (ref) =>
