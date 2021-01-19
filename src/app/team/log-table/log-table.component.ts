@@ -8,10 +8,9 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { StickerMessage } from 'functions/node_modules/messaging-api-line/dist/LineTypes';
 import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { Log, LogWithUser } from 'src/app/interfaces/log';
+import { switchMap } from 'rxjs/operators';
+import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
 import { LogService } from 'src/app/services/log.service';
 import { TeamService } from 'src/app/services/team.service';
