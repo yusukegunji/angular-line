@@ -10,9 +10,12 @@ import { DialogsModule } from '../dialogs/dialogs.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { LogTableComponent } from './log-table/log-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
-  declarations: [TeamComponent, MemberCardComponent],
+  declarations: [TeamComponent, MemberCardComponent, LogTableComponent],
   imports: [
     CommonModule,
     TeamRoutingModule,
@@ -23,6 +26,8 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
 })
 export class TeamModule {}

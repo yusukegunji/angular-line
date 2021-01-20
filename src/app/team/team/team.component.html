@@ -2,6 +2,8 @@
   <ng-container *ngIf="user$ | async as user">
     <div class="team" *ngIf="team$ | async as team; else default">
       <div class="team__heading">
+        <span class="team__border"></span>
+        <span class="team__border"></span>
         <h2 class="team__name">{{ team.name }}</h2>
         <p class="tema__month">{{ date.toDate() | date: "yyyy年/ MM月" }}</p>
 
@@ -12,7 +14,7 @@
           <mat-form-field class="my-select">
             <mat-select [(ngModel)]="selectedValue" name="food">
               <mat-option *ngFor="let year of years" [value]="year">
-                {{ year }}
+                {{ year }}年
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -23,23 +25,24 @@
           <mat-form-field class="my-select">
             <mat-select [(ngModel)]="selectedValue" name="food">
               <mat-option *ngFor="let month of months" [value]="month">
-                {{ month }}
+                {{ month }}月
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
 
-      <div class="unsubscribe__message" *ngIf="teamService.isProcessing">
-        <p>削除処理中です...</p>
-        <img src="assets/images/loading.svg" alt="" />
+      <div class="member" *ngIf="user">
+        <app-member-card
+          *ngFor="let user of joinedUsers$ | async"
+          [user]="user"
+        ></app-member-card>
       </div>
 
-      <div class="member" *ngFor="let user of joinedUsers$ | async">
-        <div class="member-list">
-          <app-member-card *ngIf="user" [user]="user"></app-member-card>
-        </div>
+      <div class="log">
+        <app-log-table></app-log-table>
       </div>
+
       <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
@@ -57,6 +60,11 @@
           <mat-icon>delete</mat-icon>削除
         </button>
       </mat-menu>
+    </div>
+
+    <div class="unsubscribe__message" *ngIf="teamService.isProcessing">
+      <p>削除処理中です...</p>
+      <img src="assets/images/loading.svg" alt="" />
     </div>
   </ng-container>
 
