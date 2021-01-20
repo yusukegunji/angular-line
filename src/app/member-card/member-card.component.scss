@@ -18,9 +18,21 @@
     overflow: hidden;
     margin: 0 auto 8px;
   }
+  &__status {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: block;
+    background: linear-gradient(to right, #f83600, #fe8c00);
+    position: absolute;
+    top: -30px;
+    left: 48px;
+    z-index: 10;
+  }
   &__name {
     font-weight: 600;
     padding: 0 8px;
+    position: relative;
   }
   &__post {
     font-size: 12px;
@@ -52,10 +64,12 @@
       transform: scale(1.4);
     }
     &--result {
-      background: #00e000;
+      background: #9c38ff;
+      background: linear-gradient(to right, #9c38ff, #d28fff);
     }
     &--plan {
-      background: #00b300;
+      background: #9c38ff;
+      background: linear-gradient(to right, #9c38ff, #d28fff);
     }
   }
   &__text {
@@ -68,17 +82,19 @@
     background: rgba(#000, 0.16);
   }
   &__btn {
-    max-width: 100%;
+    max-width: 70%;
     background: transparent;
-    border: 2px solid #00c300;
-    color: #00c300;
-    padding: 8px 16px;
+    border: 2px solid #9c38ff;
+    color: #9c38ff;
+    padding: 6px 16px;
+    margin: 0 auto;
     text-align: center;
     border-radius: 32px;
     transition: ease-in-out 0.3s;
     cursor: pointer;
     &:hover {
-      background: #00c300;
+      border: 2px solid #d28fff;
+      background: linear-gradient(to right, #9c38ff, #d28fff);
       color: #fff;
     }
   }

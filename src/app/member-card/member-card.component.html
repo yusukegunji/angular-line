@@ -3,8 +3,13 @@
     <div class="member__photo">
       <img [src]="user.photoURL" alt="" />
     </div>
-    <p class="member__name">{{ user.name }}</p>
-    <p class="member__post">{{ user.post }}</p>
+    <p class="member__name">
+      {{ user.name }}
+      <ng-container *ngIf="user.isWorking">
+        <span class="member__status"></span>
+      </ng-container>
+    </p>
+    <p class="member__post">{{ user.post ? user.post : "まだありません" }}</p>
   </div>
 
   <div class="member__body">
