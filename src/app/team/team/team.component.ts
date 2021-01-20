@@ -17,7 +17,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./team.component.scss'],
 })
 export class TeamComponent implements OnInit {
-  // uids: string[];
   isLoading: boolean;
   date = firebase.default.firestore.Timestamp.now();
   years = [2020, 2021];
@@ -38,13 +37,6 @@ export class TeamComponent implements OnInit {
     })
   );
 
-  // joinedUids$: Observable<JoinedUid[]> = this.route.paramMap.pipe(
-  //   switchMap((param) => {
-  //     const teamId = param.get('id');
-  //     return this.userService.getJoinedUids(teamId);
-  //   })
-  // );
-
   joinedUsers$: Observable<User[]> = this.route.paramMap.pipe(
     switchMap((param) => {
       const teamId = param.get('id');
@@ -62,13 +54,7 @@ export class TeamComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private dialog: MatDialog
-  ) {
-    // this.joinedUids$.subscribe((params) => {
-    //   this.joinedUsers$ = params.map((param) => {
-    //     return this.userService.getUserData(param.uid);
-    //   });
-    // });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;

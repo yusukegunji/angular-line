@@ -2,6 +2,8 @@
   <ng-container *ngIf="user$ | async as user">
     <div class="team" *ngIf="team$ | async as team; else default">
       <div class="team__heading">
+        <span class="team__border"></span>
+        <span class="team__border"></span>
         <h2 class="team__name">{{ team.name }}</h2>
         <p class="tema__month">{{ date.toDate() | date: "yyyy年/ MM月" }}</p>
 
@@ -30,10 +32,11 @@
         </div>
       </div>
 
-      <div class="member" *ngFor="let user of joinedUsers$ | async">
-        <div class="member-list">
-          <app-member-card *ngIf="user" [user]="user"></app-member-card>
-        </div>
+      <div class="member" *ngIf="user">
+        <app-member-card
+          *ngFor="let user of joinedUsers$ | async"
+          [user]="user"
+        ></app-member-card>
       </div>
 
       <div class="log">
