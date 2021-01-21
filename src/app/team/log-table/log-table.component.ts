@@ -14,7 +14,6 @@ import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
 import { LogService } from 'src/app/services/log.service';
 import { TeamService } from 'src/app/services/team.service';
-import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-log-table',
