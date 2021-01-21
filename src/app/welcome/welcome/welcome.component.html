@@ -1,17 +1,47 @@
 <div class="welcome-wrap">
   <div class="container">
-    <div class="main">
-      <p class="main__sub-copy">簡単打刻！グッバイ手入力！</p>
-      <p class="main__copy">LINEでらくらく勤怠管理</p>
-      <p aria-label="DaCook" class="main__title">
-        <span data-text="D">D</span>
-        <span data-text="a">a</span>
-        <span data-text="C">C</span>
-        <span data-text="o">o</span>
-        <span data-text="o">o</span>
-        <span data-text="k">k</span>
-      </p>
-      <a routerLink="/welcome/login" class="btn">無料ではじめる</a>
-    </div>
+    <ng-container *ngIf="authService.isProcessing; else default">
+      <div class="loading">
+        <p class="loading__svg">
+          <img src="assets/images/loading.svg" alt="" />
+        </p>
+        <P class="loading__text">
+          <span>ロ</span>
+          <span>グ</span>
+          <span>イ</span>
+          <span>ン</span>
+          <span>中</span>
+        </P>
+      </div>
+    </ng-container>
+
+    <ng-template #default>
+      <div class="main">
+        <p class="main__sub-copy">簡単打刻！グッバイ手入力！</p>
+        <p class="main__copy">LINEでらくらく勤怠管理</p>
+        <p aria-label="DaCook" class="main__title">
+          <span data-text="D">D</span>
+          <span data-text="a">a</span>
+          <span data-text="C">C</span>
+          <span data-text="o">o</span>
+          <span data-text="o">o</span>
+          <span data-text="k">k</span>
+        </p>
+        <a [href]="lineAuthURL" class="btn">無料ではじめる</a>
+      </div>
+      <div class="check">
+        <p>
+          ※
+          <a routerLink="/intl/privacy" class="check__link"
+            >プライバシーポリシー</a
+          >を遵守して運営しています。
+        </p>
+        <p>
+          ※ログインすると
+          <a routerLink="/intl/rule" class="check__link">利用規約</a>
+          に同意したものとみなされます。
+        </p>
+      </div>
+    </ng-template>
   </div>
 </div>
