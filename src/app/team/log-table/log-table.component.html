@@ -63,10 +63,17 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="sum">
+      <ng-container matColumnDef="totalTime">
         <th mat-header-cell *matHeaderCellDef>合計</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.sum }}
+          {{ totalHH + ":" + totalMM }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="overTime">
+        <th mat-header-cell *matHeaderCellDef>残業</th>
+        <td mat-cell *matCellDef="let element">
+          {{ overTime > 0 ? overHH + ":" + overMM : 0 }}
         </td>
       </ng-container>
 
