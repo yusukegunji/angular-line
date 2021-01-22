@@ -18,10 +18,15 @@ export const lineMsgAPI = functions
     const event = req.body.events[0];
     const userId = event.source.userId;
     const timestamp = event.timestamp;
+    const date = new Date();
+    const yyyyMM = `${date.getFullYear()}年${date.getMonth() + 1}`;
     const replyToken = event.replyToken;
     let userText = '';
     if (event.type === 'message' && event.message.type === 'text') {
       userText = event.message.text;
+      functions.logger.info(yyyyMM);
+      functions.logger.info(event);
+      functions.logger.info(date);
     } else {
       userText = '(Message type is not text)';
     }
@@ -40,7 +45,6 @@ export const lineMsgAPI = functions
         if (returnData.exists) {
           const name = returnData.data().name;
           const photoURL = returnData.data().photoURL;
-          functions.logger.info(returnData);
           reply_message(replyToken, `${name}が好き❤️`);
 
           await client.reply(event.replyToken, [
@@ -54,7 +58,7 @@ export const lineMsgAPI = functions
         return null;
       })
       .catch((err) => {
-        console.log(err);
+        functions.logger.error(err);
       });
 
     return res.status(200).send(req.method);
