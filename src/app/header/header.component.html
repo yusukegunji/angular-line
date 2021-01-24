@@ -25,13 +25,9 @@
     </div>
 
     <mat-menu #menu="matMenu">
-      <a mat-menu-item routerLink="/user/{{ user.uid }}">
+      <a mat-menu-item routerLink="/settings">
         <mat-icon>account_circle</mat-icon>
         <span>マイページ</span>
-      </a>
-      <a mat-menu-item routerLink="/user/{{ user.uid }}/settings">
-        <mat-icon>settings</mat-icon>
-        <span>設定</span>
       </a>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>

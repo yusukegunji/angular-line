@@ -1,6 +1,6 @@
 <ng-container *ngIf="data">
   <h1 matDialogTitle class="dialog-header">
-    {{ data.team.name }}
+    {{ data.team ? data.team.name : data.user.name }}
   </h1>
 </ng-container>
 

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { JoinedUid } from 'functions/interfaces/joined-uid';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -9,7 +12,14 @@ import { User } from '../interfaces/user';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private db: AngularFirestore) {}
+  isProcessing: boolean;
+
+  constructor(
+    private db: AngularFirestore,
+    private router: Router,
+    private fnc: AngularFireFunctions,
+    private snackBar: MatSnackBar
+  ) {}
 
   joinTeam(teamId: string, uid: string): void {
     this.db.doc(`teams/${teamId}/joinedUids/${uid}`).set({
@@ -40,5 +50,31 @@ export class UserService {
           }
         })
       );
+  }
+
+  async updateUser(
+    user: Omit<
+      User,
+      'createdAt' | 'email' | 'isWorking' | 'isAdmin' | 'result' | 'plan'
+    >
+  ): Promise<void> {
+    await this.db.doc<User>(`users/${user.uid}`).update({
+      ...user,
+    });
+    this.router.navigate(['/']);
+  }
+
+  async deleteUser(uid: string): Promise<void> {
+    this.isProcessing = true;
+    const callable = this.fnc.httpsCallable('deleteAfUser');
+    return callable(uid)
+      .toPromise()
+      .then(() => {
+        this.snackBar.open('ご利用ありがとうございました');
+        this.router.navigateByUrl('/welcome');
+      })
+      .finally(() => {
+        this.isProcessing = false;
+      });
   }
 }
