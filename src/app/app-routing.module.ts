@@ -34,6 +34,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./team/team.module').then((m) => m.TeamModule),
       },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./settings/settings.module').then((m) => m.SettingsModule),
+      },
     ],
   },
 ];
