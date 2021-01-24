@@ -9,4 +9,5 @@ export interface User {
   plan?: number;
   createdAt: firebase.default.firestore.Timestamp;
   isWorking: boolean;
+  activeTeamId: string;
 }
