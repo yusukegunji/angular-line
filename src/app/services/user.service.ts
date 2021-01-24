@@ -4,7 +4,6 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JoinedUid } from 'functions/interfaces/joined-uid';
-import { StickerMessage } from 'functions/node_modules/messaging-api-line/dist/LineTypes';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../interfaces/user';
