@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+const db = admin.firestore();
 /**
  * 初回認証時にユーザーデータを作成
  */
@@ -18,4 +19,17 @@ export const createUser = functions
         email: user.email || '',
         createdAt: new Date(),
       });
+  });
+
+export const deleteAfUser = functions
+  .region('asia-northeast1')
+  .https.onCall((data, _) => {
+    return admin.auth().deleteUser(data);
+  });
+
+export const deleteUserAccount = functions
+  .region('asia-northeast1')
+  .auth.user()
+  .onDelete(async (user, _) => {
+    return db.doc(`users/${user.uid}`).delete();
   });
