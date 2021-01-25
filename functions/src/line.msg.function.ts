@@ -21,7 +21,7 @@ export const lineMsgApi = functions
     const yyyyMM = `${date.getFullYear()}年${date.getMonth() + 1}月`;
     const yyyyMMdd = `${date.getFullYear()}年${
       date.getMonth() + 1
-    }月${date.getDay()}日`;
+    }月${date.getDate()}日`;
     const replyToken = event.replyToken;
     let userText = '';
 
@@ -169,11 +169,12 @@ export const lineMsgApi = functions
 
             if (event.message.text === '出勤する') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/day/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set({
                   userId,
                   activeTeamId,
                   logedInAt: timestamp,
+                  isWorking: true,
                 });
 
               replyMessage(
@@ -182,11 +183,12 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '退勤する') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/day/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
                 .update({
                   userId,
                   activeTeamId,
                   logedOutAt: timestamp,
+                  isWorking: false,
                 });
 
               replyMessage(
@@ -195,21 +197,23 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '休憩IN') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/day/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
                 .update({
                   userId,
                   activeTeamId,
                   tookBreakAt: timestamp,
+                  isWorking: false,
                 });
 
               replyMessage(replyToken, `いってらっしゃい☕️`);
             } else if (event.message.text === '休憩OUT') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/day/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
                 .set({
                   userId,
                   activeTeamId,
                   backedBreakAt: timestamp,
+                  isWorking: true,
                 });
 
               replyMessage(replyToken, `おかえりなさい✋`);
