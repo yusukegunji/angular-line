@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions';
 import { LineClient } from 'messaging-api-line';
 import * as admin from 'firebase-admin';
 import request = require('request');
+import { firestore } from 'firebase-admin';
 
 export const db = admin.firestore();
 
@@ -16,7 +17,7 @@ export const lineMsgApi = functions
   .https.onRequest(async (req: any, res: any) => {
     const event = req.body.events[0];
     const userId = event.source.userId;
-    const timestamp = event.timestamp;
+    const timestamp = firestore.Timestamp.now();
     const date = new Date();
     const yyyyMM = `${date.getFullYear()}年${date.getMonth() + 1}月`;
     const yyyyMMdd = `${date.getFullYear()}年${
@@ -168,6 +169,9 @@ export const lineMsgApi = functions
               });
 
             if (event.message.text === '出勤する') {
+              const logId = db.collection('_').doc().id;
+              db.doc(`teams/${activeTeamId}/logs/${yyyyMM}`).set({ logId });
+
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set({
@@ -175,6 +179,7 @@ export const lineMsgApi = functions
                   activeTeamId,
                   logedInAt: timestamp,
                   isWorking: true,
+                  logId,
                 });
 
               replyMessage(
@@ -184,12 +189,17 @@ export const lineMsgApi = functions
             } else if (event.message.text === '退勤する') {
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
-                .update({
-                  userId,
-                  activeTeamId,
-                  logedOutAt: timestamp,
-                  isWorking: false,
-                });
+                .set(
+                  {
+                    userId,
+                    activeTeamId,
+                    logedOutAt: timestamp,
+                    isWorking: false,
+                  },
+                  {
+                    merge: true,
+                  }
+                );
 
               replyMessage(
                 replyToken,
@@ -198,23 +208,33 @@ export const lineMsgApi = functions
             } else if (event.message.text === '休憩IN') {
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
-                .update({
-                  userId,
-                  activeTeamId,
-                  tookBreakAt: timestamp,
-                  isWorking: false,
-                });
+                .set(
+                  {
+                    userId,
+                    activeTeamId,
+                    tookBreakAt: timestamp,
+                    isWorking: false,
+                  },
+                  {
+                    merge: true,
+                  }
+                );
 
               replyMessage(replyToken, `いってらっしゃい☕️`);
             } else if (event.message.text === '休憩OUT') {
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
-                .set({
-                  userId,
-                  activeTeamId,
-                  backedBreakAt: timestamp,
-                  isWorking: true,
-                });
+                .set(
+                  {
+                    userId,
+                    activeTeamId,
+                    backedBreakAt: timestamp,
+                    isWorking: true,
+                  },
+                  {
+                    merge: true,
+                  }
+                );
 
               replyMessage(replyToken, `おかえりなさい✋`);
             } else if (event.message.text === 'チームの状況を確認する') {
@@ -269,7 +289,7 @@ export const lineMsgApi = functions
                   });
                 });
             } else if (event.message.text === 'チームから出る') {
-              await db.collection('users').doc(userId).update({
+              await db.doc(`users/${userId}`).update({
                 activeTeamId: '',
               });
 
