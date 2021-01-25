@@ -189,7 +189,7 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '退勤する') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set(
                   {
                     userId,
@@ -208,7 +208,7 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '休憩IN') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set(
                   {
                     userId,
@@ -224,7 +224,7 @@ export const lineMsgApi = functions
               replyMessage(replyToken, `いってらっしゃい☕️`);
             } else if (event.message.text === '休憩OUT') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}}`)
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set(
                   {
                     userId,
