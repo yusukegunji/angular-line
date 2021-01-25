@@ -14,8 +14,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./user-settings.component.scss'],
 })
 export class UserSettingsComponent implements OnInit {
-  readonly nameMaxLength = 20;
+  readonly nameMaxLength = 10;
   readonly activeTeamIdMaxLength = 30;
+  readonly positionMaxLength = 10;
   user: User;
   isProcessing: boolean;
   oldImageUrl = '';
@@ -23,6 +24,7 @@ export class UserSettingsComponent implements OnInit {
   form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(this.nameMaxLength)]],
     activeTeamId: ['', [Validators.maxLength(this.activeTeamIdMaxLength)]],
+    position: ['', [Validators.maxLength(this.positionMaxLength)]],
   });
 
   user$: Observable<User> = this.authService.user$;
@@ -74,6 +76,7 @@ export class UserSettingsComponent implements OnInit {
         photoURL: this.imageFile,
         name: formData.name,
         activeTeamId: formData.activeTeamId,
+        position: formData.position,
       })
       .then(() => this.snackBar.open('ユーザー情報を更新しました'));
   }

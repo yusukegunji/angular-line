@@ -4,7 +4,7 @@ export interface User {
   email: string;
   photoURL: string;
   isAdmin?: boolean;
-  post?: string;
+  position?: string;
   result?: number;
   plan?: number;
   createdAt: firebase.default.firestore.Timestamp;

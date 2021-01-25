@@ -61,6 +61,37 @@
 
         <div class="settings__property">
           <div class="settings__label">
+            ポジション
+            <mat-icon matTooltip="みんなに表示されるポジション"
+              >help_outline</mat-icon
+            >
+          </div>
+
+          <div class="settings__value">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                autocomplete="off"
+                formControlName="position"
+                required
+                #position
+              />
+              <mat-hint align="end"
+                >{{ form.get("position").value.length }} /
+                {{ positionMaxLength }}</mat-hint
+              >
+              <mat-error *ngIf="form.get('position').hasError('maxlength')"
+                >最大{{ positionMaxLength }}文字です。</mat-error
+              >
+              <mat-error *ngIf="form.get('position').hasError('required')">
+                必須入力です。
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="settings__property">
+          <div class="settings__label">
             アイコン画像
             <mat-icon matTooltip="みんなに表示される写真"
               >help_outline</mat-icon
