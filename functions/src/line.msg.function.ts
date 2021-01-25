@@ -2,7 +2,6 @@ import * as functions from 'firebase-functions';
 import { LineClient } from 'messaging-api-line';
 import * as admin from 'firebase-admin';
 import request = require('request');
-import { firestore } from 'firebase-admin';
 
 export const db = admin.firestore();
 
@@ -17,7 +16,7 @@ export const lineMsgApi = functions
   .https.onRequest(async (req: any, res: any) => {
     const event = req.body.events[0];
     const userId = event.source.userId;
-    const timestamp = firestore.Timestamp.now();
+    const timestamp = admin.firestore.Timestamp.now();
     const date = new Date();
     const yyyyMM = `${date.getFullYear()}年${date.getMonth() + 1}月`;
     const yyyyMMdd = `${date.getFullYear()}年${
@@ -170,7 +169,9 @@ export const lineMsgApi = functions
 
             if (event.message.text === '出勤する') {
               const logId = db.collection('_').doc().id;
-              db.doc(`teams/${activeTeamId}/logs/${yyyyMM}`).set({ logId });
+              await db
+                .doc(`teams/${activeTeamId}/logs/${yyyyMM}`)
+                .set({ logId });
 
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
