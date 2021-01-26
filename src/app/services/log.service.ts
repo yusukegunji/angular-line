@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { StickerMessage } from 'messaging-api-line/dist/LineTypes';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Day } from '../interfaces/day';
 import { Log, LogWithUser } from '../interfaces/log';
 import { User } from '../interfaces/user';
 import { UserService } from './user.service';
@@ -13,31 +14,39 @@ import { UserService } from './user.service';
 export class LogService {
   constructor(private db: AngularFirestore, private userService: UserService) {}
 
-  getLogsByTeamId(teamId: string): Observable<Log[]> {
-    return this.db
-      .collection<Log>(`logs`, (ref) => {
-        if (!teamId) {
-          return;
-        } else {
-          return ref.where('teamId', '==', teamId).orderBy('logedInAt', 'desc');
-        }
-      })
-      .valueChanges();
+  getDailyLogsByTeamId(teamId: string, logId: string): Observable<Day[]> {
+    if (!teamId || !logId) {
+      return of(null);
+    } else {
+      return this.db
+        .collectionGroup<Day>(`days`, (ref) =>
+          ref.where('logId', '==', logId).orderBy('logedInAt', 'desc')
+        )
+        .valueChanges();
+    }
   }
 
-  getLogsWithUser(teamId: string): Observable<LogWithUser[]> {
+  getDailyLogsWithUser(
+    teamId: string,
+    logId: string
+  ): Observable<LogWithUser[]> {
     if (teamId === undefined) {
       console.log(teamId);
 
       return of(null);
     } else {
+      console.log(teamId);
+      console.log(logId);
+
       console.log('check');
 
-      return this.getLogsByTeamId(teamId).pipe(
-        switchMap((logs: Log[]) => {
-          if (logs.length) {
+      return this.getDailyLogsByTeamId(teamId, logId).pipe(
+        switchMap((days: Day[]) => {
+          if (days.length) {
+            console.log(days);
+
             const unduplicatedUids: string[] = Array.from(
-              new Set(logs.map((log) => log.uid))
+              new Set(days.map((day) => day.userId))
             );
 
             const users$: Observable<User[]> = combineLatest(
@@ -45,17 +54,17 @@ export class LogService {
                 this.userService.getUserData(uid)
               )
             );
-            return combineLatest([of(logs), users$]);
+            return combineLatest([of(days), users$]);
           } else {
             return of([]);
           }
         }),
-        map(([logs, users]) => {
-          if (logs?.length) {
-            return logs.map((log: Log) => {
+        map(([days, users]) => {
+          if (days?.length) {
+            return days.map((day: Day) => {
               return {
-                ...log,
-                user: users.find((user: User) => log.uid === user?.uid),
+                ...day,
+                user: users.find((user: User) => day.userId === user?.uid),
               };
             });
           } else {
