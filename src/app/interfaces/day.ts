@@ -1,5 +1,3 @@
-import { Firestore } from '@google-cloud/firestore';
-
 export interface Day {
   activeTeamId: string;
   tookBreakAt: firebase.default.firestore.Timestamp;
