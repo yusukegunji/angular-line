@@ -31,20 +31,11 @@ export class LogService {
     logId: string
   ): Observable<LogWithUser[]> {
     if (teamId === undefined) {
-      console.log(teamId);
-
       return of(null);
     } else {
-      console.log(teamId);
-      console.log(logId);
-
-      console.log('check');
-
       return this.getDailyLogsByTeamId(teamId, logId).pipe(
         switchMap((days: Day[]) => {
           if (days.length) {
-            console.log(days);
-
             const unduplicatedUids: string[] = Array.from(
               new Set(days.map((day) => day.userId))
             );
