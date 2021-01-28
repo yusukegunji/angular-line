@@ -37,13 +37,14 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     'menu',
   ];
 
-  dataSource: MatTableDataSource<{
+  dataSource = new MatTableDataSource<{
     logWithUser: LogWithUser;
     totalHH: any;
     totalMM: any;
     overHH: any;
     overMM: any;
-  }>;
+  }>([]);
+
   defaultPageSize = 10;
   isLoading: boolean;
   teamId: string;
@@ -56,7 +57,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   plan = 28800000;
   overHH: any;
   overMM: any;
-
+  array: any[];
   team$: Observable<Team> = this.route.paramMap.pipe(
     switchMap((param) => {
       const teamId = param.get('id');
@@ -83,7 +84,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     this.logService
       .getDailyLogsWithUser(this.team.teamId, 'AECxI0VA3ko21z19THh3')
       .subscribe((logsWithUser) => {
-        logsWithUser.map((log: LogWithUser) => {
+        this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
           const breakIn: any = log.tookBreakAt?.toDate();
           const breakOut: any = log.backedBreakAt?.toDate();
           this.totalBreakTime = Math.abs(breakOut - breakIn);
@@ -101,40 +102,18 @@ export class LogTableComponent implements OnInit, AfterViewInit {
           this.overTime = Math.round((this.totalTime - this.plan) / 1000);
           this.overHH = Math.floor(this.overTime / 3600);
           this.overMM = Math.floor((this.overTime - this.overHH * 3600) / 60);
-          console.log(...logsWithUser);
+          console.log(logsWithUser);
           console.log(this.totalHH);
           console.log(this.overHH);
 
-          this.dataSource = new MatTableDataSource([
-            {
-              logWithUser: log,
-              totalHH: this.totalHH,
-              totalMM: this.totalMM,
-              overHH: this.overHH,
-              overMM: this.overMM,
-            },
-          ]);
-          this.dataSource.paginator = this.paginator;
+          return {
+            logWithUser: { ...log },
+            totalHH: this.totalHH,
+            totalMM: this.totalMM,
+            overHH: this.overHH,
+            overMM: this.overMM,
+          };
         });
-
-        // this.totalBreakTime = logsWithUser.map((elm) => {
-        //   Object.keys(elm).map((key) => {
-        //     console.log(elm.tookBreakAt.toDate());
-
-        //     const breakIn: any = elm.tookBreakAt?.toDate();
-        //     const breakOut: any = elm.backedBreakAt?.toDate();
-        //     return Math.abs(breakOut - breakIn);
-        //   });
-        // });
-
-        // this.totalTime = logsWithUser.map((elm) => {
-        //   Object.keys(elm).map((key) => {
-        //     const logOut: any = elm.logedOutAt?.toDate();
-        //     const logIn: any = elm.logedInAt?.toDate();
-
-        //     return Math.abs(logOut - logIn - this.totalBreakTime);
-        //   });
-        // });
       });
   }
 
