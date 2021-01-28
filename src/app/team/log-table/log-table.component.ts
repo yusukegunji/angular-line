@@ -37,13 +37,19 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     'menu',
   ];
 
-  dataSource: MatTableDataSource<LogWithUser>;
+  dataSource: MatTableDataSource<{
+    logWithUser: LogWithUser;
+    totalHH: any;
+    totalMM: any;
+    overHH: any;
+    overMM: any;
+  }>;
   defaultPageSize = 10;
   isLoading: boolean;
   teamId: string;
   totalTime: any;
   totalBreakTime: any;
-  time: any;
+  roundTime: any;
   totalHH: any;
   totalMM: any;
   overTime: any;
@@ -74,30 +80,62 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.team$.subscribe((team) => {
-      this.teamId = team.teamId;
-      this.logService.getLogsWithUser(this.teamId).subscribe((data) => {
-        this.dataSource = new MatTableDataSource<LogWithUser>(data);
-        this.totalBreakTime = data.map((logWithUser) => {
-          const breakIn: any = logWithUser.tookBreakAt.toDate();
-          const breakOut: any = logWithUser.backedBreakAt.toDate();
-          return Math.abs(breakOut - breakIn);
-        });
-        this.totalTime = data.map((logWithUser) => {
-          const logOut: any = logWithUser.logedOutAt.toDate();
-          const logIn: any = logWithUser.logedInAt.toDate();
-          return Math.abs(logOut - logIn - this.totalBreakTime);
+    this.logService
+      .getDailyLogsWithUser(this.team.teamId, 'AECxI0VA3ko21z19THh3')
+      .subscribe((logsWithUser) => {
+        logsWithUser.map((log: LogWithUser) => {
+          const breakIn: any = log.tookBreakAt?.toDate();
+          const breakOut: any = log.backedBreakAt?.toDate();
+          this.totalBreakTime = Math.abs(breakOut - breakIn);
+
+          const logOut: any = log.logedOutAt?.toDate();
+          const logIn: any = log.logedInAt?.toDate();
+          this.totalTime = Math.abs(logOut - logIn - this.totalBreakTime);
+
+          this.roundTime = Math.round(this.totalTime / 1000);
+          this.totalHH = Math.floor(this.roundTime / 3600);
+          this.totalMM = Math.floor(
+            (this.roundTime - this.totalHH * 3600) / 60
+          );
+
+          this.overTime = Math.round((this.totalTime - this.plan) / 1000);
+          this.overHH = Math.floor(this.overTime / 3600);
+          this.overMM = Math.floor((this.overTime - this.overHH * 3600) / 60);
+          console.log(...logsWithUser);
+          console.log(this.totalHH);
+          console.log(this.overHH);
+
+          this.dataSource = new MatTableDataSource([
+            {
+              logWithUser: log,
+              totalHH: this.totalHH,
+              totalMM: this.totalMM,
+              overHH: this.overHH,
+              overMM: this.overMM,
+            },
+          ]);
+          this.dataSource.paginator = this.paginator;
         });
 
-        this.time = Math.round(this.totalTime / 1000);
-        this.totalHH = Math.floor(this.time / 3600);
-        this.totalMM = Math.floor((this.time - this.totalHH * 3600) / 60);
+        // this.totalBreakTime = logsWithUser.map((elm) => {
+        //   Object.keys(elm).map((key) => {
+        //     console.log(elm.tookBreakAt.toDate());
 
-        this.overTime = Math.round((this.totalTime - this.plan) / 1000);
-        this.overHH = Math.floor(this.overTime / 3600);
-        this.overMM = Math.floor((this.overTime - this.overHH * 3600) / 60);
+        //     const breakIn: any = elm.tookBreakAt?.toDate();
+        //     const breakOut: any = elm.backedBreakAt?.toDate();
+        //     return Math.abs(breakOut - breakIn);
+        //   });
+        // });
+
+        // this.totalTime = logsWithUser.map((elm) => {
+        //   Object.keys(elm).map((key) => {
+        //     const logOut: any = elm.logedOutAt?.toDate();
+        //     const logIn: any = elm.logedInAt?.toDate();
+
+        //     return Math.abs(logOut - logIn - this.totalBreakTime);
+        //   });
+        // });
       });
-    });
   }
 
   ngAfterViewInit(): void {}
