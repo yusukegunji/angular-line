@@ -1,6 +1,20 @@
 {
   "indexes": [
     {
+      "collectionGroup": "days",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "logId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "logedInAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "logs",
       "queryScope": "COLLECTION",
       "fields": [
