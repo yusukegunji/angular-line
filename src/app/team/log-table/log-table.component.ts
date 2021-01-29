@@ -29,6 +29,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     'logedInAt',
     'tookBreakAt',
     'backedBreakAt',
+    'totalBreakTime',
     'logedOutAt',
     'totalTime',
     'overTime',
@@ -41,6 +42,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     logWithUser: LogWithUser;
     totalHH: any;
     totalMM: any;
+    totalBreakTime: any;
     overHH: any;
     overMM: any;
   }>([]);
@@ -87,7 +89,10 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
           const breakIn: any = log.tookBreakAt?.toDate();
           const breakOut: any = log.backedBreakAt?.toDate();
-          this.totalBreakTime = Math.abs(breakOut - breakIn);
+          this.totalBreakTime = this.transformDigit(
+            (breakOut - breakIn) / 1000 / 3600,
+            2
+          );
 
           const logOut: any = log.logedOutAt?.toDate();
           const logIn: any = log.logedInAt?.toDate();
@@ -102,14 +107,13 @@ export class LogTableComponent implements OnInit, AfterViewInit {
           this.overTime = Math.round((this.totalTime - this.plan) / 1000);
           this.overHH = Math.floor(this.overTime / 3600);
           this.overMM = Math.floor((this.overTime - this.overHH * 3600) / 60);
-          console.log(logsWithUser);
-          console.log(this.totalHH);
-          console.log(this.overHH);
+          console.log(this.totalBreakTime);
 
           return {
             logWithUser: { ...log },
             totalHH: this.totalHH,
             totalMM: this.totalMM,
+            totalBreakTime: this.totalBreakTime,
             overHH: this.overHH,
             overMM: this.overMM,
           };
@@ -118,4 +122,9 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  transformDigit(num: number, digit: number): number {
+    const time = Math.pow(10, digit);
+    return Math.floor(num * time) / time;
+  }
 }
