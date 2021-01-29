@@ -52,6 +52,13 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="totalBreakTime">
+        <th mat-header-cell *matHeaderCellDef>休憩合計</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.totalBreakTime }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="logedOutAt">
         <th mat-header-cell *matHeaderCellDef>退勤</th>
         <td mat-cell *matCellDef="let element">
@@ -60,7 +67,7 @@
       </ng-container>
 
       <ng-container matColumnDef="totalTime">
-        <th mat-header-cell *matHeaderCellDef>合計</th>
+        <th mat-header-cell *matHeaderCellDef>勤務合計</th>
         <td mat-cell *matCellDef="let element">
           {{ element.totalHH + ":" + element.totalMM }}
         </td>
