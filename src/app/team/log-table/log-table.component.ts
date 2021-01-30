@@ -40,26 +40,20 @@ export class LogTableComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<{
     logWithUser: LogWithUser;
-    totalHH: any;
-    totalMM: any;
+    totalWorkTime: any;
     totalBreakTime: any;
-    overHH: any;
-    overMM: any;
+    overTime: any;
   }>([]);
 
   defaultPageSize = 10;
   isLoading: boolean;
   teamId: string;
   totalTime: any;
+  totalWorkTime: any;
   totalBreakTime: any;
   roundTime: any;
-  totalHH: any;
-  totalMM: any;
   overTime: any;
   plan = 28800000;
-  overHH: any;
-  overMM: any;
-  array: any[];
   team$: Observable<Team> = this.route.paramMap.pipe(
     switchMap((param) => {
       const teamId = param.get('id');
@@ -89,42 +83,31 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
           const breakIn: any = log.tookBreakAt?.toDate();
           const breakOut: any = log.backedBreakAt?.toDate();
-          this.totalBreakTime = this.transformDigit(
-            (breakOut - breakIn) / 1000 / 3600,
-            2
-          );
+          const breakTime = 1000 * Math.round((breakOut - breakIn) / 1000);
+          const bt = new Date(breakTime);
+          this.totalBreakTime = bt.getUTCHours() + ':' + bt.getUTCMinutes();
 
           const logOut: any = log.logedOutAt?.toDate();
           const logIn: any = log.logedInAt?.toDate();
-          this.totalTime = Math.abs(logOut - logIn - this.totalBreakTime);
+          const workTime =
+            1000 * Math.round((logOut - logIn - breakTime) / 1000);
+          const wt = new Date(workTime);
+          this.totalWorkTime = wt.getUTCHours() + ':' + wt.getUTCMinutes();
 
-          this.roundTime = Math.round(this.totalTime / 1000);
-          this.totalHH = Math.floor(this.roundTime / 3600);
-          this.totalMM = Math.floor(
-            (this.roundTime - this.totalHH * 3600) / 60
-          );
-
-          this.overTime = Math.round((this.totalTime - this.plan) / 1000);
-          this.overHH = Math.floor(this.overTime / 3600);
-          this.overMM = Math.floor((this.overTime - this.overHH * 3600) / 60);
-          console.log(this.totalBreakTime);
+          const resultTime = workTime - breakTime - this.plan;
+          const rt = new Date(resultTime);
+          this.overTime =
+            resultTime > 0 ? rt.getUTCHours() + ':' + rt.getUTCMinutes() : 0;
 
           return {
             logWithUser: { ...log },
-            totalHH: this.totalHH,
-            totalMM: this.totalMM,
+            totalWorkTime: this.totalWorkTime,
             totalBreakTime: this.totalBreakTime,
-            overHH: this.overHH,
-            overMM: this.overMM,
+            overTime: this.overTime,
           };
         });
       });
   }
 
   ngAfterViewInit(): void {}
-
-  transformDigit(num: number, digit: number): number {
-    const time = Math.pow(10, digit);
-    return Math.floor(num * time) / time;
-  }
 }
