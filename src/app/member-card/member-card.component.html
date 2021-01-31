@@ -1,13 +1,13 @@
 <div class="member">
   <div class="member__head">
     <div class="member__photo">
+      <ng-container *ngIf="user.isWorking">
+        <span class="member__active-ring"></span>
+      </ng-container>
       <img [src]="user.photoURL" alt="" />
     </div>
     <p class="member__name">
       {{ user.name }}
-      <ng-container *ngIf="user.isWorking">
-        <span class="member__status"></span>
-      </ng-container>
     </p>
     <p class="member__post">
       {{ user.position ? user.position : "まだありません" }}

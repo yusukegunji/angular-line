@@ -11,12 +11,31 @@
   &__head {
     text-align: center;
   }
-  &__photo {
-    width: 80px;
-    height: 80px;
+  &__active-ring {
+    background: linear-gradient(to right, #f83600, #fe8c00);
+    height: 88px;
+    width: 88px;
     border-radius: 50%;
-    overflow: hidden;
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    z-index: 1;
+  }
+  &__photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
     margin: 0 auto 8px;
+    position: relative;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
   }
   &__status {
     width: 24px;
