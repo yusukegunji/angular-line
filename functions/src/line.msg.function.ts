@@ -18,10 +18,21 @@ export const lineMsgApi = functions
     const userId = event.source.userId;
     const timestamp = admin.firestore.Timestamp.now();
     const date = new Date();
-    const yyyyMM = `${date.getFullYear()}年${date.getMonth() + 1}月`;
-    const yyyyMMdd = `${date.getFullYear()}年${
-      date.getMonth() + 1
-    }月${date.getDate()}日`;
+    const yyyyMM =
+      `${date.getFullYear()}` +
+      `${
+        date.getMonth() + 1 < 10
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1
+      }`;
+    const yyyyMMdd =
+      `${date.getFullYear()}` +
+      `${
+        date.getMonth() + 1 < 10
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1
+      }` +
+      `${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`;
     const replyToken = event.replyToken;
     let userText = '';
 
@@ -91,7 +102,7 @@ export const lineMsgApi = functions
                           action: {
                             type: 'uri',
                             label: 'Line',
-                            uri: `http://localhost:4200/team/${userText}`,
+                            uri: `http://line-demo-a1a08.web.app/team/${userText}`,
                           },
                         },
                         body: {
@@ -168,10 +179,11 @@ export const lineMsgApi = functions
               });
 
             if (event.message.text === '出勤する') {
-              const logId = db.collection('_').doc().id;
+              const monthId = yyyyMM;
+              const dayId = yyyyMMdd;
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}`)
-                .set({ logId });
+                .set({ monthId });
 
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
@@ -180,7 +192,8 @@ export const lineMsgApi = functions
                   activeTeamId,
                   logedInAt: timestamp,
                   isWorking: true,
-                  logId,
+                  monthId,
+                  dayId,
                 });
 
               replyMessage(
@@ -257,7 +270,7 @@ export const lineMsgApi = functions
                       action: {
                         type: 'uri',
                         label: 'Line',
-                        uri: `http://localhost:4200/team/${activeTeamId}`,
+                        uri: `http://line-demo-a1a08.web.app/team/${activeTeamId}`,
                       },
                     },
                     body: {
@@ -277,7 +290,7 @@ export const lineMsgApi = functions
                           contents: [
                             {
                               type: 'text',
-                              text: `上の画像をクリックすると今の状況を確認できます🔖`,
+                              text: `上の画像をタップすると今の状況を確認できます🔖`,
                               flex: 0,
                               margin: 'md',
                               size: 'md',
