@@ -189,7 +189,7 @@ export const lineMsgApi = functions
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
                 .set({
                   userId,
-                  activeTeamId,
+                  teamId: activeTeamId,
                   logedInAt: timestamp,
                   isWorking: true,
                   monthId,
