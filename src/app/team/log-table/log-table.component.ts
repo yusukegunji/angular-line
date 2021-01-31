@@ -58,13 +58,6 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   breakTime: number;
   plan = 28800000;
 
-  team$: Observable<Team> = this.route.paramMap.pipe(
-    switchMap((param) => {
-      const teamId = param.get('id');
-      return this.teamService.getTeam(teamId);
-    })
-  );
-
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
     if (this.dataSource) {
@@ -72,16 +65,14 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(
-    private teamService: TeamService,
-    private logService: LogService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private logService: LogService) {}
 
   ngOnInit(): void {
     this.logService
       .getDailyLogsWithUser(this.team.teamId, this.monthId)
       .subscribe((logsWithUser) => {
+        console.log(this.team.teamId);
+
         this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
           const breakIn: any = log.tookBreakAt?.toDate();
           const breakOut: any = log.backedBreakAt?.toDate();
