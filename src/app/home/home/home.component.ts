@@ -19,6 +19,15 @@ export class HomeComponent implements OnInit {
   myTeams$: Observable<Team[]>;
   joinedTeams$: Observable<Team[]>;
 
+  date: Date = new Date();
+  thisMonth: string =
+    `${this.date.getFullYear()}` +
+    `${
+      this.date.getMonth() + 1 < 10
+        ? '0' + (this.date.getMonth() + 1)
+        : this.date.getMonth() + 1
+    }`;
+
   constructor(
     private afAuth: AngularFireAuth,
     public authService: AuthService,
