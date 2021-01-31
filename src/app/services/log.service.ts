@@ -20,7 +20,7 @@ export class LogService {
     } else {
       return this.db
         .collectionGroup<Day>(`days`, (ref) =>
-          ref.where('logId', '==', logId).orderBy('logedInAt', 'desc')
+          ref.where('monthId', '==', logId).orderBy('logedInAt', 'desc')
         )
         .valueChanges();
     }
