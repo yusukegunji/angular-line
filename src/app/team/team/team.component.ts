@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -19,9 +20,14 @@ import { UserService } from 'src/app/services/user.service';
 export class TeamComponent implements OnInit {
   isLoading: boolean;
   date = firebase.default.firestore.Timestamp.now();
-  years = [2020, 2021];
+  years = [2021];
   months = [...new Array(12)].map((_, i) => i + 1);
   selectedValue: number;
+
+  yearControl = new FormControl('');
+  monthControl = new FormControl('');
+  selectedYear: string;
+  teamId: string;
 
   user$: Observable<User> = this.authService.user$;
 
@@ -48,16 +54,48 @@ export class TeamComponent implements OnInit {
     })
   );
 
+  selectedMonth$: Observable<string> = this.route.firstChild.paramMap.pipe(
+    map((param) => {
+      return param.get('monthId');
+    })
+  );
+
   constructor(
     public teamService: TeamService,
     private userService: UserService,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private router: Router
+  ) {
+    router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.teamId$.subscribe((id) => {
+      this.teamId = id;
+    });
+  }
+
+  setYear(value: string): void {
+    if (value) {
+      this.selectedYear = value;
+    }
+  }
+
+  navigateTo(value: number): void {
+    if (value) {
+      if (value < 10) {
+        this.router.navigateByUrl(
+          `/team/${this.teamId}/${this.selectedYear}0${value}`
+        );
+      } else {
+        this.router.navigateByUrl(
+          `/team/${this.teamId}/${this.selectedYear}${value}`
+        );
+      }
+    }
   }
 
   openDeleteDialog(team: Team): void {
