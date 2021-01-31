@@ -9,7 +9,7 @@
 
   <ng-container *ngIf="myTeams$ | async as myTeams; else defaultMyTeams">
     <ng-container *ngFor="let team of myTeams">
-      <a class="team" [routerLink]="'/team/' + team.teamId">
+      <a class="team" [routerLink]="'/team/' + team.teamId + '/' + thisMonth">
         <div class="team__thumbnail">
           <img [src]="team.thumbnailURL" alt="thumbnail" />
         </div>
