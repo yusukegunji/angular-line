@@ -47,7 +47,6 @@ export class EditorComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.pipe(take(1)).subscribe((user) => {
       this.uid = user.uid;
-      console.log(this.uid);
     });
   }
 
