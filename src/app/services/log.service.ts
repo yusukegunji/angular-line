@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { StickerMessage } from 'messaging-api-line/dist/LineTypes';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Day } from '../interfaces/day';
@@ -14,15 +13,35 @@ import { UserService } from './user.service';
 export class LogService {
   constructor(private db: AngularFirestore, private userService: UserService) {}
 
-  getDailyLogsByTeamId(teamId: string, logId: string): Observable<Day[]> {
-    if (!teamId || !logId) {
+  getDailyLogsByTeamId(teamId: string, monthId: string): Observable<Day[]> {
+    if (!teamId || !monthId) {
       return of(null);
     } else {
       return this.db
-        .collectionGroup<Day>(`days`, (ref) =>
+        .collectionGroup<Day>(`uids`, (ref) =>
           ref
-            .where('monthId', '==', logId)
+            .where('monthId', '==', monthId)
             .where('teamId', '==', teamId)
+            .orderBy('logedInAt', 'desc')
+        )
+        .valueChanges();
+    }
+  }
+
+  getDailyLogsByUserId(
+    teamId: string,
+    monthId: string,
+    userId: string
+  ): Observable<Day[]> {
+    if (!teamId || !monthId || !userId) {
+      return of(null);
+    } else {
+      return this.db
+        .collectionGroup<Day>(`uids`, (ref) =>
+          ref
+            .where('monthId', '==', monthId)
+            .where('teamId', '==', teamId)
+            .where('userId', '==', userId)
             .orderBy('logedInAt', 'desc')
         )
         .valueChanges();
@@ -31,12 +50,12 @@ export class LogService {
 
   getDailyLogsWithUser(
     teamId: string,
-    logId: string
+    monthId: string
   ): Observable<LogWithUser[]> {
     if (teamId === undefined) {
       return of(null);
     } else {
-      return this.getDailyLogsByTeamId(teamId, logId).pipe(
+      return this.getDailyLogsByTeamId(teamId, monthId).pipe(
         switchMap((days: Day[]) => {
           if (days.length) {
             const unduplicatedUids: string[] = Array.from(
