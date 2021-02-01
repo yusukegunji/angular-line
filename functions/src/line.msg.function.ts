@@ -17,7 +17,7 @@ export const lineMsgApi = functions
     const event = req.body.events[0];
     const userId = event.source.userId;
     const timestamp = admin.firestore.Timestamp.now();
-    const date = new Date();
+    const date = timestamp.toDate();
     const yyyyMM =
       `${date.getFullYear()}` +
       `${
@@ -181,12 +181,19 @@ export const lineMsgApi = functions
             if (event.message.text === '出勤する') {
               const monthId = yyyyMM;
               const dayId = yyyyMMdd;
+
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}`)
                 .set({ monthId });
 
               await db
                 .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
+                .set({ dayId });
+
+              await db
+                .doc(
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                )
                 .set({
                   userId,
                   teamId: activeTeamId,
@@ -202,7 +209,9 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '退勤する') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
+                .doc(
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                )
                 .set(
                   {
                     userId,
@@ -221,7 +230,9 @@ export const lineMsgApi = functions
               );
             } else if (event.message.text === '休憩IN') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
+                .doc(
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                )
                 .set(
                   {
                     userId,
@@ -237,7 +248,9 @@ export const lineMsgApi = functions
               replyMessage(replyToken, `いってらっしゃい☕️`);
             } else if (event.message.text === '休憩OUT') {
               await db
-                .doc(`teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}`)
+                .doc(
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                )
                 .set(
                   {
                     userId,
