@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { LogWithUser } from '../interfaces/log';
 import { User } from '../interfaces/user';
 
 @Component({
@@ -9,7 +10,10 @@ import { User } from '../interfaces/user';
 })
 export class MemberCardComponent implements OnInit {
   @Input() user: User;
-  constructor(public authService: AuthService) {}
+  @Input() logs: LogWithUser[];
+  constructor(public authService: AuthService) {
+    console.log(this.logs);
+  }
 
   ngOnInit(): void {}
 }
