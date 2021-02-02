@@ -1,8 +1,8 @@
 import { User } from './user';
 
 export interface Log {
-  name: string;
-  position?: string;
+  uid: string;
+  activeTeamId: string;
   isWorking: boolean;
   logedInAt?: firebase.default.firestore.Timestamp;
   tookBreakAt?: firebase.default.firestore.Timestamp;
@@ -10,9 +10,9 @@ export interface Log {
   logedOutAt?: firebase.default.firestore.Timestamp;
   location?: firebase.default.firestore.GeoPoint;
   commutingFee?: number;
-  userId: string;
   teamId: string;
-  logId: string;
+  dayId: string;
+  monthId: string;
 }
 
 export interface LogWithUser extends Log {

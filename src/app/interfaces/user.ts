@@ -1,3 +1,5 @@
+import { Log } from './log';
+
 export interface User {
   uid: string;
   name: string;
@@ -10,4 +12,8 @@ export interface User {
   createdAt: firebase.default.firestore.Timestamp;
   isWorking: boolean;
   activeTeamId: string;
+}
+
+export interface UserWithLogs extends Log {
+  log: Log;
 }
