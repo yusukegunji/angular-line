@@ -15,7 +15,7 @@ export const lineMsgApi = functions
   .runWith({ memory: '1GB' })
   .https.onRequest(async (req: any, res: any) => {
     const event = req.body.events[0];
-    const userId = event.source.userId;
+    const uid = event.source.userId;
     const timestamp = admin.firestore.Timestamp.now();
     const date = timestamp.toDate();
     const yyyyMM =
@@ -37,7 +37,7 @@ export const lineMsgApi = functions
     let userText = '';
 
     const activeTeamId = await db
-      .doc(`users/${userId}`)
+      .doc(`users/${uid}`)
       .get()
       .then(async (user: any) => {
         if (user.data().activeTeamId) {
@@ -64,19 +64,24 @@ export const lineMsgApi = functions
           );
 
         if (isTeamId) {
-          await db.doc(`teams/${userText}/joinedUids/${userId}`).set({
-            userId,
+          await db.doc(`teams/${userText}/joinedUids/${uid}`).set({
+            uid,
             activeTeamId: userText,
             joinedAt: timestamp,
           });
 
-          await db.doc(`users/${userId}`).update({
-            activeTeamId: userText,
-            joinedAt: timestamp,
-          });
+          await db.doc(`users/${uid}`).set(
+            {
+              activeTeamId: userText,
+              joinedAt: timestamp,
+            },
+            {
+              merge: true,
+            }
+          );
 
           await db
-            .doc(`users/${userId}`)
+            .doc(`users/${uid}`)
             .get()
             .then(async (user: any) => {
               if (user.exists) {
@@ -192,16 +197,31 @@ export const lineMsgApi = functions
 
               await db
                 .doc(
-                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${uid}`
                 )
                 .set({
-                  userId,
+                  uid,
                   teamId: activeTeamId,
                   logedInAt: timestamp,
                   isWorking: true,
                   monthId,
                   dayId,
                 });
+
+              await db.doc(`users/${uid}/logs/${yyyyMM}`).set({ monthId });
+
+              await db
+                .doc(`users/${uid}/logs/${yyyyMM}/days/${yyyyMMdd}`)
+                .set({ dayId });
+
+              await db.doc(`users/${uid}/logs/${yyyyMM}/days/${yyyyMMdd}`).set({
+                uid,
+                teamId: activeTeamId,
+                logedInAt: timestamp,
+                isWorking: true,
+                monthId,
+                dayId,
+              });
 
               replyMessage(
                 replyToken,
@@ -210,11 +230,11 @@ export const lineMsgApi = functions
             } else if (event.message.text === '退勤する') {
               await db
                 .doc(
-                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${uid}`
                 )
                 .set(
                   {
-                    userId,
+                    uid,
                     activeTeamId,
                     logedOutAt: timestamp,
                     isWorking: false,
@@ -224,6 +244,18 @@ export const lineMsgApi = functions
                   }
                 );
 
+              await db.doc(`users/${uid}/logs/${yyyyMM}/days/${yyyyMMdd}`).set(
+                {
+                  uid,
+                  activeTeamId,
+                  logedOutAt: timestamp,
+                  isWorking: false,
+                },
+                {
+                  merge: true,
+                }
+              );
+
               replyMessage(
                 replyToken,
                 `お疲れさまでした！${teamName}で退勤しました♨️`
@@ -231,11 +263,11 @@ export const lineMsgApi = functions
             } else if (event.message.text === '休憩IN') {
               await db
                 .doc(
-                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${uid}`
                 )
                 .set(
                   {
-                    userId,
+                    uid,
                     activeTeamId,
                     tookBreakAt: timestamp,
                     isWorking: false,
@@ -245,15 +277,27 @@ export const lineMsgApi = functions
                   }
                 );
 
+              await db.doc(`users/${uid}/logs/${yyyyMM}/days/${yyyyMMdd}`).set(
+                {
+                  uid,
+                  activeTeamId,
+                  tookBreakAt: timestamp,
+                  isWorking: false,
+                },
+                {
+                  merge: true,
+                }
+              );
+
               replyMessage(replyToken, `いってらっしゃい☕️`);
             } else if (event.message.text === '休憩OUT') {
               await db
                 .doc(
-                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${userId}`
+                  `teams/${activeTeamId}/logs/${yyyyMM}/days/${yyyyMMdd}/uids/${uid}`
                 )
                 .set(
                   {
-                    userId,
+                    uid,
                     activeTeamId,
                     backedBreakAt: timestamp,
                     isWorking: true,
@@ -262,6 +306,18 @@ export const lineMsgApi = functions
                     merge: true,
                   }
                 );
+
+              await db.doc(`users/${uid}/logs/${yyyyMM}/days/${yyyyMMdd}`).set(
+                {
+                  uid,
+                  activeTeamId,
+                  backedBreakAt: timestamp,
+                  isWorking: false,
+                },
+                {
+                  merge: true,
+                }
+              );
 
               replyMessage(replyToken, `おかえりなさい✋`);
             } else if (event.message.text === 'チームの状況を確認する') {
@@ -316,7 +372,7 @@ export const lineMsgApi = functions
                   });
                 });
             } else if (event.message.text === 'チームから出る') {
-              await db.doc(`users/${userId}`).update({
+              await db.doc(`users/${uid}`).update({
                 activeTeamId: '',
               });
 
@@ -352,15 +408,15 @@ export const lineMsgApi = functions
             );
 
           if (isTeamId) {
-            await db.doc(`users/${userId}`).update({
-              userId,
+            await db.doc(`users/${uid}`).update({
+              uid,
               activeTeamId: userText,
               joinedAt: timestamp,
             });
 
             await db
               .collection('users')
-              .doc(userId)
+              .doc(uid)
               .get()
               .then(async (user: any) => {
                 if (user.exists) {
