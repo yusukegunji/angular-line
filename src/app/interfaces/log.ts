@@ -3,7 +3,6 @@ import { User } from './user';
 export interface Log {
   uid: string;
   activeTeamId: string;
-  isWorking: boolean;
   logedInAt?: firebase.default.firestore.Timestamp;
   tookBreakAt?: firebase.default.firestore.Timestamp;
   backedBreakAt?: firebase.default.firestore.Timestamp;
