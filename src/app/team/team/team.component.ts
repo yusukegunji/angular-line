@@ -6,7 +6,6 @@ import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
-import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
 import { User, UserWithLogs } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -103,14 +102,6 @@ export class TeamComponent implements OnInit {
       this.uid = user.uid;
       console.log(user);
     });
-    console.log(this.teamId);
-    console.log(this.monthId);
-    this.joinedUsersWithLogs$ = this.userService.getJoinedUsersWithLogs(
-      this.teamId,
-      this.monthId
-    );
-
-    console.log(this.joinedUsersWithLogs$);
   }
 
   setYear(value: string): void {

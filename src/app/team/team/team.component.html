@@ -1,79 +1,81 @@
 <div class="container container--team">
   <ng-container *ngIf="user$ | async as user">
     <div class="team" *ngIf="team$ | async as team; else default">
-      <div class="team__heading">
-        <span class="team__border"></span>
-        <span class="team__border"></span>
-        <h2 class="team__name">{{ team.name }}</h2>
+      <ng-container *ngIf="selectedMonth$ | async as selectedMonth">
+        <div class="team__heading">
+          <span class="team__border"></span>
+          <span class="team__border"></span>
+          <h2 class="team__name">{{ team.name }}</h2>
 
-        <ng-container *ngIf="selectedMonth$ | async as selectedMonth">
           <p class="tema__month">
             {{ selectedMonth | slice: 0:4 }}年 /
             {{ selectedMonth | slice: 4:6 }}月
           </p>
-        </ng-container>
 
-        <span class="spacer"></span>
+          <span class="spacer"></span>
 
-        <div class="my-selecter-wrap">
-          <p class="my-select__label">年</p>
-          <mat-form-field class="my-select">
-            <mat-select
-              name="year"
-              [formControl]="yearControl"
-              (selectionChange)="setYear(yearControl.value)"
-            >
-              <mat-option *ngFor="let year of years" [value]="year">
-                {{ year }}年
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="my-selecter-wrap">
+            <p class="my-select__label">年</p>
+            <mat-form-field class="my-select">
+              <mat-select
+                name="year"
+                [formControl]="yearControl"
+                (selectionChange)="setYear(yearControl.value)"
+              >
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{ year }}年
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="my-selecter-wrap">
+            <p class="my-select__label">月</p>
+            <mat-form-field class="my-select">
+              <mat-select
+                name="month"
+                [formControl]="monthControl"
+                (selectionChange)="navigateTo(monthControl.value)"
+              >
+                <mat-option *ngFor="let month of months" [value]="month">
+                  {{ month }}月
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
         </div>
 
-        <div class="my-selecter-wrap">
-          <p class="my-select__label">月</p>
-          <mat-form-field class="my-select">
-            <mat-select
-              name="month"
-              [formControl]="monthControl"
-              (selectionChange)="navigateTo(monthControl.value)"
-            >
-              <mat-option *ngFor="let month of months" [value]="month">
-                {{ month }}月
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div class="member">
+          <app-member-card
+            *ngFor="let joineduser of joinedUsers$ | async"
+            [joinedUid]="joineduser.uid"
+            [teamId]="team.teamId"
+            [monthId]="monthId"
+          ></app-member-card>
         </div>
-      </div>
 
-      <div class="member">
-        <app-member-card
-          *ngFor="let joineduser of joinedUsers$ | async"
-          [joinedUid]="joineduser.uid"
-        ></app-member-card>
-      </div>
+        <div class="logs">
+          <app-log-table [team]="team" [monthId]="monthId"></app-log-table>
+        </div>
 
-      <div class="logs" *ngIf="selectedMonth$ | async as monthId">
-        <app-log-table [team]="team" [monthId]="monthId"></app-log-table>
-      </div>
-
-      <button
-        mat-icon-button
-        [matMenuTriggerFor]="menu"
-        *ngIf="user.uid == team.ownerId"
-        class="edit-btn"
-      >
-        <mat-icon>more_vert</mat-icon>
-      </button>
-
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/editor">
-          <mat-icon>edit</mat-icon>編集
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="menu"
+          *ngIf="user.uid == team.ownerId"
+          class="edit-btn"
+        >
+          <mat-icon>more_vert</mat-icon>
         </button>
-        <button mat-menu-item (click)="openDeleteDialog(team)">
-          <mat-icon>delete</mat-icon>削除
-        </button>
-      </mat-menu>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item routerLink="/editor">
+            <mat-icon>edit</mat-icon>編集
+          </button>
+          <button mat-menu-item (click)="openDeleteDialog(team)">
+            <mat-icon>delete</mat-icon>削除
+          </button>
+        </mat-menu>
+      </ng-container>
     </div>
 
     <div class="unsubscribe__message" *ngIf="teamService.isProcessing">
