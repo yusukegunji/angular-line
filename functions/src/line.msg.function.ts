@@ -203,10 +203,18 @@ export const lineMsgApi = functions
                   uid,
                   teamId: activeTeamId,
                   logedInAt: timestamp,
-                  isWorking: true,
                   monthId,
                   dayId,
                 });
+
+              await db.doc(`users/${uid}`).set(
+                {
+                  isWorking: true,
+                },
+                {
+                  merge: true,
+                }
+              );
 
               await db.doc(`users/${uid}/logs/${yyyyMM}`).set({ monthId });
 
@@ -218,7 +226,6 @@ export const lineMsgApi = functions
                 uid,
                 teamId: activeTeamId,
                 logedInAt: timestamp,
-                isWorking: true,
                 monthId,
                 dayId,
               });
@@ -237,7 +244,6 @@ export const lineMsgApi = functions
                     uid,
                     activeTeamId,
                     logedOutAt: timestamp,
-                    isWorking: false,
                   },
                   {
                     merge: true,
@@ -249,6 +255,14 @@ export const lineMsgApi = functions
                   uid,
                   activeTeamId,
                   logedOutAt: timestamp,
+                },
+                {
+                  merge: true,
+                }
+              );
+
+              await db.doc(`users/${uid}`).set(
+                {
                   isWorking: false,
                 },
                 {
@@ -270,7 +284,6 @@ export const lineMsgApi = functions
                     uid,
                     activeTeamId,
                     tookBreakAt: timestamp,
-                    isWorking: false,
                   },
                   {
                     merge: true,
@@ -282,6 +295,14 @@ export const lineMsgApi = functions
                   uid,
                   activeTeamId,
                   tookBreakAt: timestamp,
+                },
+                {
+                  merge: true,
+                }
+              );
+
+              await db.doc(`users/${uid}`).set(
+                {
                   isWorking: false,
                 },
                 {
@@ -300,7 +321,6 @@ export const lineMsgApi = functions
                     uid,
                     activeTeamId,
                     backedBreakAt: timestamp,
-                    isWorking: true,
                   },
                   {
                     merge: true,
@@ -312,7 +332,15 @@ export const lineMsgApi = functions
                   uid,
                   activeTeamId,
                   backedBreakAt: timestamp,
-                  isWorking: false,
+                },
+                {
+                  merge: true,
+                }
+              );
+
+              await db.doc(`users/${uid}`).set(
+                {
+                  isWorking: true,
                 },
                 {
                   merge: true,
@@ -320,7 +348,7 @@ export const lineMsgApi = functions
               );
 
               replyMessage(replyToken, `おかえりなさい✋`);
-            } else if (event.message.text === 'チームの状況を確認する') {
+            } else if (event.message.text === '状況を確認') {
               await db
                 .doc(`teams/${activeTeamId}`)
                 .get()
@@ -371,7 +399,7 @@ export const lineMsgApi = functions
                     },
                   });
                 });
-            } else if (event.message.text === 'チームから出る') {
+            } else if (event.message.text === 'チームを出る') {
               await db.doc(`users/${uid}`).update({
                 activeTeamId: '',
               });
