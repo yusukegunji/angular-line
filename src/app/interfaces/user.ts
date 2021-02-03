@@ -14,6 +14,6 @@ export interface User {
   activeTeamId: string;
 }
 
-export interface UserWithLogs extends Log {
+export interface UserWithLogs extends User {
   log: Log;
 }
