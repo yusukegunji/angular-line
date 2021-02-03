@@ -1,23 +1,23 @@
 <div class="member">
   <div class="member__head">
     <div class="member__photo">
-      <ng-container *ngIf="user.isWorking">
+      <ng-container *ngIf="userWithLogs.log.isWorking">
         <span class="member__active-ring"></span>
       </ng-container>
-      <img [src]="user.photoURL" alt="" />
+      <img [src]="userWithLogs.photoURL" alt="" />
     </div>
     <p class="member__name">
-      {{ user.name }}
+      {{ userWithLogs?.name }}
     </p>
     <p class="member__post">
-      {{ user.position ? user.position : "まだありません" }}
+      {{ userWithLogs?.position ? userWithLogs?.position : "まだありません" }}
     </p>
   </div>
 
   <div class="member__body">
     <div class="member__result">
       <p class="member__num member__num--result">
-        {{ user.result ? user.result : 0 }} h
+        {{ userWithLogs?.result ? userWithLogs?.result : 0 }} h
       </p>
       <p class="member__text">実績</p>
     </div>
@@ -26,7 +26,7 @@
 
     <div class="member__plan">
       <p class="member__num member__num--plan">
-        {{ user.plan ? user.plan : 0 }} h
+        {{ userWithLogs?.plan ? userWithLogs?.plan : 0 }} h
       </p>
       <p class="member__text">計画</p>
     </div>

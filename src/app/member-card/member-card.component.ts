@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { LogWithUser } from '../interfaces/log';
-import { User } from '../interfaces/user';
+import { User, UserWithLogs } from '../interfaces/user';
 
 @Component({
   selector: 'app-member-card',
@@ -9,11 +9,11 @@ import { User } from '../interfaces/user';
   styleUrls: ['./member-card.component.scss'],
 })
 export class MemberCardComponent implements OnInit {
-  @Input() user: User;
-  @Input() logs: LogWithUser[];
-  constructor(public authService: AuthService) {
-    console.log(this.logs);
-  }
+  @Input() joinedUid: string;
 
-  ngOnInit(): void {}
+  constructor(public authService: AuthService) {}
+
+  ngOnInit(): void {
+    console.log(this.joinedUid);
+  }
 }
