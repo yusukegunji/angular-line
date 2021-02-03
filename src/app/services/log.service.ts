@@ -28,12 +28,12 @@ export class LogService {
     }
   }
 
-  getDailyLogsByUserId(
+  getDailyLogsByUid(
     teamId: string,
     monthId: string,
-    userId: string
+    uid: string
   ): Observable<Day[]> {
-    if (!teamId || !monthId || !userId) {
+    if (!teamId || !monthId || !uid) {
       return of(null);
     } else {
       return this.db
@@ -41,7 +41,7 @@ export class LogService {
           ref
             .where('monthId', '==', monthId)
             .where('teamId', '==', teamId)
-            .where('userId', '==', userId)
+            .where('uid', '==', uid)
             .orderBy('logedInAt', 'desc')
         )
         .valueChanges();
@@ -59,7 +59,7 @@ export class LogService {
         switchMap((days: Day[]) => {
           if (days.length) {
             const unduplicatedUids: string[] = Array.from(
-              new Set(days.map((day) => day.userId))
+              new Set(days.map((day) => day.uid))
             );
 
             const users$: Observable<User[]> = combineLatest(
@@ -77,7 +77,7 @@ export class LogService {
             return days.map((day: Day) => {
               return {
                 ...day,
-                user: users.find((user: User) => day.userId === user?.uid),
+                user: users.find((user: User) => day.uid === user?.uid),
               };
             });
           } else {
