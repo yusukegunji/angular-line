@@ -8,7 +8,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
-import { User } from 'src/app/interfaces/user';
+import { User, UserWithLogs } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { LogService } from 'src/app/services/log.service';
 import { TeamService } from 'src/app/services/team.service';
@@ -31,7 +31,8 @@ export class TeamComponent implements OnInit {
   selectedYear: string;
   teamId: string;
   monthId: string;
-  logsWithUser$: Observable<LogWithUser[]>;
+  uid: string;
+  joinedUsersWithLogs$: Observable<UserWithLogs[]>;
 
   user$: Observable<User> = this.authService.user$;
 
@@ -88,7 +89,6 @@ export class TeamComponent implements OnInit {
           ? '0' + (date.getMonth() + 1)
           : date.getMonth() + 1
       }`;
-    console.log(yyyyMM);
   }
 
   ngOnInit(): void {
@@ -99,10 +99,18 @@ export class TeamComponent implements OnInit {
     this.monthId$.subscribe((id) => {
       this.monthId = id;
     });
-    this.logsWithUser$ = this.logService.getDailyLogsWithUser(
+    this.user$.subscribe((user) => {
+      this.uid = user.uid;
+      console.log(user);
+    });
+    console.log(this.teamId);
+    console.log(this.monthId);
+    this.joinedUsersWithLogs$ = this.userService.getJoinedUsersWithLogs(
       this.teamId,
       this.monthId
     );
+
+    console.log(this.joinedUsersWithLogs$);
   }
 
   setYear(value: string): void {

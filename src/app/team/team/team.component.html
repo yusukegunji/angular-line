@@ -46,14 +46,11 @@
         </div>
       </div>
 
-      <div class="member" *ngIf="user">
-        <ng-container *ngIf="logsWithUser$ | async as logs">
-          <app-member-card
-            *ngFor="let user of joinedUsers$ | async"
-            [user]="user"
-            [logs]="logs"
-          ></app-member-card>
-        </ng-container>
+      <div class="member">
+        <app-member-card
+          *ngFor="let joineduser of joinedUsers$ | async"
+          [joinedUid]="joineduser.uid"
+        ></app-member-card>
       </div>
 
       <div class="logs" *ngIf="selectedMonth$ | async as monthId">
