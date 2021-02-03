@@ -15,5 +15,5 @@ export interface User {
 }
 
 export interface UserWithLogs extends User {
-  log: Log;
+  logs: Log[];
 }
