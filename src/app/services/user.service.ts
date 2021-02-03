@@ -5,8 +5,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { JoinedUid } from 'functions/interfaces/joined-uid';
 import { combineLatest, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { User } from '../interfaces/user';
+import { map, switchMap } from 'rxjs/operators';
+import { Log } from '../interfaces/log';
+import { User, UserWithLogs } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,76 @@ export class UserService {
           }
         })
       );
+  }
+
+  getMonthlyLogsByUid(
+    teamId: string,
+    monthId: string,
+    uid: string
+  ): Observable<Log[]> {
+    if (!teamId || !monthId || !uid) {
+      return of(null);
+    } else {
+      return this.db
+        .collectionGroup<Log>(`days`, (ref) =>
+          ref
+            .where('monthId', '==', monthId)
+            .where('teamId', '==', teamId)
+            .where('uid', '==', uid)
+            .orderBy('logedInAt', 'desc')
+        )
+        .valueChanges();
+    }
+  }
+
+  getJoinedUsersWithLogs(
+    teamId: string,
+    monthId: string
+  ): Observable<UserWithLogs[]> {
+    if (teamId === undefined || monthId === undefined) {
+      return of(null);
+    } else {
+      this.getjoinedUsers(teamId).pipe(
+        switchMap((joinedUsers) =>
+          joinedUsers.map((joinedUser) => {
+            return this.getMonthlyLogsByUid(
+              teamId,
+              monthId,
+              joinedUser.uid
+            ).pipe(
+              switchMap((logs: Log[]) => {
+                if (logs.length) {
+                  const unduplicatedUids: string[] = Array.from(
+                    new Set(logs.map((log) => log.uid))
+                  );
+
+                  const users$: Observable<User[]> = combineLatest(
+                    unduplicatedUids.map((userId: string) =>
+                      this.getUserData(userId)
+                    )
+                  );
+                  return combineLatest([of(logs), users$]);
+                } else {
+                  return of([]);
+                }
+              }),
+              map(([logs, users]) => {
+                if (logs?.length) {
+                  return logs.map((log: Log) => {
+                    return {
+                      ...log,
+                      user: users.find((user: User) => log.uid === user?.uid),
+                    };
+                  });
+                } else {
+                  return [];
+                }
+              })
+            );
+          })
+        )
+      );
+    }
   }
 
   async updateUser(
