@@ -2,7 +2,7 @@
   <div class="member__head">
     <div class="member__photo">
       <ng-container *ngIf="teamId === user.activeTeamId && user.isWorking">
-        <span class="member__active-ring"></span>
+        <span @fade class="member__active-ring"></span>
       </ng-container>
       <img [src]="user.photoURL" alt="" />
     </div>
