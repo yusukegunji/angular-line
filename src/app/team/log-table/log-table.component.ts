@@ -71,8 +71,6 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     this.logService
       .getDailyLogsWithUser(this.team.teamId, this.monthId)
       .subscribe((logsWithUser) => {
-        console.log(this.team.teamId);
-
         this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
           const breakIn: any = log.tookBreakAt?.toDate();
           const breakOut: any = log.backedBreakAt?.toDate();
