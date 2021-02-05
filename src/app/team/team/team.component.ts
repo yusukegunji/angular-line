@@ -7,8 +7,9 @@ import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { DeleteDialogComponent } from 'src/app/dialogs/delete-dialog/delete-dialog.component';
 import { Team } from 'src/app/interfaces/team';
-import { User } from 'src/app/interfaces/user';
+import { User, UserWithLogs } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { LogService } from 'src/app/services/log.service';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -28,6 +29,9 @@ export class TeamComponent implements OnInit {
   monthControl = new FormControl('');
   selectedYear: string;
   teamId: string;
+  monthId: string;
+  uid: string;
+  joinedUsersWithLogs$: Observable<UserWithLogs[]>;
 
   user$: Observable<User> = this.authService.user$;
 
@@ -60,21 +64,42 @@ export class TeamComponent implements OnInit {
     })
   );
 
+  monthId$: Observable<string> = this.route.firstChild.paramMap.pipe(
+    map((params) => {
+      return params.get('monthId');
+    })
+  );
+
   constructor(
     public teamService: TeamService,
     private userService: UserService,
+    private logService: LogService,
     private route: ActivatedRoute,
     private authService: AuthService,
     private dialog: MatDialog,
     private router: Router
   ) {
     router.routeReuseStrategy.shouldReuseRoute = () => false;
+    const date = new Date();
+    const yyyyMM =
+      `${date.getFullYear()}` +
+      `${
+        date.getMonth() + 1 < 10
+          ? '0' + (date.getMonth() + 1)
+          : date.getMonth() + 1
+      }`;
   }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.teamId$.subscribe((id) => {
       this.teamId = id;
+    });
+    this.monthId$.subscribe((id) => {
+      this.monthId = id;
+    });
+    this.user$.subscribe((user) => {
+      this.uid = user.uid;
     });
   }
 

@@ -11,23 +11,33 @@
   &__head {
     text-align: center;
   }
-  &__photo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 8px;
-  }
-  &__status {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: block;
+  &__active-ring {
     background: linear-gradient(to right, #f83600, #fe8c00);
+    height: 86px;
+    width: 86px;
+    border-radius: 50%;
     position: absolute;
-    top: -30px;
-    left: 48px;
-    z-index: 10;
+    top: -3px;
+    left: -3px;
+    z-index: 1;
+    animation: rotation 3s infinite linear;
+  }
+  &__photo {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    position: relative;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
   }
   &__name {
     font-weight: 600;
@@ -40,7 +50,7 @@
   }
   &__body {
     display: grid;
-    grid-template-columns: 40px 2px 40px;
+    grid-template-columns: 48px 2px 48px;
     gap: 24px;
     place-content: center;
     margin-bottom: 16px;
@@ -49,20 +59,20 @@
   &__plan {
     color: #fff;
     text-align: center;
+    &:hover .member__num {
+      transform: scale(1.4);
+    }
   }
   &__num {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: #c6c6c6;
     margin: 0 auto 8px;
     display: grid;
     place-items: center;
-    font-size: 13px;
+    font-size: 10px;
     transition: ease-in-out 0.3s;
-    &:hover {
-      transform: scale(1.4);
-    }
     &--result {
       background: #9c38ff;
       background: linear-gradient(to right, #9c38ff, #d28fff);
@@ -78,7 +88,7 @@
   }
   &__pipe {
     width: 2px;
-    height: 40px;
+    height: 48px;
     background: rgba(#000, 0.16);
   }
   &__btn {
@@ -98,5 +108,14 @@
       background: linear-gradient(to right, #9c38ff, #d28fff);
       color: #fff;
     }
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
