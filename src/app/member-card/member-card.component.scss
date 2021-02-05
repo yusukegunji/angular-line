@@ -39,17 +39,6 @@
       z-index: 2;
     }
   }
-  &__status {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: block;
-    background: linear-gradient(to right, #f83600, #fe8c00);
-    position: absolute;
-    top: -30px;
-    left: 48px;
-    z-index: 10;
-  }
   &__name {
     font-weight: 600;
     padding: 0 8px;
@@ -61,7 +50,7 @@
   }
   &__body {
     display: grid;
-    grid-template-columns: 40px 2px 40px;
+    grid-template-columns: 48px 2px 48px;
     gap: 24px;
     place-content: center;
     margin-bottom: 16px;
@@ -70,20 +59,20 @@
   &__plan {
     color: #fff;
     text-align: center;
+    &:hover .member__num {
+      transform: scale(1.4);
+    }
   }
   &__num {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: #c6c6c6;
     margin: 0 auto 8px;
     display: grid;
     place-items: center;
-    font-size: 13px;
+    font-size: 10px;
     transition: ease-in-out 0.3s;
-    &:hover {
-      transform: scale(1.4);
-    }
     &--result {
       background: #9c38ff;
       background: linear-gradient(to right, #9c38ff, #d28fff);
@@ -99,7 +88,7 @@
   }
   &__pipe {
     width: 2px;
-    height: 40px;
+    height: 48px;
     background: rgba(#000, 0.16);
   }
   &__btn {
