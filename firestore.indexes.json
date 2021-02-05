@@ -5,21 +5,15 @@
       "queryScope": "COLLECTION_GROUP",
       "fields": [
         {
-          "fieldPath": "logId",
+          "fieldPath": "monthId",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "logedInAt",
-          "order": "DESCENDING"
-        }
-      ]
-    },
-    {
-      "collectionGroup": "days",
-      "queryScope": "COLLECTION_GROUP",
-      "fields": [
+          "fieldPath": "teamId",
+          "order": "ASCENDING"
+        },
         {
-          "fieldPath": "monthId",
+          "fieldPath": "uid",
           "order": "ASCENDING"
         },
         {
@@ -32,6 +26,24 @@
       "collectionGroup": "logs",
       "queryScope": "COLLECTION",
       "fields": [
+        {
+          "fieldPath": "teamId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "logedInAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "uids",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "monthId",
+          "order": "ASCENDING"
+        },
         {
           "fieldPath": "teamId",
           "order": "ASCENDING"
