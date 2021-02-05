@@ -100,7 +100,6 @@ export class TeamComponent implements OnInit {
     });
     this.user$.subscribe((user) => {
       this.uid = user.uid;
-      console.log(user);
     });
   }
 

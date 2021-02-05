@@ -23,6 +23,9 @@ export class MemberCardComponent implements OnInit {
   breakTime: any;
   workTime: any;
   overTime: any;
+  dailytotalWorkTime: any;
+  dailyWorkTimes = [];
+  monthlyTotalWorkTime = 0;
 
   constructor(
     public authService: AuthService,
@@ -51,7 +54,12 @@ export class MemberCardComponent implements OnInit {
           const logIn: any = log.logedInAt?.toDate();
           this.workTime =
             1000 * Math.round((logOut - logIn - this.breakTime) / 1000);
-          console.log(this.workTime);
+          this.dailytotalWorkTime =
+            Math.round((this.workTime * 10) / (1000 * 60 * 60)) / 10;
+          this.dailyWorkTimes.push(this.dailytotalWorkTime);
+          this.monthlyTotalWorkTime = this.dailyWorkTimes.reduce((a, b) => {
+            return a + b;
+          });
         });
       });
   }
