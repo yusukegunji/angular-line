@@ -1,4 +1,16 @@
 <div class="container container--log-table">
+  <div class="log-table-header">
+    <mat-icon class="log-table-header__icon" (click)="backMonthId()"
+      >arrow_left</mat-icon
+    >
+    <p class="log-table-header__title">
+      {{ monthId | slice: 0:4 }}年 / {{ monthId | slice: 4:6 }}月
+    </p>
+    <mat-icon class="log-table-header__icon" (click)="addMounthId()"
+      >arrow_right</mat-icon
+    >
+  </div>
+
   <div *ngIf="dataSource; else default">
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="days">

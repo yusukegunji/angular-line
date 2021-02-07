@@ -60,6 +60,9 @@ export class UserLogTableComponent implements OnInit {
 
   constructor(private userService: UserService) {}
 
+  backMonthId(): void {}
+  addMounthId(): void {}
+
   ngOnInit(): void {
     const teamId = this.user.activeTeamId;
     this.userService

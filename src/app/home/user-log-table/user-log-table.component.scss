@@ -1,3 +1,20 @@
+.log-table-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  &__icon {
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: ease-out 0.5s;
+    &:hover {
+      color: #9c38ff;
+      border: 1px solid #d28fff;
+      border-radius: 4px;
+    }
+  }
+}
+
 .loading {
   width: 100%;
   padding: 120px 0;
