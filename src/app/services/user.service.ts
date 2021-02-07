@@ -6,8 +6,10 @@ import { Router } from '@angular/router';
 import { JoinedUid } from 'functions/interfaces/joined-uid';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { Log } from '../interfaces/log';
+import { Log, LogWithTeam } from '../interfaces/log';
+import { Team } from '../interfaces/team';
 import { User, UserWithLogs } from '../interfaces/user';
+import { TeamService } from './team.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +21,8 @@ export class UserService {
     private db: AngularFirestore,
     private router: Router,
     private fnc: AngularFireFunctions,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private teamService: TeamService
   ) {}
 
   joinTeam(teamId: string, uid: string): void {
@@ -70,6 +73,47 @@ export class UserService {
             .orderBy('logedInAt', 'desc')
         )
         .valueChanges();
+    }
+  }
+
+  getMonthlyLogsWithTeamByUid(
+    teamId: string,
+    monthId: string,
+    uid: string
+  ): Observable<LogWithTeam[]> {
+    if (!teamId || !monthId || !uid) {
+      return of(null);
+    } else {
+      return this.getMonthlyLogsByUid(teamId, monthId, uid).pipe(
+        switchMap((logs: Log[]) => {
+          if (logs.length) {
+            const unduplicatedTeamIds: string[] = Array.from(
+              new Set(logs.map((log) => log.teamId))
+            );
+
+            const teams$: Observable<Team[]> = combineLatest(
+              unduplicatedTeamIds.map((tId: string) => {
+                return this.teamService.getTeam(tId);
+              })
+            );
+            return combineLatest([of(logs), teams$]);
+          } else {
+            return of([]);
+          }
+        }),
+        map(([logs, teams]) => {
+          if (logs?.length) {
+            return logs.map((log: Log) => {
+              return {
+                ...log,
+                team: teams.find((team: Team) => log.teamId === team.teamId),
+              };
+            });
+          } else {
+            return [];
+          }
+        })
+      );
     }
   }
 
