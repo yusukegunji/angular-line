@@ -34,8 +34,6 @@ export class MemberCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.userService.getUserData(this.joinedUid);
-    console.log(this.joinedUid);
-
     this.user$.subscribe((user) => {
       this.user = user;
     });
