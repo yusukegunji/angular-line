@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { fade } from '../animation';
-import { Log, LogWithUser } from '../interfaces/log';
+import { Log } from '../interfaces/log';
 import { User, UserWithLogs } from '../interfaces/user';
 import { UserService } from '../services/user.service';
 
@@ -55,9 +55,12 @@ export class MemberCardComponent implements OnInit {
           this.dailytotalWorkTime =
             Math.round((this.workTime * 10) / (1000 * 60 * 60)) / 10;
           this.dailyWorkTimes.push(this.dailytotalWorkTime);
-          this.monthlyTotalWorkTime = this.dailyWorkTimes.reduce((a, b) => {
-            return a + b;
-          });
+          this.monthlyTotalWorkTime =
+            Math.round(
+              this.dailyWorkTimes.reduce((a, b) => {
+                return a + b;
+              }) * 10
+            ) / 10;
         });
       });
   }
