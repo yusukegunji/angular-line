@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Team } from 'src/app/interfaces/team';
 import { JoinTeamDialogComponent } from 'src/app/join-team-dialog/join-team-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
