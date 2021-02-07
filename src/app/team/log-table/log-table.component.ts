@@ -7,13 +7,9 @@ import {
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
 import { LogService } from 'src/app/services/log.service';
-import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-log-table',
@@ -79,19 +75,39 @@ export class LogTableComponent implements OnInit, AfterViewInit {
               ? 0
               : 1000 * Math.round((breakOut - breakIn) / 1000);
           const bt = new Date(this.breakTime);
-          this.totalBreakTime = bt.getUTCHours() + ':' + bt.getUTCMinutes();
+          this.totalBreakTime =
+            (bt.getUTCHours() < 10
+              ? '0' + bt.getUTCHours()
+              : bt.getUTCHours()) +
+            ':' +
+            (bt.getUTCMinutes() < 10
+              ? '0' + bt.getUTCMinutes()
+              : bt.getUTCMinutes());
 
           const logOut: any = log.logedOutAt?.toDate();
           const logIn: any = log.logedInAt?.toDate();
           const workTime =
             1000 * Math.round((logOut - logIn - this.breakTime) / 1000);
           const wt = new Date(workTime);
-          this.totalWorkTime = wt.getUTCHours() + ':' + wt.getUTCMinutes();
+          this.totalWorkTime =
+            (wt.getUTCHours() < 10
+              ? '0' + wt.getUTCHours()
+              : wt.getUTCHours()) +
+            ':' +
+            (wt.getUTCMinutes() < 10
+              ? '0' + wt.getUTCMinutes()
+              : wt.getUTCMinutes());
 
           const resultTime = workTime - this.breakTime - this.plan;
           const rt = new Date(resultTime);
           this.overTime =
-            resultTime > 0 ? rt.getUTCHours() + ':' + rt.getUTCMinutes() : 0;
+            resultTime > 0
+              ? rt.getUTCHours() +
+                ':' +
+                (rt.getUTCMinutes() < 10
+                  ? '0' + rt.getUTCMinutes()
+                  : rt.getUTCMinutes())
+              : 0;
 
           return {
             logWithUser: { ...log },

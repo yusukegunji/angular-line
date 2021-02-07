@@ -4,7 +4,7 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>日付</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.logedInAt?.toDate() | date: "M/d" }}
+          {{ element.logWithUser.logedInAt?.toDate() | date: "M/d (E)" }}
         </td>
       </ng-container>
 
