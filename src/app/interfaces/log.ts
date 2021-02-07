@@ -1,3 +1,4 @@
+import { Team } from './team';
 import { User } from './user';
 
 export interface Log {
@@ -16,4 +17,8 @@ export interface Log {
 
 export interface LogWithUser extends Log {
   user: User;
+}
+
+export interface LogWithTeam extends Log {
+  team: Team;
 }
