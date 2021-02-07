@@ -39,6 +39,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./settings/settings.module').then((m) => m.SettingsModule),
       },
+      {
+        path: ':uid',
+        loadChildren: () =>
+          import('./user-detail/user-detail.module').then(
+            (m) => m.UserDetailModule
+          ),
+      },
     ],
   },
 ];
