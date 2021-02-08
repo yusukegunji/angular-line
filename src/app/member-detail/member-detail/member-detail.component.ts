@@ -27,21 +27,23 @@ export class MemberDetailComponent implements OnInit {
   monthId: string;
 
   member$: Observable<User> = this.route.paramMap.pipe(
-    switchMap((param) => {
-      console.log(param);
-      this.memberId = param.get('uid');
+    switchMap((params) => {
+      this.memberId = params.get('uid');
       return this.userService.getUserData(this.memberId);
     })
   );
 
-  teamId$: Observable<string> = this.route.firstChild.paramMap.pipe(
-    map((param) => {
-      return param.get('teamId');
-    }),
-    tap((id) => console.log(id))
+  teamId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => {
+      return params.get('teamId');
+    })
   );
 
-  monthId$: any = this.route.children;
+  monthId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => {
+      return params.get('monthId');
+    })
+  );
 
   constructor(
     public authService: AuthService,
@@ -50,16 +52,17 @@ export class MemberDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.teamId$.subscribe((id) => {
-      this.teamId = id;
-    });
     this.monthId$.subscribe((id) => {
       this.monthId = id;
     });
 
-    console.log(this.teamId);
-    console.log(this.monthId);
-    console.log(this.memberId);
+    this.teamId$.subscribe((id) => {
+      this.teamId = id;
+    });
+
+    this.member$.subscribe((member) => {
+      this.memberId = member.uid;
+    });
 
     this.userService
       .getMonthlyLogsByUid(this.teamId, this.monthId, this.memberId)

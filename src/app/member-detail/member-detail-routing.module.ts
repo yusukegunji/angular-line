@@ -4,20 +4,8 @@ import { MemberDetailComponent } from './member-detail/member-detail.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':teamId/:monthId',
     component: MemberDetailComponent,
-    children: [
-      {
-        path: ':teamId',
-        component: MemberDetailComponent,
-        children: [
-          {
-            path: ':monthId',
-            component: MemberDetailComponent,
-          },
-        ],
-      },
-    ],
   },
 ];
 
