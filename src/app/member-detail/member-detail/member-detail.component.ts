@@ -1,23 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Log } from 'src/app/interfaces/log';
+import { User, UserWithLogs } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { fade } from '../animation';
-import { Log } from '../interfaces/log';
-import { User, UserWithLogs } from '../interfaces/user';
-import { UserService } from '../services/user.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-member-card',
-  templateUrl: './member-card.component.html',
-  styleUrls: ['./member-card.component.scss'],
-  animations: [fade],
+  selector: 'app-member-detail',
+  templateUrl: './member-detail.component.html',
+  styleUrls: ['./member-detail.component.scss'],
 })
-export class MemberCardComponent implements OnInit {
-  @Input() joinedUid: string;
-  @Input() teamId: string;
-  @Input() monthId: string;
-  user$: Observable<User>;
-  user: User;
+export class MemberDetailComponent implements OnInit {
   userWithLogs: UserWithLogs;
   logs: Log[];
   breakTime: any;
@@ -26,19 +21,51 @@ export class MemberCardComponent implements OnInit {
   dailytotalWorkTime: any;
   dailyWorkTimes = [];
   monthlyTotalWorkTime = 0;
+  monthlyPlanWorkTime = 0;
+  memberId: string;
+  teamId: string;
+  monthId: string;
+
+  member$: Observable<User> = this.route.paramMap.pipe(
+    switchMap((params) => {
+      this.memberId = params.get('uid');
+      return this.userService.getUserData(this.memberId);
+    })
+  );
+
+  teamId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => {
+      return params.get('teamId');
+    })
+  );
+
+  monthId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => {
+      return params.get('monthId');
+    })
+  );
 
   constructor(
     public authService: AuthService,
+    private route: ActivatedRoute,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userService.getUserData(this.joinedUid);
-    this.user$.subscribe((user) => {
-      this.user = user;
+    this.monthId$.subscribe((id) => {
+      this.monthId = id;
     });
+
+    this.teamId$.subscribe((id) => {
+      this.teamId = id;
+    });
+
+    this.member$.subscribe((member) => {
+      this.memberId = member.uid;
+    });
+
     this.userService
-      .getMonthlyLogsByUid(this.teamId, this.monthId, this.joinedUid)
+      .getMonthlyLogsByUid(this.teamId, this.monthId, this.memberId)
       .subscribe((logs) => {
         logs.map((log: Log) => {
           const breakIn: any = log.tookBreakAt?.toDate();

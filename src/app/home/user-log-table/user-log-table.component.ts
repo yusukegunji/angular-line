@@ -1,30 +1,29 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { LogWithUser } from 'src/app/interfaces/log';
-import { Team } from 'src/app/interfaces/team';
-import { LogService } from 'src/app/services/log.service';
+import { Router } from '@angular/router';
+import { Log, LogWithTeam, LogWithUser } from 'src/app/interfaces/log';
+import { User } from 'src/app/interfaces/user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-log-table',
-  templateUrl: './log-table.component.html',
-  styleUrls: ['./log-table.component.scss'],
+  selector: 'app-user-log-table',
+  templateUrl: './user-log-table.component.html',
+  styleUrls: ['./user-log-table.component.scss'],
 })
-export class LogTableComponent implements OnInit, AfterViewInit {
-  @Input() team: Team;
-  @Input() monthId: string;
+export class UserLogTableComponent implements OnInit {
+  @Input() user: User;
+  dataSource = new MatTableDataSource<{
+    log: LogWithTeam;
+    totalWorkTime: any;
+    totalBreakTime: any;
+    overTime: any;
+  }>([]);
 
   readonly displayedColumns: string[] = [
-    'status',
+    'days',
     'photoURL',
     'name',
-    'position',
     'logedInAt',
     'tookBreakAt',
     'backedBreakAt',
@@ -32,17 +31,8 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     'logedOutAt',
     'totalTime',
     'overTime',
-    // 'location',
-    // 'commutingFee',
     'menu',
   ];
-
-  dataSource = new MatTableDataSource<{
-    logWithUser: LogWithUser;
-    totalWorkTime: any;
-    totalBreakTime: any;
-    overTime: any;
-  }>([]);
 
   defaultPageSize = 10;
   isLoading: boolean;
@@ -53,6 +43,14 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   overTime: any;
   breakTime: number;
   plan = 28800000;
+  date = new Date();
+  monthId =
+    `${this.date.getFullYear()}` +
+    `${
+      this.date.getMonth() + 1 < 10
+        ? '0' + (this.date.getMonth() + 1)
+        : this.date.getMonth() + 1
+    }`;
 
   @ViewChild(MatPaginator)
   set paginator(value: MatPaginator) {
@@ -61,17 +59,29 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private logService: LogService) {}
+  constructor(private userService: UserService, private router: Router) {
+    router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
+  backMonthId(): void {
+    this.monthId = (Number(this.monthId) - 1).toString();
+    this.ngOnInit();
+  }
+  addMounthId(): void {
+    this.monthId = (Number(this.monthId) + 1).toString();
+    this.ngOnInit();
+  }
 
   ngOnInit(): void {
-    this.logService
-      .getDailyLogsWithUser(this.team.teamId, this.monthId)
-      .subscribe((logsWithUser) => {
-        this.dataSource.data = logsWithUser.map((log: LogWithUser) => {
-          const breakIn: any = log.tookBreakAt?.toDate();
-          const breakOut: any = log.backedBreakAt?.toDate();
+    const teamId = this.user.activeTeamId;
+    this.userService
+      .getMonthlyLogsWithTeamByUid(teamId, this.monthId, this.user.uid)
+      .subscribe((logs) => {
+        this.dataSource.data = logs.map((logWithTeam: LogWithTeam) => {
+          const breakIn: any = logWithTeam.tookBreakAt?.toDate();
+          const breakOut: any = logWithTeam.backedBreakAt?.toDate();
           this.breakTime =
-            !log.tookBreakAt || !log.backedBreakAt
+            !logWithTeam.tookBreakAt || !logWithTeam.backedBreakAt
               ? 0
               : 1000 * Math.round((breakOut - breakIn) / 1000);
           const bt = new Date(this.breakTime);
@@ -84,8 +94,8 @@ export class LogTableComponent implements OnInit, AfterViewInit {
               ? '0' + bt.getUTCMinutes()
               : bt.getUTCMinutes());
 
-          const logOut: any = log.logedOutAt?.toDate();
-          const logIn: any = log.logedInAt?.toDate();
+          const logOut: any = logWithTeam.logedOutAt?.toDate();
+          const logIn: any = logWithTeam.logedInAt?.toDate();
           const workTime =
             1000 * Math.round((logOut - logIn - this.breakTime) / 1000);
           const wt = new Date(workTime);
@@ -110,7 +120,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
               : 0;
 
           return {
-            logWithUser: { ...log },
+            log: { ...logWithTeam },
             totalWorkTime: this.totalWorkTime,
             totalBreakTime: this.totalBreakTime,
             overTime: this.overTime,
@@ -118,6 +128,4 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         });
       });
   }
-
-  ngAfterViewInit(): void {}
 }

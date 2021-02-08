@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Team } from 'src/app/interfaces/team';
 import { JoinTeamDialogComponent } from 'src/app/join-team-dialog/join-team-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
 
   myTeams$: Observable<Team[]>;
   joinedTeams$: Observable<Team[]>;
+  activeTeamName$: Observable<string>;
 
   date: Date = new Date();
   thisMonth: string =
@@ -40,6 +41,11 @@ export class HomeComponent implements OnInit {
       this.uid = user.uid;
       this.myTeams$ = this.teamService.getSelfOwningTeams(this.uid);
       this.joinedTeams$ = this.teamService.getJoinedTeams(this.uid);
+      this.activeTeamName$ = this.teamService.getTeam(user.activeTeamId).pipe(
+        map((team) => {
+          return team.name;
+        })
+      );
     });
   }
 

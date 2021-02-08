@@ -1,0 +1,28 @@
+<div class="container container--member" *ngIf="member$ | async as user">
+  <div class="member-detail-wrapper">
+    <div class="member-wrapper">
+      <img class="member-wrapper__photo" [src]="user.photoURL" alt="" />
+      <p class="member-wrapper__name">
+        {{ user.name }}
+      </p>
+      <a class="member-wrapper__edit" mat-flat-button routerLink="/shift-edit"
+        >シフト編集</a
+      >
+      <mat-divider></mat-divider>
+
+      <div class="member-wrapper__result">
+        <p class="member-wrapper__result-heading">合計勤務時間</p>
+        <p class="member-wrapper__num">{{ monthlyTotalWorkTime }} h</p>
+      </div>
+
+      <div class="member-wrapper__plan">
+        <p class="member-wrapper__plan-heading">計画時間</p>
+        <p class="member-wrapper__num">{{ monthlyPlanWorkTime }} h</p>
+      </div>
+    </div>
+
+    <div class="logs-table-wrapper">
+      <app-member-log-table [user]="user"></app-member-log-table>
+    </div>
+  </div>
+</div>

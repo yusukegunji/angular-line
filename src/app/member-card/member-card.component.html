@@ -1,4 +1,4 @@
-<div class="member" *ngIf="user$ | async as user">
+<div class="member" *ngIf="user$ | async">
   <div class="member__head">
     <div class="member__photo">
       <ng-container *ngIf="teamId === user.activeTeamId && user.isWorking">
@@ -33,6 +33,8 @@
   </div>
 
   <div class="member__btn">
-    <a href="">もっと見る</a>
+    <a [routerLink]="'/' + user.uid + '/' + teamId + '/' + monthId"
+      >もっと見る</a
+    >
   </div>
 </div>

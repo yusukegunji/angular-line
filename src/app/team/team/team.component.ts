@@ -27,7 +27,7 @@ export class TeamComponent implements OnInit {
 
   yearControl = new FormControl('');
   monthControl = new FormControl('');
-  selectedYear: string;
+  selectedYear = '2021';
   teamId: string;
   monthId: string;
   uid: string;

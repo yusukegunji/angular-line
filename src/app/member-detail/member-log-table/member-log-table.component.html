@@ -1,10 +1,22 @@
 <div class="container container--log-table">
+  <div class="log-table-header">
+    <mat-icon class="log-table-header__icon" (click)="backMonthId()"
+      >arrow_left</mat-icon
+    >
+    <p class="log-table-header__title">
+      {{ monthId | slice: 0:4 }}年 / {{ monthId | slice: 4:6 }}月
+    </p>
+    <mat-icon class="log-table-header__icon" (click)="addMounthId()"
+      >arrow_right</mat-icon
+    >
+  </div>
+
   <div *ngIf="dataSource; else default">
     <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="status">
+      <ng-container matColumnDef="days">
         <th mat-header-cell *matHeaderCellDef>日付</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.logedInAt?.toDate() | date: "M/d (E)" }}
+          {{ element.log.logedInAt?.toDate() | date: "M/d(E)" }}
         </td>
       </ng-container>
 
@@ -12,43 +24,36 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" class="photoURL">
           <p>
-            <img [src]="element.logWithUser.user.photoURL" alt="" />
+            <img [src]="element.log.team.thumbnailURL" alt="" />
           </p>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>名前</th>
+        <th mat-header-cell *matHeaderCellDef>チーム</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.user.name }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef>ポジション</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.user.position }}
+          {{ element.log.team.name }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="logedInAt">
         <th mat-header-cell *matHeaderCellDef>出勤</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.logedInAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.logedInAt?.toDate() | date: "HH:mm:ss" }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="tookBreakAt">
         <th mat-header-cell *matHeaderCellDef>休憩IN</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.tookBreakAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.tookBreakAt?.toDate() | date: "HH:mm:ss" }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="backedBreakAt">
         <th mat-header-cell *matHeaderCellDef>休憩OUT</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.backedBreakAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.backedBreakAt?.toDate() | date: "HH:mm:ss" }}
         </td>
       </ng-container>
 
@@ -62,7 +67,7 @@
       <ng-container matColumnDef="logedOutAt">
         <th mat-header-cell *matHeaderCellDef>退勤</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.logedOutAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.logedOutAt?.toDate() | date: "HH:mm:ss" }}
         </td>
       </ng-container>
 
@@ -80,30 +85,13 @@
         </td>
       </ng-container>
 
-      <!--　google maps api の導入後アクティブにする
-        <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef>場所</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.location }}
-        </td>
-      </ng-container> -->
-
-      <!-- 駅すぱあとapi の導入後アクティブにする
-        <ng-container matColumnDef="commutingFee">
-        <th mat-header-cell *matHeaderCellDef>交通費</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.logWithUser.commutingFee }}
-        </td>
-      </ng-container> -->
-
       <ng-container matColumnDef="menu">
         <th mat-header-cell *matHeaderCellDef>メニュー</th>
         <td mat-cell *matCellDef="let element">
           <button
-            mat-button
             matTooltip="編集"
             matTooltipPosition="before"
-            routerLink="/editor/{{ element.logWithUser.id }}"
+            routerLink="/editor/{{ element.log.id }}"
             class="menu__edit"
           >
             編集する
@@ -114,14 +102,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-
-    <mat-paginator
-      [pageSizeOptions]="[10, 20, 50]"
-      [length]="dataSource?.data.length"
-      [pageSize]="defaultPageSize"
-      showFirstLastButtons
-      #MatPaginator
-    ></mat-paginator>
   </div>
 </div>
 

@@ -23,6 +23,8 @@ export const getLineCodeWebhook = functions
     const code = req.query.code;
     const state = req.query.state;
 
+    const url = req.headers['x-forwarded-for'];
+
     const isValidState = (await admin.firestore().doc(`states/${state}`).get())
       .exists;
 
@@ -30,10 +32,10 @@ export const getLineCodeWebhook = functions
       return;
     }
 
-    if (code) {
+    if (code && url === '2404:7a80:2700:6a00:a11a:cb6f:de2e:2f60') {
       res.redirect(`http://localhost:4200/welcome?code=${code}`);
     } else {
-      res.redirect(`http://localhost:4200`);
+      res.redirect(`https://line-demo-a1a08.web.app/welcome?code=${code}`);
     }
   });
 
