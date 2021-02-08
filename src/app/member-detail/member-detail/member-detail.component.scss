@@ -1,0 +1,25 @@
+.member-detail-wrapper {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+  margin: 48px 0;
+}
+
+.member-wrapper {
+  &__photo {
+    border-radius: 50%;
+    margin-bottom: 24px;
+  }
+  &__name {
+    margin-bottom: 16px;
+  }
+  &__edit {
+    width: 100%;
+  }
+  mat-divider {
+    margin: 24px 0;
+  }
+  &__result {
+    margin-bottom: 16px;
+  }
+}
