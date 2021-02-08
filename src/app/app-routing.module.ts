@@ -42,8 +42,8 @@ const routes: Routes = [
       {
         path: ':uid',
         loadChildren: () =>
-          import('./user-detail/user-detail.module').then(
-            (m) => m.UserDetailModule
+          import('./member-detail/member-detail.module').then(
+            (m) => m.MemberDetailModule
           ),
       },
     ],

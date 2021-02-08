@@ -1,0 +1,43 @@
+.log-table-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  &__icon {
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: ease-out 0.5s;
+    &:hover {
+      color: #9c38ff;
+      border: 1px solid #d28fff;
+      border-radius: 4px;
+    }
+  }
+}
+
+.loading {
+  width: 100%;
+  padding: 120px 0;
+  display: grid;
+  place-items: center;
+}
+
+.menu {
+  &__edit {
+    max-width: 120px;
+    background: transparent;
+    border: 2px solid #9c38ff;
+    color: #9c38ff;
+    font-size: 13px;
+    padding: 4px 8px;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 32px;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+    &:hover {
+      background: linear-gradient(to right, #9c38ff, #d28fff);
+      color: #fff;
+    }
+  }
+}
