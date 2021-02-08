@@ -54,7 +54,12 @@ export class MemberCardComponent implements OnInit {
             1000 * Math.round((logOut - logIn - this.breakTime) / 1000);
           this.dailytotalWorkTime =
             Math.round((this.workTime * 10) / (1000 * 60 * 60)) / 10;
-          this.dailyWorkTimes.push(this.dailytotalWorkTime);
+
+          if (!this.dailytotalWorkTime) {
+            this.dailyWorkTimes.push(0);
+          } else {
+            this.dailyWorkTimes.push(this.dailytotalWorkTime);
+          }
           this.monthlyTotalWorkTime =
             Math.round(
               this.dailyWorkTimes.reduce((a, b) => {
