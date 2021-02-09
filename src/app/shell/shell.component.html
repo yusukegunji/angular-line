@@ -1,3 +1,18 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+<button class="nav-btn" (click)="toggleNav()">
+  <mat-icon>navigate_next</mat-icon>
+</button>
+
+<mat-sidenav-container (backdropClick)="toggleNav()" [hasBackdrop]="false">
+  <mat-sidenav
+    mode="side"
+    [opened]="opened$ | async"
+    fixedInViewport
+    [fixedTopGap]="scrWidth > 640 ? 72 : 56"
+    class="sidenav"
+  >
+    <app-main-nav></app-main-nav>
+  </mat-sidenav>
+  <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content
+></mat-sidenav-container>
 <app-footer></app-footer>
