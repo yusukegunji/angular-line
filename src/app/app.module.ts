@@ -27,6 +27,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { MatButtonModule } from '@angular/material/button';
     FooterComponent,
     ShellComponent,
     JoinTeamDialogComponent,
+    MainNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSidenavModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },
