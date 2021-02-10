@@ -1,25 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { easeSlideForContent, easeSlideForSideNav } from '../animation';
 import { UiService } from '../services/ui.service';
 
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
+  animations: [easeSlideForSideNav, easeSlideForContent],
 })
 export class ShellComponent implements OnInit {
-  opened$: Observable<boolean> = this.uiService.isOpen$;
   scrWidth: any;
 
-  constructor(private uiService: UiService) {}
+  constructor(public uiService: UiService) {
+    console.log(this.uiService.isOpened);
+  }
 
   ngOnInit(): void {
     this.getScreenSize();
   }
 
   toggleNav(): void {
-    this.uiService.toggleOpening();
-    console.log('toggle');
+    this.uiService.isOpened = !this.uiService.isOpened;
+    console.log(this.uiService.isOpened);
   }
 
   getScreenSize(): void {

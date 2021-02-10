@@ -1,18 +1,25 @@
-<app-header></app-header>
-<button class="nav-btn" (click)="toggleNav()">
-  <mat-icon>navigate_next</mat-icon>
-</button>
-
-<mat-sidenav-container (backdropClick)="toggleNav()" [hasBackdrop]="false">
+<mat-sidenav-container [hasBackdrop]="false" autosize>
   <mat-sidenav
     mode="side"
-    [opened]="opened$ | async"
     fixedInViewport
-    [fixedTopGap]="scrWidth > 640 ? 72 : 56"
     class="sidenav"
+    opened
+    [class.open]="uiService.isOpened"
+    [class.close]="!uiService.isOpened"
+    [@easeSlideForSideNav]="uiService.isOpened ? 'open' : 'close'"
   >
-    <app-main-nav></app-main-nav>
+    <button class="nav-btn" (click)="toggleNav()" *ngIf="!uiService.isOpened">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+    <app-main-nav *ngIf="uiService.isOpened"></app-main-nav>
   </mat-sidenav>
-  <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content
+
+  <mat-sidenav-content
+    [@easeSlideForContent]="uiService.isOpened ? 'open' : 'close'"
+  >
+    <app-header></app-header>
+    <div class="router">
+      <router-outlet> </router-outlet>
+    </div> </mat-sidenav-content
 ></mat-sidenav-container>
 <app-footer></app-footer>
