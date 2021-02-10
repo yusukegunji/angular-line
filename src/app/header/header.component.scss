@@ -4,8 +4,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background: #fff;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background: rgba(#fff, 0.88);
+  box-shadow: rgba(99, 99, 99, 0.05) 0px 2px 8px 0px;
+  position: fixed;
+  z-index: 1000;
   &__title {
     color: #fff;
     font-family: "Orbitron", sans-serif;
