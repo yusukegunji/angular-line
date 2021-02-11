@@ -1,13 +1,13 @@
 .nav-btn {
+  width: 72px;
   height: 100%;
-  background: #1a1f23;
-  padding: 0 8px;
+  background: linear-gradient(to right, #6464f5, #4d49fd);
 }
 
 .sidenav {
-  background: #1a1f23;
+  background: #fff;
 }
 
-.router {
-  padding-top: 72px;
+app-header {
+  display: none;
 }

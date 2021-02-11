@@ -29,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatInputModule,
     MatButtonModule,
     MatSidenavModule,
+    MatListModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },

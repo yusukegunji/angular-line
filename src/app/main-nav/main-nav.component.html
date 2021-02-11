@@ -1,4 +1,160 @@
-<p>main-nav works!</p>
-<button class="nav-btn" (click)="toggleNav()">
-  <mat-icon>navigate_next</mat-icon>
-</button>
+<div class="nav-wrapper">
+  <div class="head">
+    <a routerLink="/" class="head__title" aria-level="SHIPS">FIRE SHIPS</a>
+
+    <span class="spacer"></span>
+
+    <button class="head__toggle" (click)="toggleNav()">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div *ngIf="authService.user$ | async as user" class="menu">
+    <mat-nav-list>
+      <div
+        class="menu__team"
+        *ngFor="let team of myTeams$ | async; index as i"
+        (click)="ownerTeamExpands[i] = !ownerTeamExpands[i]"
+      >
+        <div class="menu__team-heading-wrap">
+          <img class="menu__team-thumbnail" [src]="team.thumbnailURL" alt="" />
+          <div class="menu__name-wrap">
+            <p class="menu__team-name">{{ team.name }}</p>
+            <span class="spacer"></span>
+            <mat-icon
+              class="menu__indicator"
+              [@indicatorRotate]="
+                ownerTeamExpands[i] ? 'expanded' : 'collapsed'
+              "
+            >
+              expand_more
+            </mat-icon>
+          </div>
+        </div>
+        <ng-container *ngIf="ownerTeamExpands[i]">
+          <a
+            mat-list-item
+            routerLink="/editor"
+            class="menu__children"
+            [routerLinkActive]="['is-active']"
+          >
+            <mat-icon class="menu__icon">group</mat-icon>
+            ミーティング</a
+          >
+          <a
+            mat-list-item
+            routerLink="/editor"
+            class="menu__children"
+            [routerLinkActive]="['is-active']"
+          >
+            <mat-icon class="menu__icon">edit</mat-icon>
+            シフト作成</a
+          >
+          <a
+            mat-list-item
+            routerLink="/editor"
+            class="menu__children"
+            [routerLinkActive]="['is-active']"
+          >
+            <mat-icon class="menu__icon">notes</mat-icon>
+            お知らせ</a
+          >
+        </ng-container>
+      </div>
+      <a
+        mat-list-item
+        routerLink="/editor"
+        class="menu__children"
+        [routerLinkActive]="['is-active']"
+      >
+        <mat-icon class="menu__icon">add</mat-icon>
+        チームをつくる</a
+      >
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <mat-nav-list>
+      <div
+        class="menu__team"
+        *ngFor="let team of joinedTeams$ | async; index as i"
+        (click)="joinedTeamExpands[i] = !joinedTeamExpands[i]"
+      >
+        <div class="menu__team-heading-wrap">
+          <img class="menu__team-thumbnail" [src]="team.thumbnailURL" alt="" />
+          <div class="menu__name-wrap">
+            <p class="menu__team-name">{{ team.name }}</p>
+            <span class="spacer"></span>
+            <mat-icon
+              class="menu__indicator"
+              [@indicatorRotate]="
+                joinedTeamExpands[i] ? 'expanded' : 'collapsed'
+              "
+            >
+              expand_more
+            </mat-icon>
+          </div>
+        </div>
+        <ng-container *ngIf="joinedTeamExpands[i]">
+          <a
+            mat-list-item
+            routerLink="/editor"
+            class="menu__children"
+            [routerLinkActive]="['is-active']"
+          >
+            <mat-icon class="menu__icon">group</mat-icon>
+            ミーティング</a
+          >
+          <a
+            mat-list-item
+            routerLink="/editor"
+            class="menu__children"
+            [routerLinkActive]="['is-active']"
+          >
+            <mat-icon class="menu__icon">notes</mat-icon>
+            お知らせ</a
+          >
+        </ng-container>
+      </div>
+      <a
+        mat-list-item
+        (click)="openJoinTeamDialog(user.uid)"
+        class="menu__children"
+        [routerLinkActive]="['is-active']"
+      >
+        <mat-icon class="menu__icon">add</mat-icon>
+        チームに参加する</a
+      >
+    </mat-nav-list>
+
+    <mat-divider></mat-divider>
+
+    <span class="spacer"></span>
+
+    <div class="user">
+      <img [src]="user.photoURL" [matMenuTriggerFor]="menu" alt="" />
+      <p class="user__name">{{ user.name }}</p>
+    </div>
+
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="/settings">
+        <mat-icon>account_circle</mat-icon>
+        <span>マイページ</span>
+      </a>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>ログアウト</span>
+      </button>
+
+      <ng-container *ngIf="user.isAdmin">
+        <mat-divider class="divider"></mat-divider>
+        <a mat-menu-item routerLink="/editor/editor-article-list">
+          <mat-icon>edit</mat-icon>
+          <span>管理者メニュー</span>
+        </a>
+      </ng-container>
+    </mat-menu>
+  </div>
+</div>
