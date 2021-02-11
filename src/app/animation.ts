@@ -47,3 +47,12 @@ export const easeSlideForContent = trigger('easeSlideForContent', [
   transition('close => open', animate('.16s ease-out')),
   transition('open => close', animate('.16s ease-out')),
 ]);
+
+export const indicatorRotate = trigger('indicatorRotate', [
+  state('collapsed', style({ transform: 'rotate(0deg)' })),
+  state('expanded', style({ transform: 'rotate(180deg)' })),
+  transition(
+    'expanded <=> collapsed',
+    animate('225ms cubic-bezier(0.4,0.0,0.2,1)')
+  ),
+]);
