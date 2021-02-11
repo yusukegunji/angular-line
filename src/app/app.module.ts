@@ -27,6 +27,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MiniNavComponent } from './mini-nav/mini-nav.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
     FooterComponent,
     ShellComponent,
     JoinTeamDialogComponent,
+    MainNavComponent,
+    MiniNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +63,9 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },

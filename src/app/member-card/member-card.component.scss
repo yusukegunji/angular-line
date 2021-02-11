@@ -4,6 +4,7 @@
   border-radius: 12px;
   transition: ease-in-out 0.3s;
   background: #fff;
+  min-width: 248px;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
       rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
@@ -74,12 +75,12 @@
     font-size: 10px;
     transition: ease-in-out 0.3s;
     &--result {
-      background: #9c38ff;
-      background: linear-gradient(to right, #9c38ff, #d28fff);
+      background: #4d49fd;
+      background: linear-gradient(to right, #6464f5, #4d49fd);
     }
     &--plan {
-      background: #9c38ff;
-      background: linear-gradient(to right, #9c38ff, #d28fff);
+      background: #4d49fd;
+      background: linear-gradient(to right, #6464f5, #4d49fd);
     }
   }
   &__text {
@@ -94,8 +95,8 @@
   &__btn {
     max-width: 70%;
     background: transparent;
-    border: 2px solid #9c38ff;
-    color: #9c38ff;
+    border: 2px solid #6464f5;
+    color: #6464f5;
     padding: 6px 16px;
     margin: 0 auto;
     text-align: center;
@@ -104,8 +105,8 @@
     font-size: 14px;
     cursor: pointer;
     &:hover {
-      border: 2px solid #d28fff;
-      background: linear-gradient(to right, #9c38ff, #d28fff);
+      border: 2px solid #4d49fd;
+      background: linear-gradient(to right, #6464f5, #4d49fd);
       color: #fff;
     }
   }

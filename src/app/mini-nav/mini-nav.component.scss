@@ -1,0 +1,43 @@
+.mini-menu {
+  height: 100%;
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  &__team-heading {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    transition: ease-in-out 0.3s;
+    margin-bottom: 16px;
+    display: flex;
+    place-items: center;
+    place-content: center;
+    cursor: pointer;
+    &:hover {
+      background: #6464f5;
+    }
+  }
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  &__children {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    transition: ease-in-out 0.3s;
+    margin-bottom: 16px;
+    color: #fff;
+    display: flex;
+    place-items: center;
+    place-content: center;
+    &:hover {
+      background: #6464f5;
+    }
+  }
+  &__btn {
+    color: #fff;
+    cursor: pointer;
+  }
+}
