@@ -30,6 +30,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MiniNavComponent } from './mini-nav/mini-nav.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { MatListModule } from '@angular/material/list';
     ShellComponent,
     JoinTeamDialogComponent,
     MainNavComponent,
+    MiniNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatSidenavModule,
     MatListModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: REGION, useValue: 'asia-northeast1' },

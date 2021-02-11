@@ -1,0 +1,66 @@
+<div class="mini-menu" *ngIf="activeTeam$ | async as team">
+  <div
+    class="mini-menu__team-heading"
+    [routerLink]="'/team/' + team.teamId + '/' + thisMonth"
+  >
+    <img [src]="team.thumbnailURL" alt="" />
+  </div>
+  <a
+    mat-list-item
+    routerLink="/editor"
+    class="mini-menu__children"
+    [routerLinkActive]="['is-active']"
+  >
+    <mat-icon
+      class="mini-menu__icon"
+      matTooltip="ミーティング"
+      matTooltipPosition="after"
+      >group</mat-icon
+    ></a
+  >
+  <a
+    mat-list-item
+    routerLink="/editor"
+    class="mini-menu__children"
+    [routerLinkActive]="['is-active']"
+  >
+    <mat-icon
+      class="mini-menu__icon"
+      matTooltip="シフト作成"
+      matTooltipPosition="after"
+      >edit</mat-icon
+    >
+  </a>
+  <a
+    mat-list-item
+    routerLink="/editor"
+    class="mini-menu__children"
+    [routerLinkActive]="['is-active']"
+  >
+    <mat-icon
+      class="mini-menu__icon"
+      matTooltip="コメント"
+      matTooltipPosition="after"
+      >notes</mat-icon
+    >
+  </a>
+  <a
+    mat-list-item
+    routerLink="/editor"
+    class="mini-menu__children"
+    [routerLinkActive]="['is-active']"
+  >
+    <mat-icon
+      class="mini-menu__icon"
+      matTooltip="チーム作成"
+      matTooltipPosition="after"
+      >add</mat-icon
+    >
+  </a>
+
+  <button class="mini-menu__children">
+    <mat-icon class="mini-menu__btn" (click)="toggleNav()"
+      >navigate_next</mat-icon
+    >
+  </button>
+</div>
