@@ -26,8 +26,8 @@
   &__edit {
     max-width: 120px;
     background: transparent;
-    border: 2px solid #9c38ff;
-    color: #9c38ff;
+    border: 2px solid #6464f5;
+    color: #6464f5;
     font-size: 13px;
     padding: 4px 8px;
     margin: 0 auto;
@@ -36,7 +36,8 @@
     transition: ease-in-out 0.3s;
     cursor: pointer;
     &:hover {
-      background: linear-gradient(to right, #9c38ff, #d28fff);
+      border: 2px solid #6464f5;
+      background: linear-gradient(to right, #6464f5, #4d49fd);
       color: #fff;
     }
   }

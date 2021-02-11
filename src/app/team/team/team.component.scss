@@ -8,7 +8,7 @@
   &__border {
     width: 3px;
     height: 28px;
-    background: linear-gradient(to right, #9c38ff, #d28fff);
+    background: linear-gradient(to right, #6464f5, #4d49fd);
     margin-right: 4px;
     display: block;
     &:nth-of-type(2) {
@@ -37,8 +37,7 @@
 }
 
 .member {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(200px, 1fr));
+  display: flex;
   gap: 24px;
   margin: 24px 0 48px;
 }
