@@ -8,9 +8,9 @@
     [class.close]="!uiService.isOpened"
     [@easeSlideForSideNav]="uiService.isOpened ? 'open' : 'close'"
   >
-    <button class="nav-btn" (click)="toggleNav()" *ngIf="!uiService.isOpened">
-      <mat-icon>navigate_next</mat-icon>
-    </button>
+    <div class="mini-nav" *ngIf="!uiService.isOpened">
+      <app-mini-nav> </app-mini-nav>
+    </div>
     <app-main-nav *ngIf="uiService.isOpened"></app-main-nav>
   </mat-sidenav>
 
@@ -18,8 +18,6 @@
     [@easeSlideForContent]="uiService.isOpened ? 'open' : 'close'"
   >
     <app-header></app-header>
-    <div class="router">
-      <router-outlet> </router-outlet>
-    </div> </mat-sidenav-content
+    <router-outlet> </router-outlet> </mat-sidenav-content
 ></mat-sidenav-container>
 <app-footer></app-footer>

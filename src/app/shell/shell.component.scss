@@ -1,11 +1,14 @@
-.nav-btn {
+.sidenav {
+  background: #fff;
+}
+
+.mini-nav {
   width: 72px;
   height: 100%;
   background: linear-gradient(to right, #6464f5, #4d49fd);
-}
-
-.sidenav {
-  background: #fff;
+  &__btn {
+    color: #fff;
+  }
 }
 
 app-header {

@@ -19,11 +19,6 @@ export class ShellComponent implements OnInit {
     this.getScreenSize();
   }
 
-  toggleNav(): void {
-    this.uiService.isOpened = !this.uiService.isOpened;
-    console.log(this.uiService.isOpened);
-  }
-
   getScreenSize(): void {
     this.scrWidth = window.innerWidth;
   }
