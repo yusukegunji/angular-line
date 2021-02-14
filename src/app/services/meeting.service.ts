@@ -44,9 +44,6 @@ export class MeetingService {
       throw new Error('channel name is required.');
     }
 
-    this.client.on('user-published', this.handleUserPublished);
-    this.client.on('user-unpublished', this.handleUserUnpublished);
-
     const token: any = await this.getToken(channelName);
     console.log(token);
     [
@@ -59,9 +56,12 @@ export class MeetingService {
       AgoraRTC.createCameraVideoTrack(),
       // AgoraRTC.createScreenVideoTrack()
     ]);
+
     this.snackBar.open('ルームにジョインしました');
 
     this.localTracks.videoTrack.play('local-player');
+    this.client.on('user-published', this.handleUserPublished);
+    // this.client.on('user-unpublished', this.handleUserUnpublished);
 
     await this.client.publish(Object.values(this.localTracks));
     console.log('publish success');
@@ -86,7 +86,13 @@ export class MeetingService {
 
   async handleUserPublished(user, mediaType): Promise<void> {
     const id = user.uid;
+    console.log(id);
+
     this.remoteUsers[id] = user;
+    console.log(this.remoteUsers[id]);
+    console.log(user);
+    console.log(mediaType);
+
     await this.subscribeChannel(user, mediaType);
   }
 
