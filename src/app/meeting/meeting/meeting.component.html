@@ -26,14 +26,11 @@
         >{{ channelControl.value.length }}/30文字以内</mat-hint
       >
 
-      <button mat-button type="button" [disabled]="" (click)="leaveChannel()">
-        Leave
-      </button>
       <button
         mat-button
         type="button"
         [disabled]=""
-        (click)="meetingService.subscribeChannel()"
+        (click)="leaveChannel(user.uid)"
       >
         Leave
       </button>
