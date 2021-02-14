@@ -1,0 +1,41 @@
+<ng-container *ngIf="user$ | async as user">
+  <div id="success-alert">
+    <strong>Congratulations!</strong>
+    <span> Joined room successfully. </span>
+    <button id="alert-close" type="button">x</button>
+  </div>
+  <div class="container">
+    <form (ngSubmit)="joinChannel(user.uid)">
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          autocomplete="off"
+          [formControl]="channelControl"
+          type="text"
+          required
+        />
+      </mat-form-field>
+      <button mat-button type="submit">Join</button>
+      <mat-error *ngIf="channelControl.hasError('required')"
+        >必須入力です</mat-error
+      >
+      <mat-error *ngIf="channelControl.hasError('maxlength')"
+        >最大文字数を超えています</mat-error
+      >
+      <mat-hint align="end"
+        >{{ channelControl.value.length }}/30文字以内</mat-hint
+      >
+
+      <button mat-button type="button" [disabled]="" (click)="leaveChannel()">
+        Leave
+      </button>
+    </form>
+    <div class="all-players">
+      <div>
+        <p id="local-player-name" class="player-name"></p>
+        <div id="local-player" class="player"></div>
+      </div>
+      <div id="remote-player-list"></div>
+    </div>
+  </div>
+</ng-container>

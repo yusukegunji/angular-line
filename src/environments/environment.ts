@@ -14,4 +14,9 @@ export const environment = {
     redirectURI:
       'https://asia-northeast1-line-demo-a1a08.cloudfunctions.net/getLineCodeWebhook',
   },
+  agora: {
+    appId: '9e58a25e957d4eb8a8341f50e16eef70',
+    token:
+      '0069e58a25e957d4eb8a8341f50e16eef70IAAk643AlFNl6amODnrNBb24DXF3dhrdqjIYZX9dd7tz8eXoolwAAAAAEABFd1n89WIpYAEAAQD1Yilg',
+  },
 };
