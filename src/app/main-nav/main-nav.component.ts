@@ -20,14 +20,14 @@ export class MainNavComponent implements OnInit {
 
   myTeams$: Observable<Team[]> = this.authService.user$.pipe(
     switchMap((user) => {
-      this.uid = user.uid;
+      this.uid = user?.uid;
       return this.teamService.getSelfOwningTeams(this.uid);
     })
   );
 
   joinedTeams$: Observable<Team[]> = this.authService.user$.pipe(
     switchMap((user) => {
-      this.uid = user.uid;
+      this.uid = user?.uid;
       return this.teamService.getJoinedTeams(this.uid);
     })
   );
@@ -44,13 +44,13 @@ export class MainNavComponent implements OnInit {
 
   ngOnInit(): void {
     this.myTeams$.subscribe((teams) => {
-      teams.forEach(() => {
+      teams?.forEach(() => {
         this.ownerTeamExpands.push(false);
       });
     });
 
     this.joinedTeams$.subscribe((teams) => {
-      teams.forEach(() => {
+      teams?.forEach(() => {
         this.joinedTeamExpands.push(false);
       });
     });

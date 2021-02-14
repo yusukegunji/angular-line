@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StickerMessage } from 'messaging-api-line/dist/LineTypes';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Team } from '../interfaces/team';
 import { User } from '../interfaces/user';
 import { AuthService } from '../services/auth.service';

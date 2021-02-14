@@ -35,6 +35,10 @@
     &:hover {
       background: #6464f5;
     }
+    &--toggle {
+      margin: 0 auto;
+      transform: translateY(16px);
+    }
   }
   &__btn {
     color: #fff;

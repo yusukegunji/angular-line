@@ -38,12 +38,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.pipe(take(1)).subscribe((user) => {
-      this.uid = user.uid;
+      this.uid = user?.uid;
       this.myTeams$ = this.teamService.getSelfOwningTeams(this.uid);
       this.joinedTeams$ = this.teamService.getJoinedTeams(this.uid);
       this.activeTeamName$ = this.teamService.getTeam(user.activeTeamId).pipe(
         map((team) => {
-          return team.name;
+          return team?.name;
         })
       );
     });
