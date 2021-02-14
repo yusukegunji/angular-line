@@ -1,0 +1,42 @@
+#success-alert {
+  display: none;
+  width: 100%;
+  background-color: #1f9ffa;
+  color: #ffffff;
+  padding: 10px;
+  box-sizing: border-box;
+}
+#success-alert.show {
+  display: flex;
+}
+
+#success-alert span {
+  margin-left: 8px;
+}
+
+#success-alert button {
+  margin: 0 0 0 auto;
+  color: #ffffff;
+}
+
+.all-players {
+  display: flex;
+}
+.player {
+  width: 480px;
+  height: 320px;
+}
+
+.player-name {
+  margin: 8px 0;
+}
+
+#remote-player-list {
+  margin-left: 20px;
+}
+@media (max-width: 640px) {
+  .player {
+    width: 320px;
+    height: 240px;
+  }
+}
