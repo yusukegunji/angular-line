@@ -1,7 +1,7 @@
 import { Attribute, Component, OnInit } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { FormControl, Validators } from '@angular/forms';
-import AgoraRTC from 'agora-rtc-sdk-ng';
+import AgoraRTC, { IAgoraRTCClient } from 'agora-rtc-sdk-ng';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -34,7 +34,7 @@ export class MeetingComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private meetingService: MeetingService
+    public meetingService: MeetingService
   ) {}
 
   ngOnInit(): void {
@@ -43,16 +43,14 @@ export class MeetingComponent implements OnInit {
 
   async joinChannel(uid: string): Promise<void> {
     const channelName = this.channelControl.value;
-    console.log(channelName);
-    console.log(uid);
+    const users = this.meetingService.agoraUid;
     this.meetingService.joinChannel(uid, channelName);
-    console.log(this.agoraUid);
   }
 
   async leaveChannel(): Promise<void> {
     console.log(this.agoraUid);
 
-    const client = this.agoraUid;
-    this.meetingService.leaveChannel(client);
+    // const client = this.meetingService.getToken(this.channelControl.value);
+    // this.meetingService.leaveChannel(client);
   }
 }

@@ -29,6 +29,14 @@
       <button mat-button type="button" [disabled]="" (click)="leaveChannel()">
         Leave
       </button>
+      <button
+        mat-button
+        type="button"
+        [disabled]=""
+        (click)="meetingService.subscribeChannel()"
+      >
+        Leave
+      </button>
     </form>
     <div class="all-players">
       <div>
