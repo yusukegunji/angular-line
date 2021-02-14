@@ -26,7 +26,10 @@
           <span data-text="P">P</span>
           <span data-text="S">S</span>
         </p>
-        <a [href]="lineAuthURL" class="btn">無料ではじめる</a>
+        <a [href]="lineAuthURL" class="btn">LINEアカウントでログイン</a>
+        <a class="btn" (click)="authService.googleLogin()">
+          Googleアカウントでログイン
+        </a>
       </div>
       <div class="check">
         <p>

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { User } from '../interfaces/user';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,23 @@ export class AuthService {
         })
         .finally(() => (this.isProcessing = false));
     }
+  }
+
+  async googleLogin(): Promise<void> {
+    this.isProcessing = true;
+    const provider = new firebase.default.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    this.afAuth
+      .signInWithPopup(provider)
+      .then(() => {
+        this.snackbar.open('ログインしました');
+        this.router.navigate(['/']);
+      })
+      .catch((error) => {
+        console.log('failed to sign in');
+        console.error(error);
+      })
+      .finally(() => (this.isProcessing = false));
   }
 
   logout(): void {
