@@ -52,6 +52,6 @@ export class MeetingComponent implements OnInit {
       uid,
       this.channelControl.value
     );
-    this.meetingService.leaveChannel(channelName);
+    this.meetingService.leaveChannel(uid, channelName);
   }
 }
