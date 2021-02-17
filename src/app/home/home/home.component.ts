@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
       this.uid = user?.uid;
       this.myTeams$ = this.teamService.getSelfOwningTeams(this.uid);
       this.joinedTeams$ = this.teamService.getJoinedTeams(this.uid);
-      this.activeTeamName$ = this.teamService.getTeam(user.activeTeamId).pipe(
+      this.activeTeamName$ = this.teamService.getTeam(user?.activeTeamId).pipe(
         map((team) => {
           return team?.name;
         })
