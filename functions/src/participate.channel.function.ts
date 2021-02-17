@@ -19,7 +19,7 @@ export const participateChannel = functions
       );
     }
 
-    const channelId = data.channelId;
+    const channelId = data.channelName;
     if (!channelId || typeof channelId !== 'string') {
       throw new functions.https.HttpsError(
         'invalid-argument',
@@ -94,7 +94,7 @@ export const getChannelToken = functions
     return { channelId, token, currentUserId };
   });
 
-function generateToken(channelName: string, userId: string): string {
+function generateToken(channelName: string, userId: string): any {
   if (!appID) {
     throw new Error('Agora app ID is required');
   }

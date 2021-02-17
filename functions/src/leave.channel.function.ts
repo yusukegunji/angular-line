@@ -14,7 +14,7 @@ export const leaveFromSession = functions
       );
     }
 
-    const channelId = data.channelId;
+    const channelId = data.channelName;
     if (!channelId || typeof channelId !== 'string') {
       throw new functions.https.HttpsError(
         'invalid-argument',
