@@ -26,12 +26,7 @@
         >{{ channelControl.value.length }}/30文字以内</mat-hint
       >
 
-      <button
-        mat-button
-        type="button"
-        [disabled]=""
-        (click)="leaveChannel(user.uid)"
-      >
+      <button mat-button type="button" (click)="leaveChannel(user.uid)">
         Leave
       </button>
     </form>

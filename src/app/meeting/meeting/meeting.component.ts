@@ -47,13 +47,11 @@ export class MeetingComponent implements OnInit {
     this.meetingService.joinChannel(uid, channelName);
   }
 
-  async leaveChannel(uid: string): Promise<void> {
-    console.log(this.agoraUid);
-
+  async leaveChannel(uid: string, channelName: string): Promise<void> {
     const client = this.meetingService.getAgoraUid(
       uid,
       this.channelControl.value
     );
-    this.meetingService.leaveChannel(client);
+    this.meetingService.leaveChannel(channelName);
   }
 }

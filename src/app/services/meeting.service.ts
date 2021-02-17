@@ -18,6 +18,7 @@ export class MeetingService {
     audioTrack: null,
   };
   remoteUsers = {};
+  globalAgoraClient: IAgoraRTCClient | null = null;
   isProcessing: boolean;
   constructor(
     private fnc: AngularFireFunctions,
@@ -55,6 +56,16 @@ export class MeetingService {
   }
 
   async joinChannel(uid: string, channelName: string): Promise<number> {
+    const callable = this.fnc.httpsCallable('participateChannel');
+    const agoraToken = await callable({ channelName })
+      .toPromise()
+      .catch((error) => {
+        console.log(channelName);
+
+        console.log(error);
+        this.router.navigate(['/']);
+      });
+
     if (!uid) {
       throw new Error('channel name is required.');
     }
@@ -147,14 +158,50 @@ export class MeetingService {
     if (mediaType === 'audio') {
       console.log(user);
       console.log(user.audioTask);
-
       user.audioTrack.play();
     }
   }
 
-  async leaveChannel(client): Promise<void> {
-    client.localTracks.forEach((value) => value.close());
-    this.handleUserUnpublished(client);
-    await client.leave();
+  async unpublishAgora(): Promise<void> {
+    const client = this.getClient();
+
+    if (client.localTracks.length > 0) {
+      client.localTracks.forEach((v) => v.close());
+      client.unpublish();
+    }
+  }
+
+  async leaveChannel(uid: string, channelName: string): Promise<void> {
+    const thisClient = this.getClient();
+
+    if (!uid) {
+      console.log('uid is requird');
+      return null;
+    }
+    await Promise.all([
+      this.unpublishAgora().then(() => thisClient.leave()),
+      this.leaveFromSession(channelName),
+    ]);
+  }
+
+  async leaveFromSession(channelName: string): Promise<void> {
+    const callable = this.fnc.httpsCallable('leaveFromSession');
+    await callable({ channelName })
+      .toPromise()
+      .catch((error) => {
+        console.log(channelName);
+
+        console.log(error);
+        this.router.navigate(['/']);
+      });
+  }
+
+  getClient(): IAgoraRTCClient {
+    if (!this.globalAgoraClient) {
+      const newClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+      this.globalAgoraClient = newClient;
+    }
+
+    return this.globalAgoraClient;
   }
 }
