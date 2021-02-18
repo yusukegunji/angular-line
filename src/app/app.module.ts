@@ -32,6 +32,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MiniNavComponent } from './mini-nav/mini-nav.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     JoinTeamDialogComponent,
     MainNavComponent,
     MiniNavComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,
