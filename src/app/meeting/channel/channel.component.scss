@@ -1,0 +1,39 @@
+.channel {
+  min-height: 100vh;
+  background: #1a1f23;
+  &__title {
+    text-align: center;
+    color: #fff;
+    padding: 24px;
+  }
+  &__camera {
+    width: 160px;
+    height: 160px;
+  }
+  &__main-icon {
+    font-size: 80px;
+    color: #dd2d72;
+  }
+}
+
+.all-players {
+  display: flex;
+}
+.player {
+  width: 480px;
+  height: 320px;
+}
+
+.player-name {
+  margin: 8px 0;
+}
+
+#remote-player-list {
+  margin-left: 20px;
+}
+@media (max-width: 640px) {
+  .player {
+    width: 320px;
+    height: 240px;
+  }
+}

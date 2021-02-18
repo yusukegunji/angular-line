@@ -1,0 +1,20 @@
+<div class="channel">
+  <p class="channel__title">meeting room</p>
+  <ng-container *ngIf="user$ | async as user">
+    <div class="container container--channel">
+      <div class="channel__camera">
+        <mat-icon class="channel__main-icon">lens_blur</mat-icon>
+      </div>
+      <button (click)="joinChannel(user.uid)">JOIN</button>
+
+      <div class="all-players">
+        <div>
+          <p id="local-player-name" class="player-name"></p>
+          <div id="local-player" class="player"></div>
+        </div>
+        <div id="remote-player-list"></div>
+      </div>
+    </div>
+    <button (click)="leaveChannel(user.uid)">leave</button>
+  </ng-container>
+</div>
