@@ -7,9 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ChannelComponent } from './channel/channel.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [MeetingComponent],
+  declarations: [MeetingComponent, ChannelComponent],
   imports: [
     CommonModule,
     MeetingRoutingModule,
@@ -18,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
   ],
 })
 export class MeetingModule {}
