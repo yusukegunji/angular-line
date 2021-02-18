@@ -1,41 +1,42 @@
-<ng-container *ngIf="user$ | async as user">
-  <div id="success-alert">
-    <strong>Congratulations!</strong>
-    <span> Joined room successfully. </span>
-    <button id="alert-close" type="button">x</button>
-  </div>
-  <div class="container">
-    <form (ngSubmit)="joinChannel(user.uid)">
-      <mat-form-field appearance="outline">
+<div class="container container--meeting">
+  <div class="meeting" *ngIf="user$ | async as user">
+    <p class="meeting__msg">
+      チャンネルの名前を設定して<strong>ミーティングを開催</strong>をクリックしてください。
+    </p>
+
+    <form (ngSubmit)="joinChannel()" class="meeting__form-wrap">
+      <mat-form-field appearance="outline" class="meeting__form">
         <input
           matInput
           autocomplete="off"
           [formControl]="channelControl"
+          placeholder="チャンネル名を入力してください"
           type="text"
           required
         />
+        <mat-hint align="end"
+          >{{ channelControl.value.length }}/30文字</mat-hint
+        >
+        <mat-error *ngIf="channelControl.hasError('required')"
+          >必須入力です</mat-error
+        >
+        <mat-error *ngIf="channelControl.hasError('maxlength')"
+          >最大文字数を超えています</mat-error
+        >
       </mat-form-field>
-      <button mat-button type="submit">Join</button>
-      <mat-error *ngIf="channelControl.hasError('required')"
-        >必須入力です</mat-error
-      >
-      <mat-error *ngIf="channelControl.hasError('maxlength')"
-        >最大文字数を超えています</mat-error
-      >
-      <mat-hint align="end"
-        >{{ channelControl.value.length }}/30文字以内</mat-hint
-      >
 
-      <button mat-button type="button" (click)="leaveChannel(user.uid)">
-        Leave
-      </button>
-    </form>
-    <div class="all-players">
-      <div>
-        <p id="local-player-name" class="player-name"></p>
-        <div id="local-player" class="player"></div>
+      <div class="meeting__form-btn-wrap">
+        <button
+          mat-button
+          class="meeting__btn"
+          type="submit"
+          [disabled]="channelControl.invalid || channelControl.pristine"
+        >
+          ミーティングを開催
+        </button>
+
+        <button mat-button type="button" routerLink="">戻る</button>
       </div>
-      <div id="remote-player-list"></div>
-    </div>
+    </form>
   </div>
-</ng-container>
+</div>

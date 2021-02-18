@@ -1,12 +1,11 @@
-import { Attribute, Component, OnInit } from '@angular/core';
-import { AngularFireFunctions } from '@angular/fire/functions';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import AgoraRTC, { IAgoraRTCClient } from 'agora-rtc-sdk-ng';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { MeetingService } from 'src/app/services/meeting.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-meeting',
@@ -14,16 +13,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./meeting.component.scss'],
 })
 export class MeetingComponent implements OnInit {
-  client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-  agoraAppId: string = environment.agora.appId;
-  token: string = environment.agora.token;
-  agoraUid: any;
-  localTracks = {
-    videoTrack: null,
-    audioTrack: null,
-  };
-  remoteUsers = {};
-  isProcessing: boolean;
+  teamId$: Observable<string> = this.route.paramMap.pipe(
+    map((params) => params.get('teamId'))
+  );
+  teamId: string;
 
   channelControl = new FormControl('', [
     Validators.required,
@@ -34,24 +27,19 @@ export class MeetingComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public meetingService: MeetingService
+    public meetingService: MeetingService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    console.log(`Your agora.io appId is ${this.agoraAppId}`);
+    this.teamId$.subscribe((id) => {
+      this.teamId = id;
+    });
   }
 
-  async joinChannel(uid: string): Promise<void> {
-    const channelName = this.channelControl.value;
-    const users = this.meetingService.agoraUid;
-    this.meetingService.joinChannel(uid, channelName);
-  }
-
-  async leaveChannel(uid: string, channelName: string): Promise<void> {
-    const client = this.meetingService.getAgoraUid(
-      uid,
-      this.channelControl.value
-    );
-    this.meetingService.leaveChannel(uid, channelName);
+  joinChannel(): void {
+    const channelId = this.channelControl.value;
+    this.router.navigateByUrl(`/meeting/${this.teamId}/${channelId}`);
   }
 }

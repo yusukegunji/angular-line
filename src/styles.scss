@@ -72,6 +72,17 @@ button {
   &--member {
     min-height: 100vh;
   }
+  &--meeting {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &--channel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .mat-sidenav-content {
