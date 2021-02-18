@@ -1,0 +1,27 @@
+<!-- <ng-container *ngIf="user$ | async as user">
+  <div class="container">
+    <form (ngSubmit)="joinChannel()">
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          autocomplete="off"
+          [formControl]="channelControl"
+          type="text"
+          required
+        />
+      </mat-form-field>
+      <button mat-button type="submit">入る</button>
+      <mat-error *ngIf="channelControl.hasError('required')"
+        >必須入力です</mat-error
+      >
+      <mat-error *ngIf="channelControl.hasError('maxlength')"
+        >最大文字数を超えています</mat-error
+      >
+      <mat-hint align="end"
+        >{{ channelControl.value.length }}/30文字以内</mat-hint
+      >
+
+      <button mat-button type="button" routerLink="">戻る</button>
+    </form>
+  </div>
+</ng-container> -->
