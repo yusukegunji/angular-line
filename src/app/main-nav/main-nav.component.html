@@ -36,9 +36,8 @@
         <ng-container *ngIf="ownerTeamExpands[i]">
           <a
             mat-list-item
-            routerLink="/editor"
             class="menu__children"
-            [routerLink]="'/meeting/' + team.teamId"
+            [routerLink]="'meeting/' + team.teamId"
             [routerLinkActive]="['is-active']"
           >
             <mat-icon class="menu__icon">group</mat-icon>
@@ -101,9 +100,8 @@
         <ng-container *ngIf="joinedTeamExpands[i]">
           <a
             mat-list-item
-            routerLink="/editor"
             class="menu__children"
-            [routerLink]="'/meeting/' + team.teamId"
+            [routerLink]="'meeting/' + team.teamId"
             [routerLinkActive]="['is-active']"
           >
             <mat-icon class="menu__icon">group</mat-icon>
