@@ -3,18 +3,31 @@
   <ng-container *ngIf="user$ | async as user">
     <div class="container container--channel">
       <div class="channel__camera">
-        <mat-icon class="channel__main-icon">lens_blur</mat-icon>
+        <ng-template #nobady>
+          <div class="channel__default">
+            <img src="assets/images/grid.svg" alt="" />
+          </div>
+        </ng-template>
       </div>
-      <button (click)="joinChannel(user.uid)">JOIN</button>
 
-      <div class="all-players">
-        <div>
-          <p id="local-player-name" class="player-name"></p>
-          <div id="local-player" class="player"></div>
+      <ng-container *ngIf="players; else nobady">
+        <div class="all-players">
+          <div>
+            <p id="local-player-name" class="player-name"></p>
+            <div id="local-player" class="player"></div>
+          </div>
+          <div id="remote-player-list"></div>
         </div>
-        <div id="remote-player-list"></div>
-      </div>
+      </ng-container>
     </div>
-    <button (click)="leaveChannel(user.uid)">leave</button>
+
+    <div class="actions">
+      <button class="actions__btn" (click)="joinChannel(user.uid)">
+        <mat-icon class="actions__icon">videocam</mat-icon>
+      </button>
+      <button class="actions__btn" (click)="leaveChannel(user.uid)">
+        <mat-icon class="actions__icon">call_end</mat-icon>
+      </button>
+    </div>
   </ng-container>
 </div>

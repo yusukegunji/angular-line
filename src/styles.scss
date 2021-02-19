@@ -90,7 +90,12 @@ button {
 }
 
 .custom-snackbar {
-  background: rgba(#00c300, 0.8);
+  background: linear-gradient(
+    to right,
+    rgba(#6464f5, 0.38),
+    rgba(#4d49fd, 0.38)
+  );
+  color: #fff;
 }
 
 // ↓mat-select custom↓

@@ -17,6 +17,7 @@ export class ChannelComponent implements OnInit {
     map((params) => params.get('channelId'))
   );
   channelId: string;
+  players: any;
 
   constructor(
     private authService: AuthService,
@@ -29,11 +30,13 @@ export class ChannelComponent implements OnInit {
     this.channelId$.subscribe((id) => {
       this.channelId = id;
     });
+    console.log(this.channelId);
   }
 
   async joinChannel(uid: string): Promise<void> {
     const channelName = this.channelId;
     this.meetingService.joinChannel(uid, channelName);
+    this.players = true;
   }
 
   async leaveChannel(uid: string): Promise<void> {
