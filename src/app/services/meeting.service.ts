@@ -4,6 +4,9 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { User } from '../interfaces/user';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +21,13 @@ export class MeetingService {
     audioTrack: null,
   };
   remoteUsers = {};
+  globalAgoraClient: IAgoraRTCClient | null = null;
   isProcessing: boolean;
   constructor(
     private fnc: AngularFireFunctions,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private db: AngularFirestore
   ) {}
 
   addVideoStream(streamId): void {
@@ -31,14 +36,12 @@ export class MeetingService {
     streamDiv.style.transform = 'rotateY(180deg)';
     this.localPlayer.appendChild(streamDiv);
   }
-
   removeVideoStream(streamId): void {
     const remDiv = document.getElementById(streamId);
     if (remDiv) {
       remDiv.parentNode.removeChild(remDiv);
     }
   }
-
   async getAgoraUid(uid: string, channelName: string): Promise<any> {
     const token: any = await this.getToken(channelName);
     console.log(token);
@@ -53,12 +56,18 @@ export class MeetingService {
       // AgoraRTC.createScreenVideoTrack()
     ]));
   }
-
-  async joinChannel(uid: string, channelName: string): Promise<number> {
+  async joinChannel(uid: string, channelName: string): Promise<any> {
+    const callable = this.fnc.httpsCallable('participateChannel');
+    await callable({ channelName })
+      .toPromise()
+      .catch((error) => {
+        console.log(channelName);
+        console.log(error);
+        this.router.navigate(['/']);
+      });
     if (!uid) {
       throw new Error('channel name is required.');
     }
-
     const token: any = await this.getToken(channelName);
     console.log(token);
     [
@@ -71,13 +80,10 @@ export class MeetingService {
       AgoraRTC.createCameraVideoTrack(),
       // AgoraRTC.createScreenVideoTrack()
     ]);
-
     this.snackBar.open('ルームにジョインしました');
-
     this.localTracks.videoTrack.play('local-player');
     this.client.on('user-published', this.handleUserPublished);
     // this.client.on('user-unpublished', this.handleUserUnpublished);
-
     await this.client.publish(Object.values(this.localTracks));
     console.log('publish success');
     return this.agoraUid;
@@ -89,11 +95,9 @@ export class MeetingService {
       .toPromise()
       .catch((error) => {
         console.log(channelName);
-
         console.log(error);
         this.router.navigate(['/']);
       });
-
     if (agoraToken) {
       return agoraToken;
     }
@@ -102,12 +106,10 @@ export class MeetingService {
   async handleUserPublished(user, mediaType): Promise<void> {
     const id = user.uid;
     console.log(id);
-
     this.remoteUsers[id] = user;
     console.log(this.remoteUsers[id]);
     console.log(user);
     console.log(mediaType);
-
     await this.subscribeChannel(user, mediaType);
   }
 
@@ -123,38 +125,80 @@ export class MeetingService {
   async subscribeChannel(user, mediaType): Promise<void> {
     const uid = user.uid;
     console.log(uid);
-
     // subscribe to a remote user
     await this.client.subscribe(user, mediaType);
     console.log('subscribe success');
     if (mediaType === 'video') {
       console.log(mediaType);
-
       const playerElement = document.createElement('div');
       console.log(playerElement);
-
       document.getElementById('remote-player-list').append(playerElement);
       playerElement.outerHTML = `
-      <div id="player-wrapper-${uid}">
-        <p class="player-name">remoteUser(${uid})</p>
-        <div id="player-${uid}" class="player"></div>
-      </div>
-    `;
+        <div id="player-wrapper-${uid}">
+          <p class="player-name">remoteUser(${uid})</p>
+          <div id="player-${uid}" class="player"></div>
+        </div>
+      `;
       console.log(playerElement.outerHTML);
-
       user.videoTrack.play(`player-${uid}`);
     }
     if (mediaType === 'audio') {
       console.log(user);
       console.log(user.audioTask);
-
       user.audioTrack.play();
     }
   }
 
-  async leaveChannel(client): Promise<void> {
-    client.localTracks.forEach((value) => value.close());
-    this.handleUserUnpublished(client);
-    await client.leave();
+  async unpublishAgora(): Promise<void> {
+    const client = this.getClient();
+    if (client.localTracks.length > 0) {
+      client.localTracks.forEach((v) => v.close());
+      client.unpublish();
+    }
+  }
+
+  async leaveChannel(uid: string, channelName: string): Promise<void> {
+    const thisClient = this.getClient();
+    if (!uid || !channelName) {
+      console.log('uid and channelName is requird');
+      return null;
+    }
+    if (!this.localTracks) {
+      console.log('localTracks are null');
+      return null;
+    }
+    if (this.localTracks) {
+      await Promise.all([
+        this.localTracks.videoTrack.close(),
+        this.localTracks.audioTrack.close(),
+        thisClient.unpublish(Object.values(this.localTracks)),
+        this.leaveFromSession(channelName),
+      ]);
+    }
+  }
+
+  async leaveFromSession(channelName: string): Promise<void> {
+    const callable = this.fnc.httpsCallable('leaveFromSession');
+    await callable({ channelName })
+      .toPromise()
+      .catch((error) => {
+        console.log(channelName);
+        console.log(error);
+        this.router.navigate(['/']);
+      });
+  }
+
+  getClient(): IAgoraRTCClient {
+    if (!this.globalAgoraClient) {
+      const newClient = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+      this.globalAgoraClient = newClient;
+    }
+    return this.globalAgoraClient;
+  }
+
+  getParticipants(channelId: string): Observable<User[]> {
+    return this.db
+      .collection<User>(`channels/${channelId}/participants`)
+      .valueChanges();
   }
 }

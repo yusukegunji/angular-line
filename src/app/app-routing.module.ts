@@ -1,11 +1,12 @@
-import { FullscreenOverlayContainer } from '@angular/cdk/overlay';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NotfoundComponent } from './notfound/notfound.component';
 import { ShellComponent } from './shell/shell.component';
 
 const routes: Routes = [
   {
     path: 'welcome',
+    pathMatch: 'full',
     loadChildren: () =>
       import('./welcome/welcome.module').then((m) => m.WelcomeModule),
   },
@@ -40,7 +41,7 @@ const routes: Routes = [
           import('./settings/settings.module').then((m) => m.SettingsModule),
       },
       {
-        path: ':uid',
+        path: 'member/:uid',
         loadChildren: () =>
           import('./member-detail/member-detail.module').then(
             (m) => m.MemberDetailModule
@@ -52,6 +53,10 @@ const routes: Routes = [
           import('./meeting/meeting.module').then((m) => m.MeetingModule),
       },
     ],
+  },
+  {
+    path: '**',
+    component: NotfoundComponent,
   },
 ];
 

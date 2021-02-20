@@ -1,0 +1,8 @@
+<mat-nav-list class="participants-wrap">
+  <p class="heading">メンバー</p>
+
+  <div class="participants" *ngFor="let particitant of participants">
+    <img class="participants__photo" [src]="particitant.photoURL" alt="" />
+    <p class="participants__name">{{ particitant.name }}</p>
+  </div>
+</mat-nav-list>

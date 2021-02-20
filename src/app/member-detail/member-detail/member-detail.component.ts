@@ -61,7 +61,7 @@ export class MemberDetailComponent implements OnInit {
     });
 
     this.member$.subscribe((member) => {
-      this.memberId = member.uid;
+      this.memberId = member?.uid;
     });
 
     this.userService
