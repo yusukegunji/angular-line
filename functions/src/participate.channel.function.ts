@@ -61,6 +61,8 @@ async function addUserToParticipantList(
     );
   }
 
+  await db.doc(`channels/${channelId}`).set({ channelId });
+
   await db
     .doc(`channels/${channelId}/participants/${currentUserId}`)
     .set(userData);

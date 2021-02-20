@@ -4,6 +4,9 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { User } from '../interfaces/user';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +26,8 @@ export class MeetingService {
   constructor(
     private fnc: AngularFireFunctions,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private db: AngularFirestore
   ) {}
 
   addVideoStream(streamId): void {
@@ -52,7 +56,7 @@ export class MeetingService {
       // AgoraRTC.createScreenVideoTrack()
     ]));
   }
-  async joinChannel(uid: string, channelName: string): Promise<number> {
+  async joinChannel(uid: string, channelName: string): Promise<any> {
     const callable = this.fnc.httpsCallable('participateChannel');
     await callable({ channelName })
       .toPromise()
@@ -159,11 +163,18 @@ export class MeetingService {
       console.log('uid and channelName is requird');
       return null;
     }
-    await Promise.all([
-      thisClient.localTracks.forEach((track) => track.close),
-      this.unpublishAgora().then(() => thisClient.leave()),
-      this.leaveFromSession(channelName),
-    ]);
+    if (!this.localTracks) {
+      console.log('localTracks are null');
+      return null;
+    }
+    if (this.localTracks) {
+      await Promise.all([
+        this.localTracks.videoTrack.close(),
+        this.localTracks.audioTrack.close(),
+        thisClient.unpublish(Object.values(this.localTracks)),
+        this.leaveFromSession(channelName),
+      ]);
+    }
   }
 
   async leaveFromSession(channelName: string): Promise<void> {
@@ -183,5 +194,11 @@ export class MeetingService {
       this.globalAgoraClient = newClient;
     }
     return this.globalAgoraClient;
+  }
+
+  getParticipants(channelId: string): Observable<User[]> {
+    return this.db
+      .collection<User>(`channels/${channelId}/participants`)
+      .valueChanges();
   }
 }
