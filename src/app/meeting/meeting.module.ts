@@ -9,9 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ChannelComponent } from './channel/channel.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ParticipantsComponent } from './participants/participants.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-  declarations: [MeetingComponent, ChannelComponent],
+  declarations: [MeetingComponent, ChannelComponent, ParticipantsComponent],
   imports: [
     CommonModule,
     MeetingRoutingModule,
@@ -21,6 +24,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSidenavModule,
+    MatListModule,
   ],
 })
 export class MeetingModule {}
