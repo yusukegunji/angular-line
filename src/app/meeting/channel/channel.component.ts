@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { MeetingService } from 'src/app/services/meeting.service';
@@ -18,6 +18,13 @@ export class ChannelComponent implements OnInit {
   );
   channelId: string;
   players: any;
+
+  participants$: Observable<User[]> = this.channelId$.pipe(
+    switchMap((params) => {
+      this.channelId = params;
+      return this.meetingService.getParticipants(this.channelId);
+    })
+  );
 
   constructor(
     private authService: AuthService,
