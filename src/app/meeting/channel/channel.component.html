@@ -1,33 +1,44 @@
-<div class="channel">
-  <p class="channel__title">meeting room</p>
-  <ng-container *ngIf="user$ | async as user">
-    <div class="container container--channel">
-      <div class="channel__camera">
-        <ng-template #nobady>
-          <div class="channel__default">
-            <img src="assets/images/grid.svg" alt="" />
+<mat-drawer-container class="channel">
+  <mat-drawer-content>
+    <p class="channel__title">meeting room</p>
+    <ng-container *ngIf="user$ | async as user">
+      <div class="container container--channel">
+        <div class="channel__camera">
+          <ng-template #nobady>
+            <div class="channel__default">
+              <img src="assets/images/grid.svg" alt="" />
+            </div>
+          </ng-template>
+        </div>
+
+        <ng-container *ngIf="players; else nobady">
+          <div class="all-players">
+            <div>
+              <p id="local-player-name" class="player-name"></p>
+              <div id="local-player" class="player"></div>
+            </div>
+            <div id="remote-player-list"></div>
           </div>
-        </ng-template>
+        </ng-container>
       </div>
 
-      <ng-container *ngIf="players; else nobady">
-        <div class="all-players">
-          <div>
-            <p id="local-player-name" class="player-name"></p>
-            <div id="local-player" class="player"></div>
-          </div>
-          <div id="remote-player-list"></div>
-        </div>
-      </ng-container>
-    </div>
+      <div class="actions">
+        <button class="actions__btn" (click)="joinChannel(user.uid)">
+          <mat-icon class="actions__icon">videocam</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="leaveChannel(user.uid)">
+          <mat-icon class="actions__icon">call_end</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="drawer.toggle()">
+          <mat-icon class="actions__icon">groups</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </mat-drawer-content>
 
-    <div class="actions">
-      <button class="actions__btn" (click)="joinChannel(user.uid)">
-        <mat-icon class="actions__icon">videocam</mat-icon>
-      </button>
-      <button class="actions__btn" (click)="leaveChannel(user.uid)">
-        <mat-icon class="actions__icon">call_end</mat-icon>
-      </button>
-    </div>
-  </ng-container>
-</div>
+  <mat-drawer #drawer position="end" mode="side">
+    <ng-container *ngIf="participants$ | async as participants">
+      <app-participants [participants]="participants"></app-participants>
+    </ng-container>
+  </mat-drawer>
+</mat-drawer-container>
