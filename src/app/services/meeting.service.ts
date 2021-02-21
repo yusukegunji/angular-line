@@ -125,6 +125,8 @@ export class MeetingService {
   async subscribeChannel(user, mediaType): Promise<void> {
     const uid = user.uid;
     console.log(uid);
+    console.log(user);
+
     // subscribe to a remote user
     await this.client.subscribe(user, mediaType);
     console.log('subscribe success');
@@ -140,7 +142,7 @@ export class MeetingService {
         </div>
       `;
       console.log(playerElement.outerHTML);
-      user.videoTrack.play(`player-${uid}`);
+      user.localTracks.videoTrack.play(`player-${uid}`);
     }
     if (mediaType === 'audio') {
       console.log(user);
@@ -172,6 +174,7 @@ export class MeetingService {
         this.localTracks.videoTrack.close(),
         this.localTracks.audioTrack.close(),
         thisClient.unpublish(Object.values(this.localTracks)),
+        this.client.leave(),
         this.leaveFromSession(channelName),
       ]);
     }
