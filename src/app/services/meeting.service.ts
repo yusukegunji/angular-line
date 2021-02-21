@@ -82,7 +82,36 @@ export class MeetingService {
     ]);
     this.snackBar.open('ルームにジョインしました');
     this.localTracks.videoTrack.play('local-player');
-    this.client.on('user-published', this.handleUserPublished);
+    this.client.on('user-published', async (user, mediaType) => {
+      // Subscribe to a remote user.
+      await this.client.subscribe(user, mediaType);
+      console.log('subscribe success');
+      const remoreUserId = user.uid;
+      console.log(remoreUserId);
+      console.log(user);
+      await this.client.subscribe(user, mediaType);
+      console.log('subscribe success');
+      if (mediaType === 'video') {
+        console.log(mediaType);
+        const playerElement = document.createElement('div');
+        console.log(playerElement);
+        document.getElementById('remote-player-list').append(playerElement);
+        playerElement.outerHTML = `
+          <div id="player-wrapper-${remoreUserId}">
+            <p class="player-name">remoteUser(${remoreUserId})</p>
+            <div id="player-${remoreUserId}" class="player"></div>
+          </div>
+        `;
+        console.log(playerElement.outerHTML);
+        const remoteTrack = user.videoTrack;
+        remoteTrack.play('local-player');
+      }
+      if (mediaType === 'audio') {
+        console.log(user);
+        console.log(mediaType);
+        user.audioTrack.play();
+      }
+    });
     // this.client.on('user-unpublished', this.handleUserUnpublished);
     await this.client.publish(Object.values(this.localTracks));
     console.log('publish success');
@@ -130,16 +159,16 @@ export class MeetingService {
     console.log('subscribe success');
     if (mediaType === 'video') {
       console.log(mediaType);
-      // const playerElement = document.createElement('div');
-      // console.log(playerElement);
-      // document.getElementById('remote-player-list').append(playerElement);
-      // playerElement.outerHTML = `
-      //   <div id="player-wrapper-${uid}">
-      //     <p class="player-name">remoteUser(${uid})</p>
-      //     <div id="player-${uid}" class="player"></div>
-      //   </div>
-      // `;
-      // console.log(playerElement.outerHTML);
+      const playerElement = document.createElement('div');
+      console.log(playerElement);
+      document.getElementById('remote-player-list').append(playerElement);
+      playerElement.outerHTML = `
+        <div id="player-wrapper-${uid}">
+          <p class="player-name">remoteUser(${uid})</p>
+          <div id="player-${uid}" class="player"></div>
+        </div>
+      `;
+      console.log(playerElement.outerHTML);
       user.localTracks.videoTrack.play();
     }
     if (mediaType === 'audio') {
