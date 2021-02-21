@@ -126,27 +126,25 @@ export class MeetingService {
     const uid = user.uid;
     console.log(uid);
     console.log(user);
-
-    // subscribe to a remote user
     await this.client.subscribe(user, mediaType);
     console.log('subscribe success');
     if (mediaType === 'video') {
       console.log(mediaType);
-      const playerElement = document.createElement('div');
-      console.log(playerElement);
-      document.getElementById('remote-player-list').append(playerElement);
-      playerElement.outerHTML = `
-        <div id="player-wrapper-${uid}">
-          <p class="player-name">remoteUser(${uid})</p>
-          <div id="player-${uid}" class="player"></div>
-        </div>
-      `;
-      console.log(playerElement.outerHTML);
-      user.localTracks.videoTrack.play(`player-${uid}`);
+      // const playerElement = document.createElement('div');
+      // console.log(playerElement);
+      // document.getElementById('remote-player-list').append(playerElement);
+      // playerElement.outerHTML = `
+      //   <div id="player-wrapper-${uid}">
+      //     <p class="player-name">remoteUser(${uid})</p>
+      //     <div id="player-${uid}" class="player"></div>
+      //   </div>
+      // `;
+      // console.log(playerElement.outerHTML);
+      user.localTracks.videoTrack.play();
     }
     if (mediaType === 'audio') {
       console.log(user);
-      console.log(user.audioTask);
+      console.log(mediaType);
       user.audioTrack.play();
     }
   }
