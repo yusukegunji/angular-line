@@ -27,9 +27,9 @@ export class MeetingComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public meetingService: MeetingService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public meetingService: MeetingService
   ) {}
 
   ngOnInit(): void {
