@@ -41,4 +41,19 @@
       <app-participants [participants]="participants"></app-participants>
     </ng-container>
   </mat-drawer>
+
+  <ng-container *ngIf="meetingService.isProcessing">
+    <div class="loading">
+      <p class="loading__svg">
+        <img src="assets/images/loading.svg" alt="" />
+      </p>
+      <P class="loading__text">
+        <span>参</span>
+        <span>加</span>
+        <span>処</span>
+        <span>理</span>
+        <span>中</span>
+      </P>
+    </div>
+  </ng-container>
 </mat-drawer-container>
