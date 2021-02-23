@@ -70,8 +70,8 @@
   }
   &__title span::after {
     z-index: 2;
-    color: #00c300;
-    text-shadow: -1px 0 1px #00c300, 1px 0 1px #fff;
+    color: #e33c7d;
+    text-shadow: -1px 0 1px #e33c7d, 1px 0 1px #fff;
     transform: rotateY(-40deg);
   }
   &__title span:hover::before {
@@ -130,8 +130,9 @@
   font-weight: 100;
   padding: 8px 16px 8px 0;
   transition: ease-out 0.3s;
+  cursor: pointer;
   &:hover {
-    color: #00c300;
+    color: #e33c7d;
   }
 }
 
@@ -144,6 +145,6 @@
   color: #c6c6c6;
   margin-bottom: 40px;
   &__link {
-    color: #00c300;
+    color: #e33c7d;
   }
 }

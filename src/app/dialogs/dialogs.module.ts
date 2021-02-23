@@ -8,9 +8,10 @@ import { JoinDialogComponent } from './join-dialog/join-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { QrDialogComponent } from './qr-dialog/qr-dialog.component';
 
 @NgModule({
-  declarations: [DeleteDialogComponent, JoinDialogComponent],
+  declarations: [DeleteDialogComponent, JoinDialogComponent, QrDialogComponent],
   imports: [
     CommonModule,
     MatDividerModule,
