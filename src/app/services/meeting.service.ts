@@ -36,32 +36,20 @@ export class MeetingService {
     streamDiv.style.transform = 'rotateY(180deg)';
     this.localPlayer.appendChild(streamDiv);
   }
+
   removeVideoStream(streamId): void {
     const remDiv = document.getElementById(streamId);
     if (remDiv) {
       remDiv.parentNode.removeChild(remDiv);
     }
   }
-  async getAgoraUid(uid: string, channelName: string): Promise<any> {
-    const token: any = await this.getToken(channelName);
-    console.log(token);
-    return ([
-      this.agoraUid,
-      this.localTracks.audioTrack,
-      this.localTracks.videoTrack,
-    ] = await Promise.all([
-      this.client.join(this.agoraAppId, channelName, token.token, uid),
-      AgoraRTC.createMicrophoneAudioTrack(),
-      AgoraRTC.createCameraVideoTrack(),
-      // AgoraRTC.createScreenVideoTrack()
-    ]));
-  }
+
   async joinChannel(uid: string, channelName: string): Promise<any> {
+    this.isProcessing = true;
     const callable = this.fnc.httpsCallable('participateChannel');
     await callable({ channelName })
       .toPromise()
       .catch((error) => {
-        console.log(channelName);
         console.log(error);
         this.router.navigate(['/']);
       });
@@ -69,7 +57,6 @@ export class MeetingService {
       throw new Error('channel name is required.');
     }
     const token: any = await this.getToken(channelName);
-    console.log(token);
     [
       this.agoraUid,
       this.localTracks.audioTrack,
@@ -80,21 +67,18 @@ export class MeetingService {
       AgoraRTC.createCameraVideoTrack(),
       // AgoraRTC.createScreenVideoTrack()
     ]);
-    this.snackBar.open('ルームにジョインしました');
+    this.snackBar.open('チャンネルに参加しました');
+    this.isProcessing = false;
     this.localTracks.videoTrack.play('local-player');
+    // this.client.on('user-unpublished', this.handleUserUnpublished);
+    await this.client.publish(Object.values(this.localTracks));
+    console.log('publish success');
     this.client.on('user-published', async (user, mediaType) => {
-      // Subscribe to a remote user.
       await this.client.subscribe(user, mediaType);
-      console.log('subscribe success');
+      this.snackBar.open('参加者が増えました');
       const remoreUserId = user.uid;
-      console.log(remoreUserId);
-      console.log(user);
-      await this.client.subscribe(user, mediaType);
-      console.log('subscribe success');
       if (mediaType === 'video') {
-        console.log(mediaType);
         const playerElement = document.createElement('div');
-        console.log(playerElement);
         document.getElementById('remote-player-list').append(playerElement);
         playerElement.outerHTML = `
           <div id="player-wrapper-${remoreUserId}">
@@ -102,19 +86,13 @@ export class MeetingService {
             <div id="player-${remoreUserId}" class="player"></div>
           </div>
         `;
-        console.log(playerElement.outerHTML);
         const remoteTrack = user.videoTrack;
         remoteTrack.play('local-player');
       }
       if (mediaType === 'audio') {
-        console.log(user);
-        console.log(mediaType);
         user.audioTrack.play();
       }
     });
-    // this.client.on('user-unpublished', this.handleUserUnpublished);
-    await this.client.publish(Object.values(this.localTracks));
-    console.log('publish success');
     return this.agoraUid;
   }
 
@@ -134,11 +112,7 @@ export class MeetingService {
 
   async handleUserPublished(user, mediaType): Promise<void> {
     const id = user.uid;
-    console.log(id);
     this.remoteUsers[id] = user;
-    console.log(this.remoteUsers[id]);
-    console.log(user);
-    console.log(mediaType);
     await this.subscribeChannel(user, mediaType);
   }
 
@@ -153,8 +127,6 @@ export class MeetingService {
 
   async subscribeChannel(user, mediaType): Promise<void> {
     const uid = user.uid;
-    console.log(uid);
-    console.log(user);
     await this.client.subscribe(user, mediaType);
     console.log('subscribe success');
     if (mediaType === 'video') {
@@ -168,7 +140,6 @@ export class MeetingService {
           <div id="player-${uid}" class="player"></div>
         </div>
       `;
-      console.log(playerElement.outerHTML);
       user.localTracks.videoTrack.play();
     }
     if (mediaType === 'audio') {
