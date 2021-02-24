@@ -23,6 +23,7 @@ export class MeetingService {
   remoteUsers = {};
   globalAgoraClient: IAgoraRTCClient | null = null;
   isProcessing: boolean;
+  isMute = true;
   constructor(
     private fnc: AngularFireFunctions,
     private router: Router,
@@ -58,7 +59,12 @@ export class MeetingService {
     }
     const token: any = await this.getToken(channelName);
 
-    await this.client.join(this.agoraAppId, channelName, token.token, uid);
+    this.agoraUid = await this.client.join(
+      this.agoraAppId,
+      channelName,
+      token.token,
+      uid
+    );
 
     this.snackBar.open('チャンネルに参加しました');
     this.isProcessing = false;
@@ -85,27 +91,10 @@ export class MeetingService {
       }
     });
 
-    // this.client.on('user-unpublished', async (user, mediaType) => {
-    //   await this.client.subscribe(user, mediaType);
-    //   this.snackBar.open('参加者が増えました');
-    //   const remoreUserId = user.uid;
-    //   if (mediaType === 'video') {
-    //     const playerElement = document.createElement('div');
-    //     document.getElementById('remote-player-list').append(playerElement);
-    //     playerElement.outerHTML = `
-    //       <div id="player-wrapper-${remoreUserId}">
-    //         <p class="player-name">remoteUser(${remoreUserId})</p>
-    //         <div id="player-${remoreUserId}" class="player"></div>
-    //       </div>
-    //     `;
+    this.client.on('user-unpublished', async (user, mediaType) => {
+      await this.client.unsubscribe(user, mediaType);
+    });
 
-    //     const remoteTrack = user.videoTrack;
-    //     remoteTrack.play('local-player');
-    //   }
-    //   if (mediaType === 'audio') {
-    //     user.audioTrack.play();
-    //   }
-    // });
     return this.agoraUid;
   }
 
@@ -163,37 +152,32 @@ export class MeetingService {
   }
 
   async publishMicrophone(): Promise<void> {
-    const client = this.getClient();
-
     this.localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-    await client.publish([this.localTracks.audioTrack]);
+    await this.client.publish([this.localTracks.audioTrack]);
+    this.snackBar.open('マイクをオンにしました');
+    this.isMute = false;
   }
 
   async unpublishMicrophone(): Promise<void> {
-    const client = this.getClient();
-
     if (this.localTracks.audioTrack) {
       this.localTracks.audioTrack.close();
-      client.unpublish(this.localTracks.audioTrack);
+      this.client.unpublish(this.localTracks.audioTrack);
+      this.isMute = true;
     }
   }
 
   async publishVideo(): Promise<void> {
-    const client = this.getClient();
-
     this.localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
     this.snackBar.open('カメラをオンにしました');
     this.localTracks.videoTrack.play('local-player');
 
-    await client.publish([this.localTracks.videoTrack]);
+    await this.client.publish([this.localTracks.videoTrack]);
   }
 
   async unpublishVideo(): Promise<void> {
-    const client = this.getClient();
-
     if (this.localTracks.videoTrack) {
       this.localTracks.videoTrack.close();
-      client.unpublish();
+      this.client.unpublish([this.localTracks.videoTrack]);
     }
   }
 
