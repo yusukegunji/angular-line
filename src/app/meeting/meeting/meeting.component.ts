@@ -38,8 +38,9 @@ export class MeetingComponent implements OnInit {
     });
   }
 
-  joinChannel(): void {
+  async joinChannel(uid: string): Promise<void> {
     const channelId = this.channelControl.value;
+    await this.meetingService.joinChannel(uid, channelId);
     this.router.navigateByUrl(`/meeting/${this.teamId}/${channelId}`);
   }
 }
