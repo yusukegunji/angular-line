@@ -11,9 +11,7 @@ import { UiService } from '../services/ui.service';
 export class ShellComponent implements OnInit {
   scrWidth: any;
 
-  constructor(public uiService: UiService) {
-    console.log(this.uiService.isOpened);
-  }
+  constructor(public uiService: UiService) {}
 
   ngOnInit(): void {
     this.getScreenSize();
