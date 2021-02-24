@@ -15,6 +15,7 @@ import { MeetingService } from 'src/app/services/meeting.service';
 })
 export class ChannelComponent implements OnInit {
   client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+  uid: string;
 
   user$: Observable<User> = this.authService.user$;
   channelId$: Observable<string> = this.route.paramMap.pipe(
@@ -60,6 +61,9 @@ export class ChannelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user$.subscribe((user) => {
+      this.uid = user.uid;
+    });
     this.channelId$.subscribe((id) => {
       this.channelId = id;
     });
@@ -74,5 +78,23 @@ export class ChannelComponent implements OnInit {
   async leaveChannel(uid: string): Promise<void> {
     this.meetingService.leaveChannel(uid, this.channelId);
     this.players = false;
+  }
+
+  async publishAudio(): Promise<void> {
+    this.meetingService.publishMicrophone();
+    this.players = true;
+  }
+
+  async unPublishAudio(): Promise<void> {
+    this.meetingService.unpublishMicrophone();
+  }
+
+  async publishVideo(): Promise<void> {
+    this.meetingService.publishVideo();
+    this.players = true;
+  }
+
+  async unPublishVideo(): Promise<void> {
+    this.meetingService.unpublishVideo();
   }
 }

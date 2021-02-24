@@ -23,14 +23,29 @@
       </div>
 
       <div class="actions">
-        <button class="actions__btn" (click)="joinChannel(user.uid)">
+        <button class="actions__btn" (click)="publishVideo()">
           <mat-icon class="actions__icon">videocam</mat-icon>
         </button>
+        <button class="actions__btn" (click)="unPublishVideo()">
+          <mat-icon class="actions__icon">videocam_off</mat-icon>
+        </button>
         <button class="actions__btn" (click)="leaveChannel(user.uid)">
-          <mat-icon class="actions__icon">call_end</mat-icon>
+          <mat-icon class="actions__icon">home</mat-icon>
         </button>
         <button class="actions__btn" (click)="drawer.toggle()">
           <mat-icon class="actions__icon">groups</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="publishAudio()">
+          <mat-icon class="actions__icon">volume_up</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="unPublishVideo()">
+          <mat-icon class="actions__icon">volume_off</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="joinChannel(user.uid)">
+          <mat-icon class="actions__icon">desktop_windows</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="joinChannel(user.uid)">
+          <mat-icon class="actions__icon">desktop_access_disabled</mat-icon>
         </button>
       </div>
     </ng-container>
