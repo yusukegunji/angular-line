@@ -69,7 +69,7 @@ export class MemberLogTableComponent implements OnInit {
     this.userService
       .getMonthlyLogsWithTeamByUid(teamId, this.monthId, this.user.uid)
       .subscribe((logs) => {
-        this.dataSource.data = logs.map((logWithTeam: LogWithTeam) => {
+        this.dataSource.data = logs?.map((logWithTeam: LogWithTeam) => {
           const breakIn: any = logWithTeam.tookBreakAt?.toDate();
           const breakOut: any = logWithTeam.backedBreakAt?.toDate();
           this.breakTime =
