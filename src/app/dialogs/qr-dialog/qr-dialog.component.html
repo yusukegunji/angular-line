@@ -7,11 +7,19 @@
     <img src="https://qr-official.line.me/sid/M/547abokn.png" />
     <p class="content__text">
       LINEアプリで勤怠登録を行うには、<br />
-      友達登録が必要です。
+      友達追加する必要があります。
     </p>
   </div>
 </mat-dialog-content>
 
+<mat-checkbox
+  (change)="isApprove = $event.checked"
+  color="primary"
+  class="check-box"
+>
+  このダイアログをもう表示しない
+</mat-checkbox>
+
 <mat-dialog-actions align="end">
-  <button mat-button matDialogClose>閉じる</button>
+  <button mat-button (click)="closeDialog()">閉じる</button>
 </mat-dialog-actions>

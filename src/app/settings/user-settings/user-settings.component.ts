@@ -77,6 +77,7 @@ export class UserSettingsComponent implements OnInit {
         name: formData.name,
         activeTeamId: formData.activeTeamId,
         position: formData.position,
+        isRefuseDialog: this.user.isRefuseDialog,
       })
       .then(() => this.snackBar.open('ユーザー情報を更新しました'));
   }

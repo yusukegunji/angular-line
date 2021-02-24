@@ -12,6 +12,7 @@ export interface User {
   createdAt: firebase.default.firestore.Timestamp;
   isWorking: boolean;
   activeTeamId: string;
+  isRefuseDialog: boolean;
 }
 
 export interface UserWithLogs extends User {

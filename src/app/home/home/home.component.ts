@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
         ? '0' + (this.date.getMonth() + 1)
         : this.date.getMonth() + 1
     }`;
+  isRefuseUser: boolean;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -47,8 +48,11 @@ export class HomeComponent implements OnInit {
           return team?.name;
         })
       );
+      this.isRefuseUser = user.isRefuseDialog;
+      if (!this.isRefuseUser) {
+        this.dialog.open(QrDialogComponent, { data: this.uid });
+      }
     });
-    this.dialog.open(QrDialogComponent);
   }
 
   openJoinTeamDialog(uid: string): void {
