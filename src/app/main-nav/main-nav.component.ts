@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { indicatorRotate } from '../animation';
+import { QrDialogComponent } from '../dialogs/qr-dialog/qr-dialog.component';
 import { Team } from '../interfaces/team';
 import { JoinTeamDialogComponent } from '../join-team-dialog/join-team-dialog.component';
 import { AuthService } from '../services/auth.service';
@@ -64,6 +65,10 @@ export class MainNavComponent implements OnInit {
       restoreFocus: false,
       data: { uid },
     });
+  }
+
+  openQrDialog(): void {
+    this.dialog.open(QrDialogComponent);
   }
 
   logout(): void {

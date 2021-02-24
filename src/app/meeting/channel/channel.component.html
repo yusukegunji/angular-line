@@ -23,14 +23,29 @@
       </div>
 
       <div class="actions">
-        <button class="actions__btn" (click)="joinChannel(user.uid)">
+        <button class="actions__btn" (click)="publishVideo()">
           <mat-icon class="actions__icon">videocam</mat-icon>
         </button>
+        <button class="actions__btn" (click)="unPublishVideo()">
+          <mat-icon class="actions__icon">videocam_off</mat-icon>
+        </button>
         <button class="actions__btn" (click)="leaveChannel(user.uid)">
-          <mat-icon class="actions__icon">call_end</mat-icon>
+          <mat-icon class="actions__icon">home</mat-icon>
         </button>
         <button class="actions__btn" (click)="drawer.toggle()">
           <mat-icon class="actions__icon">groups</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="publishAudio()">
+          <mat-icon class="actions__icon">volume_up</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="unPublishVideo()">
+          <mat-icon class="actions__icon">volume_off</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="joinChannel(user.uid)">
+          <mat-icon class="actions__icon">desktop_windows</mat-icon>
+        </button>
+        <button class="actions__btn" (click)="joinChannel(user.uid)">
+          <mat-icon class="actions__icon">desktop_access_disabled</mat-icon>
         </button>
       </div>
     </ng-container>
@@ -41,4 +56,19 @@
       <app-participants [participants]="participants"></app-participants>
     </ng-container>
   </mat-drawer>
+
+  <ng-container *ngIf="meetingService.isProcessing">
+    <div class="loading">
+      <p class="loading__svg">
+        <img src="assets/images/loading.svg" alt="" />
+      </p>
+      <P class="loading__text">
+        <span>参</span>
+        <span>加</span>
+        <span>処</span>
+        <span>理</span>
+        <span>中</span>
+      </P>
+    </div>
+  </ng-container>
 </mat-drawer-container>

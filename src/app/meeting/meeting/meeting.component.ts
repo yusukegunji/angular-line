@@ -27,9 +27,9 @@ export class MeetingComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public meetingService: MeetingService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public meetingService: MeetingService
   ) {}
 
   ngOnInit(): void {
@@ -38,8 +38,9 @@ export class MeetingComponent implements OnInit {
     });
   }
 
-  joinChannel(): void {
+  async joinChannel(uid: string): Promise<void> {
     const channelId = this.channelControl.value;
+    await this.meetingService.joinChannel(uid, channelId);
     this.router.navigateByUrl(`/meeting/${this.teamId}/${channelId}`);
   }
 }

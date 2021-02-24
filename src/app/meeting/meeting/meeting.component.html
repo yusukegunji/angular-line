@@ -4,7 +4,7 @@
       チャンネルの名前を設定して<strong>ミーティングを開催</strong>をクリックしてください。
     </p>
 
-    <form (ngSubmit)="joinChannel()" class="meeting__form-wrap">
+    <form (ngSubmit)="joinChannel(user.uid)" class="meeting__form-wrap">
       <mat-form-field appearance="outline" class="meeting__form">
         <input
           matInput

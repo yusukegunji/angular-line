@@ -1,6 +1,6 @@
 <div class="nav-wrapper">
   <div class="head">
-    <a routerLink="/" class="head__title" aria-level="SHIPS">FIRE SHIPS</a>
+    <a routerLink="/" class="head__title" aria-level="SHIPS">Space Plan</a>
 
     <span class="spacer"></span>
 
@@ -143,6 +143,10 @@
         <mat-icon>account_circle</mat-icon>
         <span>マイページ</span>
       </a>
+      <button mat-menu-item (click)="openQrDialog()">
+        <mat-icon>qr_code_2</mat-icon>
+        <span>LINE友達追加</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span>ログアウト</span>
@@ -150,7 +154,7 @@
 
       <ng-container *ngIf="user.isAdmin">
         <mat-divider class="divider"></mat-divider>
-        <a mat-menu-item routerLink="/editor/editor-article-list">
+        <a mat-menu-item routerLink="/editor">
           <mat-icon>edit</mat-icon>
           <span>管理者メニュー</span>
         </a>

@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { QrDialogComponent } from 'src/app/dialogs/qr-dialog/qr-dialog.component';
 import { Team } from 'src/app/interfaces/team';
 import { JoinTeamDialogComponent } from 'src/app/join-team-dialog/join-team-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
         })
       );
     });
+    this.dialog.open(QrDialogComponent);
   }
 
   openJoinTeamDialog(uid: string): void {
