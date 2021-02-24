@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import AgoraRTC from 'agora-rtc-sdk-ng';
@@ -13,7 +13,7 @@ import { MeetingService } from 'src/app/services/meeting.service';
   templateUrl: './channel.component.html',
   styleUrls: ['./channel.component.scss'],
 })
-export class ChannelComponent implements OnInit {
+export class ChannelComponent implements OnInit, OnDestroy {
   client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
   uid: string;
 
@@ -67,6 +67,10 @@ export class ChannelComponent implements OnInit {
     this.channelId$.subscribe((id) => {
       this.channelId = id;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.leaveChannel(this.uid);
   }
 
   async joinChannel(uid: string): Promise<void> {
