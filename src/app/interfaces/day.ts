@@ -5,6 +5,9 @@ export interface Day {
   isWorking: boolean;
   logedInAt?: firebase.default.firestore.Timestamp;
   logedOutAt?: firebase.default.firestore.Timestamp;
+  updatedAt?: firebase.default.firestore.Timestamp;
   uid: string;
-  logId: string;
+  monthId: string;
+  dayId: string;
+  teamId: string;
 }

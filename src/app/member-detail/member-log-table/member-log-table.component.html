@@ -39,21 +39,21 @@
       <ng-container matColumnDef="logedInAt">
         <th mat-header-cell *matHeaderCellDef>出勤</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.log.logedInAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.logedInAt?.toDate() | date: "HH:mm" }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="tookBreakAt">
         <th mat-header-cell *matHeaderCellDef>休憩IN</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.log.tookBreakAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.tookBreakAt?.toDate() | date: "HH:mm" }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="backedBreakAt">
         <th mat-header-cell *matHeaderCellDef>休憩OUT</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.log.backedBreakAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.backedBreakAt?.toDate() | date: "HH:mm" }}
         </td>
       </ng-container>
 
@@ -67,7 +67,7 @@
       <ng-container matColumnDef="logedOutAt">
         <th mat-header-cell *matHeaderCellDef>退勤</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.log.logedOutAt?.toDate() | date: "HH:mm:ss" }}
+          {{ element.log.logedOutAt?.toDate() | date: "HH:mm" }}
         </td>
       </ng-container>
 
@@ -91,7 +91,7 @@
           <button
             matTooltip="編集"
             matTooltipPosition="before"
-            routerLink="/editor/{{ element.log.id }}"
+            (click)="openEditDialog(element.log)"
             class="menu__edit"
           >
             編集する

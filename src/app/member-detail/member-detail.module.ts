@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DialogsModule } from '../dialogs/dialogs.module';
 
 @NgModule({
   declarations: [MemberDetailComponent, MemberLogTableComponent],
@@ -25,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
+    DialogsModule,
   ],
 })
 export class MemberDetailModule {}
