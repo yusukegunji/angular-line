@@ -9,12 +9,12 @@ export interface Log {
   backedBreakAt?: firebase.default.firestore.Timestamp;
   logedOutAt?: firebase.default.firestore.Timestamp;
   location?: firebase.default.firestore.GeoPoint;
+  updatedAt?: firebase.default.firestore.Timestamp;
   commutingFee?: number;
   teamId: string;
   dayId: string;
   monthId: string;
 }
-
 export interface LogWithUser extends Log {
   user: User;
 }

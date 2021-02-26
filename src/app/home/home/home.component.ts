@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
           return team?.name;
         })
       );
-      this.isRefuseUser = user.isRefuseDialog;
+      this.isRefuseUser = user?.isRefuseDialog;
       if (!this.isRefuseUser) {
         this.dialog.open(QrDialogComponent, { data: this.uid });
       }

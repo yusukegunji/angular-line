@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
 * {
   box-sizing: border-box;
 }
@@ -183,4 +185,14 @@ table {
 
 .mat-form-field-underline {
   position: static !important;
+}
+
+.mat-drawer.mat-drawer-side {
+  z-index: -10;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  z-index: 100;
 }

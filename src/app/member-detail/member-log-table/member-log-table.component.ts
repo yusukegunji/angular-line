@@ -1,6 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditResultDialogComponent } from 'src/app/dialogs/edit-result-dialog/edit-result-dialog.component';
+import { Day } from 'src/app/interfaces/day';
 import { LogWithTeam } from 'src/app/interfaces/log';
 import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
@@ -49,7 +52,7 @@ export class MemberLogTableComponent implements OnInit {
         : this.date.getMonth() + 1
     }`;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private dialog: MatDialog) {}
 
   backMonthId(): void {
     this.monthId = (Number(this.monthId) - 1).toString();
@@ -69,7 +72,7 @@ export class MemberLogTableComponent implements OnInit {
     this.userService
       .getMonthlyLogsWithTeamByUid(teamId, this.monthId, this.user.uid)
       .subscribe((logs) => {
-        this.dataSource.data = logs.map((logWithTeam: LogWithTeam) => {
+        this.dataSource.data = logs?.map((logWithTeam: LogWithTeam) => {
           const breakIn: any = logWithTeam.tookBreakAt?.toDate();
           const breakOut: any = logWithTeam.backedBreakAt?.toDate();
           this.breakTime =
@@ -119,5 +122,9 @@ export class MemberLogTableComponent implements OnInit {
           };
         });
       });
+  }
+
+  openEditDialog(log: Day): void {
+    this.dialog.open(EditResultDialogComponent, { data: { log } });
   }
 }

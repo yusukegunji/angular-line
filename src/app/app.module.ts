@@ -33,7 +33,7 @@ import { MatListModule } from '@angular/material/list';
 import { MiniNavComponent } from './mini-nav/mini-nav.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotfoundComponent } from './notfound/notfound.component';
-
+import { OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +78,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
         panelClass: 'custom-snackbar',
       },
     },
+    { provide: OWL_DATE_TIME_LOCALE, useValue: 'ja' },
   ],
   bootstrap: [AppComponent],
 })

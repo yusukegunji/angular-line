@@ -5,8 +5,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditResultDialogComponent } from 'src/app/dialogs/edit-result-dialog/edit-result-dialog.component';
 import { LogWithUser } from 'src/app/interfaces/log';
 import { Team } from 'src/app/interfaces/team';
 import { LogService } from 'src/app/services/log.service';
@@ -61,7 +63,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private logService: LogService) {}
+  constructor(private logService: LogService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.logService
@@ -123,4 +125,8 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  openEditDialog(log: LogWithUser): void {
+    this.dialog.open(EditResultDialogComponent, { data: { log } });
+  }
 }
