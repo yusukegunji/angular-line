@@ -27,6 +27,7 @@
     "croppie": "^2.6.5",
     "firebase": "^7.0 || ^8.0",
     "messaging-api-line": "^1.0.1",
+    "ng-pick-datetime": "^7.0.0",
     "node-fetch": "^2.6.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
