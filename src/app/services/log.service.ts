@@ -6,12 +6,28 @@ import { Day } from '../interfaces/day';
 import { Log, LogWithUser } from '../interfaces/log';
 import { User } from '../interfaces/user';
 import { UserService } from './user.service';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LogService {
   constructor(private db: AngularFirestore, private userService: UserService) {}
+
+  getDailyLogByUid(
+    teamId: string,
+    monthId: string,
+    dayId: string,
+    uid: string
+  ): Observable<Day> {
+    if (!teamId || !monthId || uid) {
+      return of(null);
+    } else {
+      return this.db
+        .doc<Day>(`teams/${teamId}/logs/${monthId}/days/${dayId}/uids/${uid}`)
+        .valueChanges();
+    }
+  }
 
   getDailyLogsByTeamId(teamId: string, monthId: string): Observable<Day[]> {
     if (!teamId || !monthId) {
@@ -85,6 +101,53 @@ export class LogService {
           }
         })
       );
+    }
+  }
+  updateLog(
+    log: Omit<Log, 'activeTeamId' | 'commutingFee' | 'location'>
+  ): Promise<void> {
+    if (!log) {
+      return;
+    } else {
+      this.db
+        .doc<Omit<Log, 'activeTeamId' | 'commutingFee' | 'location'>>(
+          `teams/${log.teamId}/logs/${log.monthId}/days/${log.dayId}/uids/${log.uid}`
+        )
+        .set(
+          {
+            logedInAt: log.logedInAt,
+            logedOutAt: log.logedOutAt,
+            tookBreakAt: log.tookBreakAt,
+            backedBreakAt: log.backedBreakAt,
+            updatedAt: firebase.default.firestore.Timestamp.now(),
+            uid: log.uid,
+            teamId: log.teamId,
+            monthId: log.monthId,
+            dayId: log.dayId,
+          },
+          { merge: true }
+        );
+
+      this.db
+        .doc<Omit<Day, 'activeTeamId' | 'isWorking'>>(
+          `users/${log.uid}/logs/${log.monthId}/days/${log.dayId}`
+        )
+        .set(
+          {
+            logedInAt: log.logedInAt,
+            logedOutAt: log.logedOutAt,
+            tookBreakAt: log.tookBreakAt,
+            backedBreakAt: log.backedBreakAt,
+            updatedAt: firebase.default.firestore.Timestamp.now(),
+            uid: log.uid,
+            monthId: log.monthId,
+            dayId: log.dayId,
+            teamId: log.teamId,
+          },
+          {
+            merge: true,
+          }
+        );
     }
   }
 }
