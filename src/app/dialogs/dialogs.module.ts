@@ -10,9 +10,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { QrDialogComponent } from './qr-dialog/qr-dialog.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditResultDialogComponent } from './edit-result-dialog/edit-result-dialog.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [DeleteDialogComponent, JoinDialogComponent, QrDialogComponent],
+  declarations: [
+    DeleteDialogComponent,
+    JoinDialogComponent,
+    QrDialogComponent,
+    EditResultDialogComponent,
+  ],
   imports: [
     CommonModule,
     MatDividerModule,
@@ -23,6 +31,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     ReactiveFormsModule,
     MatCheckboxModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    MatIconModule,
   ],
 })
 export class DialogsModule {}

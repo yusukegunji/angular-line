@@ -1,0 +1,94 @@
+<div class="edit-log">
+  <h3 mat-dialog-title class="edit-log__head">実績を編集</h3>
+  <form [formGroup]="form">
+    <mat-dialog-content>
+      <div class="edit-log__property">
+        <div class="edit-log__label">出勤</div>
+        <div class="edit-log__value">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="logedInAt"
+              required
+              #logedInAt
+              [owlDateTimeTrigger]="dt1"
+              [owlDateTime]="dt1"
+            />
+            <owl-date-time [pickerType]="'both'" #dt1></owl-date-time>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="edit-log__property">
+        <div class="edit-log__label">休憩IN</div>
+        <div class="edit-log__value">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="tookBreakAt"
+              required
+              [owlDateTimeTrigger]="dt2"
+              [owlDateTime]="dt2"
+            />
+            <owl-date-time [pickerType]="'both'" #dt2></owl-date-time>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="edit-log__property">
+        <div class="edit-log__label">休憩OUT</div>
+        <div class="edit-log__value">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="backedBreakAt"
+              required
+              [owlDateTimeTrigger]="dt3"
+              [owlDateTime]="dt3"
+            />
+            <owl-date-time [pickerType]="'both'" #dt3></owl-date-time>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="edit-log__property">
+        <div class="edit-log__label">退勤</div>
+        <div class="edit-log__value">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              autocomplete="off"
+              formControlName="logedOutAt"
+              required
+              [owlDateTimeTrigger]="dt4"
+              [owlDateTime]="dt4"
+            />
+            <owl-date-time [pickerType]="'both'" #dt4></owl-date-time>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="edit__actions" align="end">
+      <button
+        type="button"
+        mat-button
+        mat-dialog-close
+        class="edit__cancel-btn"
+      >
+        キャンセル
+      </button>
+      <button
+        type="submit"
+        mat-button
+        color="primary"
+        class="edit__update-btn"
+        (click)="updateLogData()"
+        [matDialogClose]="true"
+        [disabled]="form.pristine || processing"
+      >
+        更新
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

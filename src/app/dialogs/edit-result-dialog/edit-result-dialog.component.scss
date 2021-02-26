@@ -1,0 +1,48 @@
+.edit-log {
+  padding: 24px 0;
+  &__head {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  &__photo {
+    margin: 0 auto 16px;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+  }
+  &__name {
+    font-size: 24px;
+    font-weight: 500;
+  }
+  &__heading {
+    margin-bottom: 24px;
+  }
+  &__property {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  &__label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-top: -14px;
+  }
+  &__value {
+    mat-form-field {
+      width: 100% !important;
+    }
+  }
+  &__cropper {
+    max-width: 240px;
+  }
+  &__footer {
+    span {
+      opacity: 0.6;
+      cursor: pointer;
+    }
+  }
+}
